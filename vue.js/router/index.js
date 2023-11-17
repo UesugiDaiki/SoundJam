@@ -29,6 +29,21 @@ const routes = [
   {
     path: '/settings',
     component: () => import('@/layouts/settings/Settings.vue'),
+    children: [
+      {
+        path: 'notice_setting',
+        component: () => import('@/components/NoticeSetting.vue'),
+      },
+      {
+        path: 'reset_password',
+        component: () => import('@/components/ResetPassword.vue'),
+      }
+    ]
+  },
+  {
+    path: '/post',
+    name: 'post',
+    component: () => import('@/layouts/postDetail/PostDetail.vue'),
   },
 ]
 
