@@ -38,6 +38,8 @@ import {
   mdiChevronDown,
   mdiEye,
   mdiEyeOff,
+  mdiAt,
+  mdiLink,
 } from '@mdi/js';
 
 // Composables
@@ -106,6 +108,12 @@ export default createVuetify({
       // パスワード表示切替
       eye: mdiEye,
       eyeOff: mdiEyeOff,
+
+      // @
+      at: mdiAt,
+
+      // リンク
+      link: mdiLink,
     },
     sets: {
       mdi,
