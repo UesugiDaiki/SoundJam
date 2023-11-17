@@ -36,6 +36,8 @@ import {
   mdiMusicNoteEighth,
   mdiChevronUp,
   mdiChevronDown,
+  mdiEye,
+  mdiEyeOff,
 } from '@mdi/js';
 
 // Composables
@@ -100,6 +102,10 @@ export default createVuetify({
       // 使用機材、録音方法の表示切替
       chevronUp: mdiChevronUp,
       chevronDown: mdiChevronDown,
+
+      // パスワード表示切替
+      eye: mdiEye,
+      eyeOff: mdiEyeOff,
     },
     sets: {
       mdi,

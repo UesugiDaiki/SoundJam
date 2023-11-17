@@ -13,10 +13,9 @@
                     "/inquiry" ? "$email" : "$emailOutline" }}</v-icon></v-list-item>
                 <v-list-item to="/user" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path ===
                     "/user" ? "$account" : "$accountOutline" }}</v-icon></v-list-item>
-                <v-list-item to="/settings" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path
+                <v-list-item to="/settings/notice_setting" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path
                     === "/settings" ? "$cog" : "$cogOutline" }}</v-icon></v-list-item>
-                <v-list-item @click="onPost" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px" value="post"><v-icon class="text-h4">{{ path ===
-                    "/post" ? "$guitarPick" : "$guitarPickOutline" }}</v-icon></v-list-item>
+                <v-list-item @click="onPost" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px" value="post"><v-icon class="text-h4">$guitarPickOutline</v-icon></v-list-item>
                 <v-list-item @click="onLogout" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon
                         class="text-h4">$logout</v-icon></v-list-item>
             </v-list>

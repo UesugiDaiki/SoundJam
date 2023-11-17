@@ -15,3 +15,9 @@ import NavDrawer from '@/components/NavDrawer.vue'
 import Profile from '@/components/Profile.vue';
 import PageTitle from '@/components/PageTitle.vue';
 </script>
+
+<script>
+export default {
+    data: () =>
+}
+</script>
