@@ -1,5 +1,5 @@
 <template>
-    <v-list-item title="投稿がいいねされました">
+    <v-list-item :ripple="false" link title="投稿がいいねされました">
         <template v-slot:subtitle>
             投稿のタイトル
         </template>

@@ -1,5 +1,5 @@
 <template>
-    <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg" title="○○さんが投稿しました">
+    <v-list-item :ripple="false" link prepend-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg" title="○○さんが投稿しました">
         <template v-slot:subtitle>
             投稿のタイトル
         </template>
