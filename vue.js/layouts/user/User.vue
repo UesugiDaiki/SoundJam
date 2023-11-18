@@ -3,7 +3,7 @@
         <nav-drawer />
 
         <v-main>
-            <page-title title="ユーザー名" />
+            <page-title :title="user.name" />
             <profile :user="user" />
             <post-review :post="posts[0]"/>
             <post-free :post="posts[1]"/>
