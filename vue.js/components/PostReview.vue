@@ -2,7 +2,7 @@
   <v-row class="pl-3" justify="center">
     <v-col cols="auto" class="soto">
       <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0"
-        style="border: 1px solid #ddd;" link :ripple="false" :to="{name: 'post', params:{id: 1}}">
+         link :ripple="false" to="/post">
         <Title :name="post.name" :myImg="post.myImg" />
         <v-card-title>
           {{ post.title }}
@@ -42,6 +42,7 @@
         </v-expand-transition>
       </v-card>
     </v-col>
+    <v-divider length="570"></v-divider>
   </v-row>
 </template>
 

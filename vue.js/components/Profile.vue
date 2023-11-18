@@ -1,6 +1,6 @@
 <template>
     <v-row class="pl-3" justify="center">
-        <v-card width="570px" rounded="0" elevation="0" style="border: 1px solid #ddd;">
+        <v-card width="570px" rounded="0" elevation="0">
             <!-- アイコン、ユーザー名 -->
             <v-card-title class="d-flex">
                 <v-avatar image="src/assets/masaya.png" size="150"></v-avatar>
@@ -26,6 +26,7 @@
                 </v-card-text>
             </v-card>
         </v-card>
+        <v-divider length="570"></v-divider>
     </v-row>
 </template>
 
