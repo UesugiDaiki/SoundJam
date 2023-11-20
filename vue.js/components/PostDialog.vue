@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center">
-        <v-dialog v-model="dialog" scrollable min-width="320" width="640">
+        <v-dialog v-model="dialog" scrollable min-width="320" width="640" height="515">
             <v-card>
                 <v-card-actions>
                     <v-btn density="comfortable" icon="$close" @click="dialog = false"></v-btn>
@@ -18,33 +18,34 @@
                         <v-window-item value="free">
                             <form @submit.prevent="submit">
                                 <v-row>
-                                    <v-col cols="12" md="6">
+                                    <!-- 左上 -->
+                                    <v-col cols="6" class="pb-0">
                                         <v-text-field label="Legal first name*" required></v-text-field>
+                                        <v-text-field label="Legal first name*" required></v-text-field>
+                                        <v-textarea rows="2" label="Label"></v-textarea>
+                                        <v-textarea rows="2" label="Label"></v-textarea>
                                     </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-text-field label="Legal middle name"
-                                            hint="example of helper text only on focus"></v-text-field>
+                                    <!-- 右上 -->
+                                    <v-col cols="6" class="pb-0">
+                                        <v-col class="pa-0" cols="12" style="height: 156px;">
+                                            <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" required ></v-file-input>
+                                            <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" required ></v-file-input>
+                                        </v-col>
+                                        <v-col class="pa-0" cols="12">
+                                            <v-file-input prepend-icon="" prepend-inner-icon="$camera" required></v-file-input>
+                                        </v-col>
                                     </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-text-field label="Legal last name*" hint="example of persistent helper text"
-                                            persistent-hint required></v-text-field>
+                                    <!-- 左下 -->
+                                    <v-col cols="6" class="pt-0">
+                                        <v-text-field v-for="product in freeProducts" :label="String(product.id)"></v-text-field>
+                                        <v-btn variant="flat" icon="$plus"></v-btn>
                                     </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-text-field label="Email*" required></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-text-field label="Password*" type="password" required></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-select :items="['0-17', '18-29', '30-54', '54+']" label="Age*"
-                                            required></v-select>
-                                    </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-autocomplete
-                                            :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                                            label="Interests" multiple></v-autocomplete>
+                                    <!-- 右下 -->
+                                    <v-col cols="6" class="pt-0 d-flex align-end" style="padding-bottom: 86px;">
+                                        <v-btn v-if="freeProducts.length > 1" variant="flat" icon="$minus"></v-btn>
                                     </v-col>
                                 </v-row>
+
                                 <v-card-actions>
                                     <v-btn variant="flat" class="me-4" type="submit" color="primary">
                                         投稿
@@ -58,18 +59,42 @@
                         <!-- レビュー投稿 -->
                         <v-window-item value="review">
                             <form @submit.prevent="submit">
-                                <v-text-field label="Name"></v-text-field>
-                                <v-text-field label="Phone Number"></v-text-field>
-                                <v-text-field label="E-mail"></v-text-field>
-                                <v-select label="Select"></v-select>
-                                <v-checkbox label="Option" type="checkbox"></v-checkbox>
-                                <v-btn class="me-4" type="submit">
-                                    投稿
-                                </v-btn>
+                                <v-row>
+                                    <!-- 左上 -->
+                                    <v-col cols="6" class="pb-0">
+                                        <v-text-field label="Legal first name*" required></v-text-field>
+                                        <v-text-field label="Legal first name*" required></v-text-field>
+                                        <v-textarea rows="2" label="Label"></v-textarea>
+                                        <v-textarea rows="2" label="Label"></v-textarea>
+                                    </v-col>
+                                    <!-- 右上 -->
+                                    <v-col cols="6" class="pb-0">
+                                        <v-col class="pa-0" cols="12" style="height: 156px;">
+                                            <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" required ></v-file-input>
+                                            <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" required ></v-file-input>
+                                        </v-col>
+                                        <v-col class="pa-0" cols="12">
+                                            <v-file-input prepend-icon="" prepend-inner-icon="$camera" required></v-file-input>
+                                        </v-col>
+                                    </v-col>
+                                    <!-- 左下 -->
+                                    <v-col cols="6" class="pt-0">
+                                        <v-text-field v-for="product in reviewProducts" :label="String(product.id)"></v-text-field>
+                                        <v-btn variant="flat" icon="$plus"></v-btn>
+                                    </v-col>
+                                    <!-- 右下 -->
+                                    <v-col cols="6" class="pt-0 d-flex align-end" style="padding-bottom: 86px;">
+                                        <v-btn v-if="reviewProducts.length > 1" variant="flat" icon="$minus"></v-btn>
+                                    </v-col>
+                                </v-row>
 
-                                <v-btn>
-                                    clear
-                                </v-btn>
+                                <v-card-actions>
+                                    <v-btn variant="flat" class="me-4" type="submit" color="primary">
+                                        投稿
+                                    </v-btn>
+                                    <v-spacer></v-spacer>
+                                    <v-btn icon="$plusBoxOutline"></v-btn>
+                                </v-card-actions>
                             </form>
                         </v-window-item>
                     </v-window>
@@ -85,6 +110,13 @@ export default {
         return {
             dialog: false,
             tab: null,
+            freeProducts: [
+                {id: 0, item: '製品名１'},
+                {id: 1, item: '製品名２'}
+            ],
+            reviewProducts: [
+                {id: 0, item: '製品名１'},
+            ],
         }
     },
     methods: {
