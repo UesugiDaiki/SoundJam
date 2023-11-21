@@ -2,7 +2,7 @@
     <v-app>
         <nav-drawer />
         <v-main>
-            <post-detail :post="post" />
+            <post-detail />
         </v-main>
     </v-app>
 </template>

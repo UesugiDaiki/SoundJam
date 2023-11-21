@@ -28,7 +28,6 @@ import Like from '@/components/Like.vue'
 <script>
 
 export default {
-
   props: {
     name: String,
     myImg: String
