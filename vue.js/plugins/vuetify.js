@@ -43,6 +43,7 @@ import {
   mdiPlus,
   mdiMinus,
   mdiCamera,
+  mdiChevronRight,
 } from '@mdi/js';
 
 // Composables
@@ -122,6 +123,9 @@ export default createVuetify({
 
       // カメラ
       camera: mdiCamera,
+
+      // 右矢印
+      chevronRight: mdiChevronRight,
     },
     sets: {
       mdi,
