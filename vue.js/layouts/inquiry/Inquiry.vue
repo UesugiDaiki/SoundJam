@@ -10,7 +10,7 @@
                 <v-divider></v-divider>
             </v-expansion-panels>
 
-            <inquiry-button />
+            <inquiry-button/>
         </v-main>
     </v-app>
 </template>

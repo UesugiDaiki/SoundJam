@@ -7,7 +7,7 @@
                 <v-card-title class="my-auto text-h5 font-weight-bold">{{ user.name }}</v-card-title>
                 <v-spacer></v-spacer>
                 <!-- ログイン済アカウント -->
-                <v-btn class="my-auto mx-1" v-if="loggedInAccount" icon="$cogOutline" elevation="0"></v-btn>
+                <v-btn to="/user/edit_profile" class="my-auto mx-1" v-if="loggedInAccount" icon="$cogOutline" elevation="0"></v-btn>
                 <!-- end -->
 
                 <!-- 他アカウント -->
@@ -17,8 +17,8 @@
                 <!-- end -->
             </v-card-title>
             <v-sheet class="ma-3">
-                <v-sheet style="color: #666"><v-icon class="mx-2">$at</v-icon>{{ user.id }}</v-sheet>
-                <v-sheet style="color: #666"><v-icon class="mx-2">$link</v-icon>{{ user.link }}</v-sheet>
+                <v-card-subtitle><v-icon class="mx-2">$at</v-icon>{{ user.id }}</v-card-subtitle>
+                <v-card-subtitle><v-icon class="mx-2">$link</v-icon>{{ user.link }}</v-card-subtitle>
             </v-sheet>
             <v-card rounded="0" elevation="0">
                 <v-card-text style="color: #666">

@@ -16,19 +16,22 @@
                 <v-list-item to="/settings/notice_setting" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path.indexOf('/settings')
                     === 0 ? "$cog" : "$cogOutline" }}</v-icon></v-list-item>
                 <v-list-item @click="onPost" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px" value="post"><v-icon class="text-h4">$guitarPickOutline</v-icon></v-list-item>
+                <v-list-item @click="onRegistProduct" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px" value="post"><v-icon class="text-h4">$guitarPick</v-icon></v-list-item>
                 <v-list-item @click="onLogout" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon
                         class="text-h4">$logout</v-icon></v-list-item>
             </v-list>
         </v-navigation-drawer>
 
         <post-dialog ref="post"/>
-        <logout-dialog ref="logout" />
+        <logout-dialog ref="logout"/>
+        <regist-product-dialog ref="registProduct"/>
     </v-container>
 </template>
 
 <script setup>
 import PostDialog from './PostDialog.vue'
 import LogoutDialog from './LogoutDialog.vue'
+import RegistProductDialog from './RegistProductDialog.vue'
 </script>
 
 <script>
@@ -47,6 +50,9 @@ export default {
         },
         onPost() {
             this.$refs.post.openPost()
+        },
+        onRegistProduct() {
+            this.$refs.registProduct.openRegistProduct()
         },
     },
 }

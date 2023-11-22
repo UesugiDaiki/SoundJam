@@ -27,6 +27,10 @@ const routes = [
     component: () => import('@/layouts/user/User.vue'),
   },
   {
+    path: '/user/edit_profile',
+    component: () => import('@/layouts/user/Edit.vue'),
+  },
+  {
     path: '/settings',
     component: () => import('@/layouts/settings/Settings.vue'),
     children: [
@@ -44,6 +48,11 @@ const routes = [
     path: '/post',
     name: 'post',
     component: () => import('@/layouts/postDetail/PostDetail.vue'),
+  },
+  {
+    path: '/detail',
+    name: 'detail',
+    component: () => import('@/layouts/ProductDetail/ProductDetail.vue'),
   },
 ]
 

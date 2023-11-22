@@ -6,7 +6,7 @@
         :height="47"
         margin="auto"
         cover
-        :src="my_img"
+        :src="myImg"
         class="title rounded-circle"
       ></v-img>
     </router-link>
@@ -28,10 +28,10 @@ import Like from '@/components/Like.vue'
 <script>
 
 export default {
-  data: () => ({
-    name: "雅弥",
-    my_img: "src/assets/masaya.png"
-  }),
+  props: {
+    name: String,
+    myImg: String
+  }
 }
 </script>
 

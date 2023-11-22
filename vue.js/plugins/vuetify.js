@@ -40,6 +40,11 @@ import {
   mdiEyeOff,
   mdiAt,
   mdiLink,
+  mdiPlus,
+  mdiMinus,
+  mdiCamera,
+  mdiChevronRight,
+  mdiArrowLeft,
 } from '@mdi/js';
 
 // Composables
@@ -94,7 +99,9 @@ export default createVuetify({
       // ログイン
       login: mdiLogin,
 
-      // プラス
+      // プラス、マイナス
+      plus: mdiPlus,
+      minus: mdiMinus,
       plusBoxOutline: mdiPlusBoxOutline,
 
       // いいね
@@ -114,6 +121,15 @@ export default createVuetify({
 
       // リンク
       link: mdiLink,
+
+      // カメラ
+      camera: mdiCamera,
+
+      // 右矢印
+      chevronRight: mdiChevronRight,
+      
+    // 矢印
+      arrowLeft:mdiArrowLeft,
     },
     sets: {
       mdi,
