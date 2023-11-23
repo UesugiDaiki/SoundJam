@@ -1,8 +1,11 @@
 <template>
-    <v-col class="d-flex flex-row justify-end" width="30px">
-        <div class="text-center" v-bind:class="likeIconClass" v-on:click="likeOnOff" style="height: 2.8rem; width: 2.8rem;">
-            <v-icon style="margin-top: 7px;">{{ likeIcon }}</v-icon>
-        </div>
+    <v-col class="like-icon d-flex flex-row justify-end" width="30px">
+        <router-link to="#">
+            <div class="text-center" v-bind:class="likeIconClass" v-on:click="likeOnOff($event)"
+                style="height: 2.8rem; width: 2.8rem;">
+                <v-icon style="margin-top: 7px;">{{ likeIcon }}</v-icon>
+            </div>
+        </router-link>
     </v-col>
 </template>
 
@@ -25,7 +28,8 @@ export default {
         doAction() {
             this.flg = !this.flg
         },
-        likeOnOff() {
+        likeOnOff(event) {
+            event.preventDefault()
             // 現在のいいねアイコンが2分音符(オフ)の場合
             if (this.likeIcon == '$musicNoteHalf') {
                 // 見た目を8分音符(オン)に
@@ -40,7 +44,13 @@ export default {
                 // like-role cssをオフ
                 this.likeIconClass = 'cancel-like-role'
             }
+            return false
         }
     }
 }
 </script>
+<style scoped>
+.like-icon a {
+    color: inherit;
+}
+</style>

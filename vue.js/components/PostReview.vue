@@ -17,7 +17,7 @@
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn :icon="show ? '$chevronUp' : '$chevronDown'" @click.stop="show = !show"></v-btn>
+          <v-btn :icon="show ? '$chevronUp' : '$chevronDown'" @click="accodion($event)"></v-btn>
         </v-card-actions>
         <v-expand-transition>
           <div v-show="show">
@@ -58,6 +58,15 @@ export default {
   }),
   props: {
     post: Object,
+  },
+  methods:{
+    toPost: function() {
+      this.$router.push("/post");
+    },
+    accodion: function(event) {
+      event.preventDefault()
+      this.show = !this.show
+    }
   }
 }
 </script>
@@ -118,4 +127,5 @@ export default {
   border-top: 40px solid #5bc8ac;
   border-left: 40px solid transparent;
 }
+
 </style>
