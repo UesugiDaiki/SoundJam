@@ -24,18 +24,16 @@
         </v-card-title>
         <v-card-subtitle>
             (仮テキスト)他のユーザーからいいねされた際に通知します
-            
+
         </v-card-subtitle>
     </v-card>
 </template>
 
 
 <script>
-    export default {
-        data: () => ({
+export default {
+    data: () => ({
         loginDialog: false,
-        }),
-    }
-
-
+    }),
+}
 </script>

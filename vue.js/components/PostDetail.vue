@@ -64,11 +64,8 @@
   </v-row>
 </template>
 
-
-
 <script setup>
 import Title from '@/components/Title.vue'
-// import like from '@/components/like.vue'
 import LinkingPost from '@/components/LinkingPost.vue'
 </script>
 
@@ -116,8 +113,6 @@ export default {
       },
     ]
   }),
-  props: {
-  }
 }
 </script>
 
