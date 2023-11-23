@@ -2,25 +2,25 @@
     <v-app>
         <nav-drawer />
 
-        <v-main>
-            <v-app-bar elevation="0">
-                <SearchBar class="my-3" />
-            </v-app-bar>
+        <v-app-bar elevation="0">
+            <SearchBar class="my-3" />
+        </v-app-bar>
 
-            <v-app-bar elevation="0">
-                <v-card max-width="556" class="mx-auto" elevation="0" hide-details>
-                    <v-tabs bg-color="" slider-color="teal-lighten-3" v-model="searchTab">
-                        <v-tab :key="1" :value="1" class="px-8">すべて </v-tab>
-                        <v-tab :key="2" :value="2" class="px-8">いいね</v-tab>
-                        <v-tab :key="3" :value="3" class="px-8">最新</v-tab>
-                        <v-tab :key="4" :value="4" class="px-8">製品 </v-tab>
-                        <v-tab :key="5" :value="5" class="px-8">アカウント </v-tab>
-                    </v-tabs>
-                </v-card>
-            </v-app-bar>
+        <v-app-bar elevation="0" >
+            <v-card max-width="556" class="mx-auto" elevation="0" hide-details>
+                <v-tabs bg-color="" slider-color="teal-lighten-3" v-model="searchTab">
+                    <v-tab :key="1" :value="1" class="px-8">すべて </v-tab>
+                    <v-tab :key="2" :value="2" class="px-8">いいね</v-tab>
+                    <v-tab :key="3" :value="3" class="px-8">最新</v-tab>
+                    <v-tab :key="4" :value="4" class="px-8">製品 </v-tab>
+                    <v-tab :key="5" :value="5" class="px-8">アカウント </v-tab>
+                </v-tabs>
+            </v-card>
+        </v-app-bar>
 
+        <v-main style="padding-top: 96px;">
             <!-- タブで表示変える部分 -->
-            <v-window v-model="searchTab">
+            <v-window v-model="searchTab" class="py-3">
 
                 <!-- 検索結果(すべて) -->
                 <v-window-item :value="1"> 

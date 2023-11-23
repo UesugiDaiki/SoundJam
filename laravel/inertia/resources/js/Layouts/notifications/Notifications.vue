@@ -6,22 +6,7 @@
             <page-title title="通知"/>
 
             <v-list lines="two">
-                <follow-notif />
-
-                <like-notif />
-                <like-notif />
-                <like-notif />
-                <like-notif />
-                <like-notif />
-                <like-notif />
-                <like-notif />
-
-                <post-notif />
-                <post-notif />
-                <like-notif />
-                <post-notif />
-                <post-notif />
-                <post-notif />
+                <notification v-for="notification in notifications" :notification="notification"/>
             </v-list>
         </v-main>
     </v-app>
@@ -29,8 +14,44 @@
 
 <script setup>
 import NavDrawer from '@/components/NavDrawer.vue'
-import FollowNotif from '@/components/FollowNotif.vue'
-import LikeNotif from '@/components/LikeNotif.vue'
-import PostNotif from '@/components/PostNotif.vue'
+import Notification from '@/components/Notification.vue'
 import PageTitle from '@/components/PageTitle.vue'
+</script>
+
+<script>
+export default {
+    data: () => ({
+        notifications: [
+            {
+                type: 'follow',
+                userName: '雅弥',
+                userIcon: 'assets/masaya.png',
+            },
+            {
+                type: 'like',
+                postTitle: 'エレキギターをアコギの音に！！！',
+            },
+            {
+                type: 'like',
+                postTitle: 'エレキギターをアコギの音に！！！',
+            },
+            {
+                type: 'like',
+                postTitle: 'エレキギターをアコギの音に！！！',
+            },
+            {
+                type: 'post',
+                userName: '雅弥',
+                userIcon: 'assets/masaya.png',
+                postTitle: 'ZOOM/ MS-50G マルチストンプ マルチエフェクター',
+            },
+            {
+                type: 'post',
+                userName: '雅弥',
+                userIcon: 'assets/masaya.png',
+                postTitle: 'エレキギターをアコギの音に！！！',
+            }
+        ]
+    }),
+}
 </script>

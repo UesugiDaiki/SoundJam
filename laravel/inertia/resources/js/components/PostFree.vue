@@ -24,8 +24,8 @@
                   <h2>
                     使用機材
                   </h2>
-                  <v-list v-for="(item, i) in post.items" :key="i" :value="item" color="primary">
-                    <v-list-item-title :padding="0">■{{ item.text }}</v-list-item-title>
+                  <v-list v-for="item in post.items" :key="item" :value="item" color="primary">
+                    <v-list-item-title :padding="0">■{{ item }}</v-list-item-title>
                   </v-list>
                 </div>
                 <v-divider vertical class="mx-4 border-opacity-25" inset></v-divider>

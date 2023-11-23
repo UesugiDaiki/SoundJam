@@ -16,8 +16,6 @@
     </v-card-title>
       <like class="title iine" />
   </v-card-title>
-
-  
 </template>
 
 
@@ -26,7 +24,6 @@ import Like from '@/components/Like.vue'
 </script>
 
 <script>
-
 export default {
   props: {
     name: String,
@@ -49,6 +46,4 @@ export default {
 .title {
   float: left;
 }
-
-
 </style>

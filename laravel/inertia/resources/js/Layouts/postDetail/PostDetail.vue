@@ -11,4 +11,3 @@
 import NavDrawer from '@/components/NavDrawer.vue'
 import PostDetail from '@/components/PostDetail.vue'
 </script>
-

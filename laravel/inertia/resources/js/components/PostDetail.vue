@@ -64,11 +64,8 @@
   </v-row>
 </template>
 
-
-
 <script setup>
 import Title from '@/components/Title.vue'
-// import like from '@/components/like.vue'
 import LinkingPost from '@/components/LinkingPost.vue'
 </script>
 
@@ -82,7 +79,7 @@ export default {
       PostId: 1,
       userId:123,
       name: "雅弥",
-      myImg: "assets/masaya.png",
+      myImg: "assets/png",
       title: "ZOOM/ MS-50G マルチストンプ マルチエフェクター",
       img: "assets/ms50g.png",
       music1: "assets/maou_bgm_piano40.mp3",
@@ -116,8 +113,6 @@ export default {
       },
     ]
   }),
-  props: {
-  }
 }
 </script>
 

@@ -17,7 +17,7 @@
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn :icon="show ? '$chevronUp' : '$chevronDown'" @click.stop="show = !show"></v-btn>
+          <v-btn :icon="show ? '$chevronUp' : '$chevronDown'" @click="accodion($event)"></v-btn>
         </v-card-actions>
         <v-expand-transition>
           <div v-show="show">
@@ -26,8 +26,8 @@
                   <h2>
                     使用機材
                   </h2>
-                  <v-list v-for="(item, i) in post.items" :key="i" :value="item" color="primary">
-                    <v-list-item-title :padding="0">■{{ item.text }}</v-list-item-title>
+                  <v-list v-for="item in post.items" :key="item" :value="item" color="primary">
+                    <v-list-item-title :padding="0">■{{ item }}</v-list-item-title>
                   </v-list>
                 </div>
                 <v-divider vertical class="mx-4 border-opacity-25" inset></v-divider>
@@ -58,6 +58,15 @@ export default {
   }),
   props: {
     post: Object,
+  },
+  methods:{
+    toPost: function() {
+      this.$router.push("/post");
+    },
+    accodion: function(event) {
+      event.preventDefault()
+      this.show = !this.show
+    }
   }
 }
 </script>
@@ -118,4 +127,5 @@ export default {
   border-top: 40px solid #5bc8ac;
   border-left: 40px solid transparent;
 }
+
 </style>

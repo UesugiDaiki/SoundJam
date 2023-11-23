@@ -40,7 +40,7 @@
 
 
 <script setup>
-import like from '@/components/like.vue'
+import like from '@/components/Like.vue'
 </script>
 
 <script>
