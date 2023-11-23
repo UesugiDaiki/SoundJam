@@ -1,9 +1,6 @@
 <template>
     <v-row justify="center">
         <v-dialog v-model="loginDialog" width="380px">
-            <template v-slot:activator="{ props }">
-                <v-btn color="primary" v-bind="props"> Open Dialog </v-btn>
-            </template>
             <v-card class="loginPopUp">
                 <v-card-title class="mx-4 mt-5">
                     <span class="text-h5  " >ログイン</span>
