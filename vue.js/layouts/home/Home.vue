@@ -32,7 +32,7 @@ export default {
                     'CANARE シールド',
                     'PRESONUS Studio 24c',
                 ],
-                postType: true,
+                type: true,
             },
             {
                 name: "雅弥",
@@ -49,7 +49,7 @@ export default {
                     'CANARE シールド',
                     'PRESONUS Studio 24c',
                 ],
-                postType: false,
+                type: false,
             },
         ]
     })
