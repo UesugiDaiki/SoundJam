@@ -58,6 +58,10 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
+  /**
+   * laravel置き換え用:
+   * history: createWebHistory(import.meta.env.BASE_URL),
+   */
   routes,
 })
 
