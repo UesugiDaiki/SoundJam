@@ -53,12 +53,7 @@ const routes = [
     path: '/detail',
     name: 'detail',
     component: () => import('@/layouts/ProductDetail/ProductDetail.vue'),
-},
-{
-    path: '/test',
-    name: 'test',
-    component: () => import('@/Layouts/test/Test.vue'),
-},
+  },
 ]
 
 const router = createRouter({

@@ -1,34 +1,11 @@
 <template>
     <div>
-        <p v-for="user in users">
-            {{ user }}
-        </p>
-        <!-- <p v-for="post in posts">
-            {{ post }}
-        </p> -->
-        {{ message }}
+    {{ users[0].name }}
+    {{ message }}
     </div>
-    <!-- <table>
-
-
-        <theab class="mt-n5">
-            <post-review :post="posts[0]"/>
-            <post-free :post="posts[1]"/>
-            <tr>
-                <th>Name</th>
-                <th>Mail</th>
-            </tr>
-        </theab>
-        <tr v-for="user in users">
-            <th>{{ user.id }}</th>
-            <th>{{ user.USER_NAME }}</th>
-        </tr>
-    </table> -->
-    <!-- <component v-for="post in posts" :post="post" /> -->
 </template>
 
 <script>
-// import component from '@/component.vue'
 export default {
     created() {
         this.hello();
@@ -42,13 +19,11 @@ export default {
         async test() {
             const res = await axios.get("/api/test");
             this.users = res.data;
-            // this.posts = res.data;
         },
     },
     data: () => ({
         message: "",
         users: [],
-        // posts: [],
         // posts: [
         //     {
         //         name: "雅弥",
