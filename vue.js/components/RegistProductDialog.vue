@@ -13,13 +13,13 @@
                     <form @submit.prevent="submit">
                         <v-row>
                             <v-col cols="12" class="pb-0">
-                                <v-text-field label="Legal first name*" required></v-text-field>
+                                <v-text-field label="製品名" required></v-text-field>
                             </v-col>
                             <v-col cols="6">
-                                <v-text-field label="Legal first name*" required></v-text-field>
+                                <v-text-field label="概要" required></v-text-field>
                             </v-col>
                             <v-col cols="6">
-                                <v-text-field label="Legal first name*" required></v-text-field>
+                                <v-file-input prepend-icon="" prepend-inner-icon="$camera" required></v-file-input>
                             </v-col>
                         </v-row>
 
