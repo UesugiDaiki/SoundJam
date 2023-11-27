@@ -7,7 +7,7 @@
                 <v-card-title class="my-auto text-h5 font-weight-bold">{{ user.name }}</v-card-title>
                 <v-spacer></v-spacer>
                 <!-- ログイン済アカウント -->
-                <v-btn to="/user/edit_profile" class="my-auto mx-1" v-if="loggedInAccount" icon="$cogOutline" elevation="0"></v-btn>
+                <v-btn class="my-auto mx-1" v-if="loggedInAccount" icon="$cogOutline" elevation="0" @click="onEditProfile"></v-btn>
                 <!-- end -->
 
                 <!-- 他アカウント -->
@@ -28,7 +28,13 @@
         </v-card>
         <v-divider length="570"></v-divider>
     </v-row>
+
+    <edit-profile-dialog ref="editProfile" :user="user"/>
 </template>
+
+<script setup>
+import EditProfileDialog from './EditProfileDialog.vue'
+</script>
 
 <script>
 export default {
@@ -37,6 +43,11 @@ export default {
     }),
     props: {
         user: Object,
+    },
+    methods: {
+        onEditProfile() {
+            this.$refs.editProfile.openEditProfile()
+        }
     }
 }
 </script>

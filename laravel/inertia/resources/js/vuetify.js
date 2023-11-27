@@ -45,6 +45,7 @@ import {
   mdiCamera,
   mdiChevronRight,
   mdiArrowLeft,
+  mdiMinusBoxOutline,
 } from '@mdi/js';
 
 // Composables
@@ -103,6 +104,7 @@ export default createVuetify({
       plus: mdiPlus,
       minus: mdiMinus,
       plusBoxOutline: mdiPlusBoxOutline,
+      minusBoxOutline: mdiMinusBoxOutline,
 
       // いいね
       musicNoteHalf: mdiMusicNoteHalf,

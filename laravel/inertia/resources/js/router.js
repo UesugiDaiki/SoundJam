@@ -27,10 +27,6 @@ const routes = [
     component: () => import('@/layouts/user/User.vue'),
   },
   {
-    path: '/user/edit_profile',
-    component: () => import('@/layouts/user/Edit.vue'),
-  },
-  {
     path: '/settings',
     component: () => import('@/layouts/settings/Settings.vue'),
     children: [
@@ -53,12 +49,7 @@ const routes = [
     path: '/detail',
     name: 'detail',
     component: () => import('@/layouts/ProductDetail/ProductDetail.vue'),
-},
-{
-    path: '/test',
-    name: 'test',
-    component: () => import('@/Layouts/test/Test.vue'),
-},
+  },
 ]
 
 const router = createRouter({
