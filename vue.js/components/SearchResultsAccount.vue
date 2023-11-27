@@ -1,10 +1,5 @@
 <template>
-    <!-- 読み込み中に見た目でるやつ -->
-    <!-- <v-skeleton-loader> -->
-        <!-- 検索に引っかかったアカウント-->
-        <!-- forで表示 -->
-        <an-user v-for="user in users" :user="user" />
-    <!-- </v-skeleton-loader> -->
+    <an-user v-for="user in users" :user="user" />
 </template>
 
 <script setup>
@@ -14,16 +9,16 @@ import AnUser from '@/components/AnUser.vue'
 <script>
 export default {
     data: () => ({
-        //  ユーザーデータ
+        //  繝ｦ繝ｼ繧ｶ繝ｼ繝�繝ｼ繧ｿ
         users:[
             {
                 id: '12345',
-                name: '園田',
+                name: '蝨堤伐',
                 icon: 'src/assets/masaya.png',
             },
             {
                 id: '56789',
-                name: '雅弥',
+                name: '髮�蠑･',
                 icon: 'src/assets/rock.png',
             },
             {

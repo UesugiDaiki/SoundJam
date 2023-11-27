@@ -44,7 +44,7 @@
 
                 <!-- 検索結果(アカウント) -->
                 <v-window-item :value="5"> 
-                    
+                    <search-results-account />
                 </v-window-item>
             </v-window>
         </v-main>
@@ -58,6 +58,7 @@ import SearchResults from '@/components/SearchResults.vue'
 import SearchResultsLike from '@/components/SearchResultsLike.vue'
 import SearchResultsNew from '@/components/SearchResultsNew.vue'
 import SearchResultsProduct from '@/components/SearchResultsProduct.vue'
+import SearchResultsAccount from '@/components/SearchResultsAccount.vue'
 </script>
 
 <script>
