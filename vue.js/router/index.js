@@ -27,10 +27,6 @@ const routes = [
     component: () => import('@/layouts/user/User.vue'),
   },
   {
-    path: '/user/edit_profile',
-    component: () => import('@/layouts/user/Edit.vue'),
-  },
-  {
     path: '/settings',
     component: () => import('@/layouts/settings/Settings.vue'),
     children: [
