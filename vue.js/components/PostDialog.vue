@@ -47,13 +47,36 @@
                                     </v-col>
                                 </v-row>
 
+                                <!-- 連結投稿 -->
+                                <v-row v-for="linking in linkingFree">
+                                    <v-divider></v-divider>
+                                    <v-col cols="6" class="pb-0">
+                                        <v-text-field label="タイトル" required></v-text-field>
+                                    </v-col>
+                                    <v-col cols="6" class="pb-0">
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth"
+                                        hint="音声" required></v-file-input>
+                                    </v-col>
+                                    <v-col cols="6" class="py-0">
+                                        <v-textarea rows="1" label="概要"></v-textarea>
+                                    </v-col>
+                                    <v-col cols="6" class="py-0">
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像"
+                                            required></v-file-input>
+                                    </v-col>
+                                </v-row>
+
+                                <v-card-actions class="mt-4" v-if="linkingFree.length > 0">
+                                    <v-spacer></v-spacer>
+                                    <v-btn icon="$minusBoxOutline" @click="removeLinkingPost(tab)"></v-btn>
+                                </v-card-actions>
 
                                 <v-card-actions class="mt-4">
                                     <v-btn variant="flat" class="me-4" type="submit" color="primary">
                                         投稿
                                     </v-btn>
                                     <v-spacer></v-spacer>
-                                    <v-btn icon="$plusBoxOutline"></v-btn>
+                                    <v-btn icon="$plusBoxOutline" @click="addLinkingPost(tab)"></v-btn>
                                 </v-card-actions>
                             </form>
                         </v-window-item>
@@ -95,13 +118,36 @@
                                     </v-col>
                                 </v-row>
 
+                                <!-- 連結投稿 -->
+                                <v-row v-for="linking in linkingReview">
+                                    <v-divider></v-divider>
+                                    <v-col cols="6" class="pb-0">
+                                        <v-text-field label="タイトル" required></v-text-field>
+                                    </v-col>
+                                    <v-col cols="6" class="pb-0">
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth"
+                                        hint="音声" required></v-file-input>
+                                    </v-col>
+                                    <v-col cols="6" class="py-0">
+                                        <v-textarea rows="1" label="概要"></v-textarea>
+                                    </v-col>
+                                    <v-col cols="6" class="py-0">
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像"
+                                            required></v-file-input>
+                                    </v-col>
+                                </v-row>
+
+                                <v-card-actions class="mt-4" v-if="linkingReview.length > 0">
+                                    <v-spacer></v-spacer>
+                                    <v-btn icon="$minusBoxOutline" @click="removeLinkingPost(tab)"></v-btn>
+                                </v-card-actions>
 
                                 <v-card-actions class="mt-4">
                                     <v-btn variant="flat" class="me-4" type="submit" color="primary">
                                         投稿
                                     </v-btn>
                                     <v-spacer></v-spacer>
-                                    <v-btn icon="$plusBoxOutline"></v-btn>
+                                    <v-btn icon="$plusBoxOutline" @click="addLinkingPost(tab)"></v-btn>
                                 </v-card-actions>
                             </form>
                         </v-window-item>
@@ -134,6 +180,8 @@ export default {
                     {index: 0, product: ""},
                 ],
             },
+            linkingFree: [],
+            linkingReview: [],
         }
     },
     methods: {
@@ -160,6 +208,24 @@ export default {
                 this.review.products.pop()
             }
         },
+        // 連結投稿追加
+        addLinkingPost(type) {
+            if (type === 'free') {
+                let newLinkingPost = {title: "", overview: ""}
+                this.linkingFree.push(newLinkingPost)
+            } else if (type === 'review') {
+                let newLinkingPost = {product: "", overview: ""}
+                this.linkingReview.push(newLinkingPost)
+            }
+        },
+        // 連結投稿削除
+        removeLinkingPost(type) {
+            if (type === 'free') {
+                this.linkingFree.pop()
+            } else if (type === 'review') {
+                this.linkingReview.pop()
+            }
+        }
     }
 }
 </script>
