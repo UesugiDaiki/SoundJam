@@ -1,22 +1,18 @@
 <template>
     <!-- 読み込み中に見た目でるやつ -->
     <!-- <v-skeleton-loader> -->
-        <!-- 検索に引っかかった製品 -->
-        <!-- forで表示 -->
-        <Product :product="products[0]" />
-        <Product :product="products[1]" />
-
-        <!-- 投稿はレビュー、自由投稿ごちゃ混ぜに検索に引っかかった順に表示 -->
-        <!-- forで表示 -->
-        <PostFree :post="posts[1]" />
-        <PostReview :post="posts[0]" />
+    <!-- 検索に引っかかった製品 -->
+    <!-- forで表示 -->
+    <Product v-for="product in products" :product="product" />
+    <!-- 投稿はレビュー、自由投稿ごちゃ混ぜに検索に引っかかった順に表示 -->
+    <!-- forで表示 -->
+    <post v-for="post in posts" :post="post" />
     <!-- </v-skeleton-loader> -->
 </template>
 
 <script setup>
 import Product from '@/components/Product.vue'
-import PostFree from '@/components/PostFree.vue'
-import PostReview from '@/components/PostReview.vue'
+import Post from '@/components/Post.vue'
 </script>
 
 <script>
@@ -39,7 +35,7 @@ export default {
         ],
         // 投稿データ
         posts: [
-            {
+        {
                 name: "雅弥",
                 myImg: "src/assets/masaya.png",
                 title: "ZOOM/ MS-50G マルチストンプ マルチエフェクター",
@@ -48,12 +44,13 @@ export default {
                 music2: "src/assets/maou_bgm_fantasy15.mp3",
                 recording: "PRESONUS Studio 24cからPCに取り込みました。DTMのソフトはStudio one5のArtistを使用しました。",
                 items: [
-                    { text: 'YAMAHA REVSTAR420' },
-                    { text: 'CANARE シールド' },
-                    { text: 'BOSS MS-50g' },
-                    { text: 'CANARE シールド' },
-                    { text: 'PRESONUS Studio 24c' },
+                    'YAMAHA REVSTAR420',
+                    'CANARE シールド',
+                    'BOSS MS-50g',
+                    'CANARE シールド',
+                    'PRESONUS Studio 24c',
                 ],
+                type: true,
             },
             {
                 name: "雅弥",
@@ -63,13 +60,14 @@ export default {
                 music: "src/assets/maou_bgm_acoustic54.mp3",
                 recording: "PRESONUS Studio 24cからPCに取り込みました。DTMのソフトはStudio one5のArtistを使用しました。",
                 items: [
-                    { text: 'YAMAHA REVSTAR420' },
-                    { text: 'CANARE シールド' },
-                    { text: 'BOSS AC-3' },
-                    { text: 'BOSS Equalizer GE-7' },
-                    { text: 'CANARE シールド' },
-                    { text: 'PRESONUS Studio 24c' },
+                    'YAMAHA REVSTAR420',
+                    'CANARE シールド',
+                    'BOSS AC-3',
+                    'BOSS Equalizer GE-7',
+                    'CANARE シールド',
+                    'PRESONUS Studio 24c',
                 ],
+                type: false,
             },
         ]
     })

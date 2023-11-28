@@ -3,16 +3,12 @@
     <!-- <v-skeleton-loader> -->
         <!-- 投稿をレビュー、自由投稿ごちゃ混ぜに投稿が新しい順に表示 -->
         <!-- forで表示 -->
-        <PostReview :post="posts[0]" />
-        <PostReview :post="posts[0]" />
-        <PostFree :post="posts[1]" />
-        <PostReview :post="posts[0]" />
+        <post v-for="post in posts" :post="post" />
     <!-- </v-skeleton-loader> -->
 </template>
 
 <script setup>
-import PostFree from '@/components/PostFree.vue'
-import PostReview from '@/components/PostReview.vue'
+import Post from '@/components/Post.vue'
 </script>
 
 <script>
@@ -29,12 +25,13 @@ export default {
                 music2: "src/assets/maou_bgm_fantasy15.mp3",
                 recording: "PRESONUS Studio 24cからPCに取り込みました。DTMのソフトはStudio one5のArtistを使用しました。",
                 items: [
-                    { text: 'YAMAHA REVSTAR420' },
-                    { text: 'CANARE シールド' },
-                    { text: 'BOSS MS-50g' },
-                    { text: 'CANARE シールド' },
-                    { text: 'PRESONUS Studio 24c' },
+                    'YAMAHA REVSTAR420',
+                    'CANARE シールド',
+                    'BOSS MS-50g',
+                    'CANARE シールド',
+                    'PRESONUS Studio 24c',
                 ],
+                type: true,
             },
             {
                 name: "雅弥",
@@ -44,13 +41,14 @@ export default {
                 music: "src/assets/maou_bgm_acoustic54.mp3",
                 recording: "PRESONUS Studio 24cからPCに取り込みました。DTMのソフトはStudio one5のArtistを使用しました。",
                 items: [
-                    { text: 'YAMAHA REVSTAR420' },
-                    { text: 'CANARE シールド' },
-                    { text: 'BOSS AC-3' },
-                    { text: 'BOSS Equalizer GE-7' },
-                    { text: 'CANARE シールド' },
-                    { text: 'PRESONUS Studio 24c' },
+                    'YAMAHA REVSTAR420',
+                    'CANARE シールド',
+                    'BOSS AC-3',
+                    'BOSS Equalizer GE-7',
+                    'CANARE シールド',
+                    'PRESONUS Studio 24c',
                 ],
+                type: false,
             },
         ]
     })
