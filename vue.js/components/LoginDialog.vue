@@ -9,7 +9,7 @@
                     <v-container>
                         <!-- ログイン情報入力テキストボックス -->
                         <v-text-field label="メールアドレス/ユーザーID" required></v-text-field>
-                        <v-text-field label="パスワード" :type="showPass ? 'text' : 'password'"
+                        <v-text-field v-model="loginPassword" label="パスワード" :type="showPass ? 'text' : 'password'"
                             :append-inner-icon="showPass ? '$eye' : '$eyeOff'" @click:append-inner="showPass = !showPass"
                             counter required></v-text-field>
                         <v-card-item class="mt-3 d-flex justify-center ">
@@ -36,12 +36,12 @@
                         <!-- ログイン情報入力テキストボックス -->
                         <v-text-field label="ユーザー名" :rules="[rules.required]"></v-text-field>
                         <v-text-field label="メールアドレス" type="email" :rules="[rules.required]"></v-text-field>
-                        <v-text-field v-model="password" label="パスワード" :type="show1 ? 'text' : 'password'"
+                        <v-text-field v-model="newPassword" label="パスワード" :type="show1 ? 'text' : 'password'"
                             hint="半角英数字8~16文字" :rules="[rules.required, rules.min, rules.max, rules.format]"
                             :append-inner-icon="show1 ? '$eye' : '$eyeOff'" @click:append-inner="show1 = !show1" counter>
                         </v-text-field>
 
-                        <v-text-field label="パスワード再確認" :type="show2 ? 'text' : 'password'" type="checkPassWord"
+                        <v-text-field v-model="checkPassword" label="パスワード再確認" :type="show2 ? 'text' : 'password'" 
                             :rules="[rules.required]" :append-inner-icon="show2 ? '$eye' : '$eyeOff'"
                             @click:append-inner="show2 = !show2"></v-text-field>
                         <v-card-item class="mt-1  d-flex justify-center ">
@@ -61,12 +61,12 @@ export default {
         return {
             loginDialog: false,
             registDialog: false,
-            showPass:false,       
-            show1: false,         
-            show2: false,         
-            loginPassword: '',  //ログインのパスワード入力内容が入る
-            password: '',       //新規登録のパスワード
-            checkPassWord: '',  //新規登録のパスワード再確認
+            showPass:false,      //ログインのパスワードの入力typeの切り替えに使用 
+            show1: false,        //新規登録のパスワードの入力typeの切り替えに使用 
+            show2: false,        //新規登録のパスワード再確認の入力typeの切り替えに使用 
+            loginPassword: '',   //ログインのパスワードの入力内容が入る
+            newPassword: '',     //新規登録のパスワードの入力内容が入る
+            checkPassword: '',   //新規登録のパスワード再確認の入力内容が入る
             rules: {
                 required: value => !!value || '必須入力です',
                 min: v => v.length >= 8 || '最低8文字入力してください',
