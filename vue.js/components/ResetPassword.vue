@@ -12,7 +12,7 @@
                     @click:append-inner="show1 = !show1"></v-text-field>
 
                 <v-text-field v-model="newPassword" label="新規パスワード" :type="show2 ? 'text' : 'password'" hint="半角英数字8~16文字"
-                    :rules="[rules.required, rules.min, rules.max,]" :append-inner-icon="show2 ? '$eye' : '$eyeOff'"
+                    :rules="[rules.required, rules.min, rules.max,rules.format]" :append-inner-icon="show2 ? '$eye' : '$eyeOff'"
                     @click:append-inner="show2 = !show2" counter></v-text-field>
 
                 <v-text-field v-model="checkPassword" label="新規パスワード再確認" :type="show3 ? 'text' : 'password'"
@@ -41,7 +41,7 @@ export default {
                 required: value => !!value || '必須入力です',
                 min: v => v.length >= 8 || '最低8文字入力してください',
                 max: v => v.length <= 16 || '最大文字数は16文字です',
-                // matchPassWord: checkPassWord => password == checkPassWord || 'パスワードが一致しません' エラー出る,
+                format:  v => /^[\w-]{8,72}$/.test(v) || '半角英数字のみ使用出来ます'
             },
         }
     },
