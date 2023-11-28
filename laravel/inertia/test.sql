@@ -102,6 +102,7 @@ create table post_table (
     FOREIGN KEY (PRODUCT_ID) REFERENCES product_table(id) ON DELETE CASCADE
 );
 
+
 /*備考
     ・外部キーの投稿IDを主キーしていたので、
     機材テーブルの主キーを設定し、
@@ -124,6 +125,7 @@ create table equip_table (
     -- 投稿ID
     FOREIGN KEY (POST_ID) REFERENCES post_table(id) ON DELETE CASCADE
 );
+
 
 -- フォローテーブル
 create table follow_table (
@@ -227,3 +229,18 @@ create table admin_table (
     -- パスワード
     PASSWORDS varchar(200) not null
 );
+
+-- insert into user_table values(null, 'test', 'テストですよ！！', 'https://mamimumemo','text/icon', 'test@gmail.com', 'test000', true, true, false)
+INSERT INTO `user_table`(`id`, `USER_NAME`, `PROFILES`, `WEBSITE`, `ICON`, `EMAIL_ADDRESS`, `PASSWORDS`, `FOLLOW_NOTICE`, `LIKE_NOTICE`, `FROZEN`) VALUES (1,'雅弥','プロフィールプロフィール','linklink','"/assets/masaya.png','test@test','testtest',0,0,0);
+INSERT INTO `user_table`(`id`, `USER_NAME`, `PROFILES`, `WEBSITE`, `ICON`, `EMAIL_ADDRESS`, `PASSWORDS`, `FOLLOW_NOTICE`, `LIKE_NOTICE`, `FROZEN`) VALUES (2,'管理者','プロフィールプロフィール','testlink','"/assets/masaya.png','admin@admin','adminadmin',0,0,0);
+INSERT INTO `product_table`(`id`, `name`, `image`, `overview`, `temp_regist`) VALUES (1,'ZOOM/ MS-50G マルチストンプ マルチエフェクター','/assets/ms50g.png','外部キーってくそ',true);
+INSERT INTO `product_table`(`id`, `name`, `image`, `overview`, `temp_regist`) VALUES (2,'ギターだよ','/assets/ms50g.png','これはギターです。',true);
+INSERT INTO `post_table`(`id`, `USER_ID`, `PRODUCT_ID`, `TITLE`, `OVERVIEW`, `RECORDING_METHOD`, `DATES`, `LIKES`, `AUDIO1`, `AUDIO2`, `IMAGES`, `POST_TYPE`, `SOURCE_POST_ID`) VALUES (1,1,1,'投稿１','投稿１の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
+INSERT INTO `post_table`(`id`, `USER_ID`, `PRODUCT_ID`, `TITLE`, `OVERVIEW`, `RECORDING_METHOD`, `DATES`, `LIKES`, `AUDIO1`, `AUDIO2`, `IMAGES`, `POST_TYPE`, `SOURCE_POST_ID`) VALUES (2,1,1,'投稿2','投稿2の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
+INSERT INTO `post_table`(`id`, `USER_ID`, `PRODUCT_ID`, `TITLE`, `OVERVIEW`, `RECORDING_METHOD`, `DATES`, `LIKES`, `AUDIO1`, `AUDIO2`, `IMAGES`, `POST_TYPE`, `SOURCE_POST_ID`) VALUES (3,1,1,'投稿3','投稿3の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
+INSERT INTO `post_table`(`id`, `USER_ID`, `PRODUCT_ID`, `TITLE`, `OVERVIEW`, `RECORDING_METHOD`, `DATES`, `LIKES`, `AUDIO1`, `AUDIO2`, `IMAGES`, `POST_TYPE`, `SOURCE_POST_ID`) VALUES (4,2,2,'投稿2-1','投稿2-1の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
+INSERT INTO `post_table`(`id`, `USER_ID`, `PRODUCT_ID`, `TITLE`, `OVERVIEW`, `RECORDING_METHOD`, `DATES`, `LIKES`, `AUDIO1`, `AUDIO2`, `IMAGES`, `POST_TYPE`, `SOURCE_POST_ID`) VALUES (5,2,2,'投稿2-2','投稿2-2の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
+INSERT INTO `post_table`(`id`, `USER_ID`, `PRODUCT_ID`, `TITLE`, `OVERVIEW`, `RECORDING_METHOD`, `DATES`, `LIKES`, `AUDIO1`, `AUDIO2`, `IMAGES`, `POST_TYPE`, `SOURCE_POST_ID`) VALUES (6,2,2,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
+
+INSERT INTO `equip_table`(`id`, `POST_ID`, `NUMBERS`, `EQUIP_NAME`) VALUES (1,1,1,'マルチストンプ');
+INSERT INTO `equip_table`(`id`, `POST_ID`, `NUMBERS`, `EQUIP_NAME`) VALUES (2,2,2,'ギター');
