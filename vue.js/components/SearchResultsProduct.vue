@@ -3,11 +3,7 @@
     <!-- <v-skeleton-loader> -->
         <!-- 検索に引っかかった製品 -->
         <!-- forで表示 -->
-        <Product :product="products[0]" />
-        <Product :product="products[1]" />
-        <Product :product="products[1]" />
-        <Product :product="products[1]" />
-        <Product :product="products[0]" />
+        <Product v-for="product in products" :product="product" />
     <!-- </v-skeleton-loader> -->
 </template>
 
