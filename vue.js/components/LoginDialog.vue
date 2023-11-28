@@ -9,15 +9,17 @@
                     <v-container>
                         <!-- ログイン情報入力テキストボックス -->
                         <v-text-field label="メールアドレス/ユーザーID" required></v-text-field>
-                        <v-text-field label="パスワード" type="password" required></v-text-field>
+                        <v-text-field label="パスワード" :type="showPass ? 'text' : 'password'"
+                            :append-inner-icon="showPass ? '$eye' : '$eyeOff'" @click:append-inner="showPass = !showPass"
+                            counter required></v-text-field>
                         <v-card-item class="mt-3 d-flex justify-center ">
                             <!-- ログインボタン -->
                             <v-btn style="font-size: 16px;" color="black" width="200" height="40">ログイン</v-btn>
                             <!-- アカウント登録へ飛ぶボタン -->
-                            <v-btn class="mt-2 d-flex justify-center" width="200" @click="openRegistDialog">アカウント登録</v-btn>
+                            <v-btn elevation="0" class="mt-2 d-flex justify-center" width="200" @click="openRegistDialog">アカウント登録</v-btn>
                         </v-card-item>
                     </v-container>
-                    <v-btn variant="tonal" @click="loginDialog = false">&lt; タイムラインに戻る</v-btn>
+                    <v-btn variant="tonal" @click="loginDialog = false">&lt; 閉じる</v-btn>
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -35,7 +37,7 @@
                         <v-text-field label="ユーザー名" :rules="[rules.required]"></v-text-field>
                         <v-text-field label="メールアドレス" type="email" :rules="[rules.required]"></v-text-field>
                         <v-text-field v-model="password" label="パスワード" :type="show1 ? 'text' : 'password'"
-                            hint="半角英数字8~16文字" :rules="[rules.required, rules.min, rules.max,]"
+                            hint="半角英数字8~16文字" :rules="[rules.required, rules.min, rules.max, rules.format]"
                             :append-inner-icon="show1 ? '$eye' : '$eyeOff'" @click:append-inner="show1 = !show1" counter>
                         </v-text-field>
 
@@ -59,15 +61,17 @@ export default {
         return {
             loginDialog: false,
             registDialog: false,
-            show1: false,
-            show2: false,
-            password: '',
-            checkPassWord: '',
+            showPass:false,       
+            show1: false,         
+            show2: false,         
+            loginPassword: '',  //ログインのパスワード入力内容が入る
+            password: '',       //新規登録のパスワード
+            checkPassWord: '',  //新規登録のパスワード再確認
             rules: {
                 required: value => !!value || '必須入力です',
                 min: v => v.length >= 8 || '最低8文字入力してください',
                 max: v => v.length <= 16 || '最大文字数は16文字です',
-                // matchPassWord: checkPassWord => password == checkPassWord || 'パスワードが一致しません' エラー出る,
+                format:  v => /^[\w-]{8,72}$/.test(v) || '半角英数字のみ使用出来ます'
             },
         }
     },
