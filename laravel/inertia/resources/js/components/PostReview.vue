@@ -3,16 +3,16 @@
     <v-col cols="auto" class="soto">
       <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0"
          link :ripple="false" to="/post">
-        <Title :name="post.name" :myImg="post.myImg" />
+        <Title :name="post.USER_NAME" :myImg="post.ICON" />
         <v-card-title>
-          {{ post.title }}
+          {{ post.TITLE }}
           <div class="Item-Content-Flg4"></div>
         </v-card-title>
         <div class="aaa">
-          <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="post.img"></v-img>
+          <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="post.IMAGES"></v-img>
           <div class="audio">
-            <audio controlslist="nodownload" class="audio-position" controls :src="post.music1"></audio>
-            <audio controlslist="nodownload" class="audio-position" controls :src="post.music2"></audio>
+            <audio controlslist="nodownload" class="audio-position" controls :src="post.AUDIO1"></audio>
+            <audio controlslist="nodownload" class="audio-position" controls :src="post.AUDIO2"></audio>
           </div>
         </div>
         <v-card-actions>
@@ -26,7 +26,7 @@
                   <h2>
                     使用機材
                   </h2>
-                  <v-list v-for="item in post.items" :key="item" :value="item" color="primary">
+                  <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary">
                     <v-list-item-title :padding="0">■{{ item }}</v-list-item-title>
                   </v-list>
                 </div>
@@ -35,7 +35,7 @@
                   <h2>
                     録音方法
                   </h2>
-                    {{ post.recording }}
+                    {{ post.RECORDING_METHOD }}
                 </div>
               </v-row>
           </div>

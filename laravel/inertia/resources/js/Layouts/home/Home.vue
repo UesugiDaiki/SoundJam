@@ -15,43 +15,17 @@ import Post from '@/components/Post.vue'
 
 <script>
 export default {
+    created() {
+        this.getPosts();
+    },
+    methods: {
+        async getPosts() {
+            const res = await axios.get("/api/getPosts");
+            this.posts = res.data;
+        },
+    },
     data: () => ({
-        posts: [
-            {
-                name: "雅弥",
-                myImg: "assets/masaya.png",
-                title: "ZOOM/ MS-50G マルチストンプ マルチエフェクター",
-                img: "assets/ms50g.png",
-                music1: "assets/maou_bgm_piano40.mp3",
-                music2: "assets/maou_bgm_fantasy15.mp3",
-                recording: "PRESONUS Studio 24cからPCに取り込みました。DTMのソフトはStudio one5のArtistを使用しました。",
-                items: [
-                    'YAMAHA REVSTAR420',
-                    'CANARE シールド',
-                    'BOSS MS-50g',
-                    'CANARE シールド',
-                    'PRESONUS Studio 24c',
-                ],
-                type: true,
-            },
-            {
-                name: "雅弥",
-                myImg: "assets/masaya.png",
-                title: "エレキギターをアコギの音に！！！",
-                img: "assets/AC-3.jpg",
-                music: "assets/maou_bgm_acoustic54.mp3",
-                recording: "PRESONUS Studio 24cからPCに取り込みました。DTMのソフトはStudio one5のArtistを使用しました。",
-                items: [
-                    'YAMAHA REVSTAR420',
-                    'CANARE シールド',
-                    'BOSS AC-3',
-                    'BOSS Equalizer GE-7',
-                    'CANARE シールド',
-                    'PRESONUS Studio 24c',
-                ],
-                type: false,
-            },
-        ]
+        posts: [],
     })
 }
 </script>

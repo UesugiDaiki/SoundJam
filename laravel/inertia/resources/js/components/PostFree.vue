@@ -3,12 +3,12 @@
     <v-col cols="auto" class="soto">
       <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0"
          link :ripple="false">
-        <Title :name="post.name" :myImg="post.myImg" />
+        <Title :name="post.USER_NAME" :myImg="post.ICON" />
         <v-card-title>
-          {{ post.title }}
+          {{ post.TITLE }}
         </v-card-title>
         <div class="aaa">
-          <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="post.img"></v-img>
+          <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="post.IMAGES"></v-img>
           <div class="audio">
             <audio controlslist="nodownload" class="audio-position-free" controls :src="post.music"></audio>
           </div>

@@ -1,5 +1,5 @@
 <template>
-    <post-review v-if="post.type" :post="post"/>
+    <post-review v-if="post.POST_TYPE === 1" :post="post"/>
     <post-free v-else :post="post"/>
 </template>
 
