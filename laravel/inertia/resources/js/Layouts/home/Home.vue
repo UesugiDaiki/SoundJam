@@ -15,8 +15,8 @@ import Post from '@/components/Post.vue'
 
 <script>
 export default {
-    created() {
-        this.getPosts();
+    async created() {
+        await this.getPosts();
     },
     methods: {
         async getPosts() {

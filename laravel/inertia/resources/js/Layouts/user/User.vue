@@ -19,6 +19,7 @@ import Post from '@/components/Post.vue'
 
 <script>
 export default {
+
     data: () => ({
         user: {
             id: '12345',
