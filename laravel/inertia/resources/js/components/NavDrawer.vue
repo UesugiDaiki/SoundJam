@@ -65,8 +65,6 @@ export default {
         },
         async getLogin() {
             let session = await axios.get('api/getSession')
-            console.log(session)
-            console.log(!(session['data'] == ''))
             this.loginFlg = !(session['data'] == '')
         }
     },

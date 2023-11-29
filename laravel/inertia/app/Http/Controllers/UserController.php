@@ -163,6 +163,7 @@ class UserController extends Controller
         } else {
             Log::debug('失敗');
         }
+    }
     
     // session情報取得
     public function get_session() {
