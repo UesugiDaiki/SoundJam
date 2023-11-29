@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Psy\Readline\Hoa\Console;
 
 class UserController extends Controller
 {
@@ -61,4 +62,32 @@ class UserController extends Controller
     // public function get_user(Request $request) {
     //     DB::select('SELECT * ')
     // }
+
+    //　製品データをDBの製品テーブルに登録
+    public function product(Request $request)
+    {
+        // formDataから値を取得
+        //　ファイル名取得
+        $file_name = $request->file('file')->getClientOriginalName();
+
+        // storage/app/publicに、ファイルを保存
+        $request->file('file')->storeAs('public/product', $file_name);
+
+        $product = $request->input('product');
+        $overview = $request->input('overview');
+        // Log::debug($request->file('file'));
+        // Log::debug($product);
+        // Log::debug($overview);
+
+        if (DB::table('product_table')->insert([
+            'name' => $product,
+            'image' => $file_name,
+            'overview' => $overview,
+            'temp_regist' => 1,
+        ])) {
+            Log::debug('成功');
+        } else {
+            Log::debug('失敗');
+        }
+    }
 }
