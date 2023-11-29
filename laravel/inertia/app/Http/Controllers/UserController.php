@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Psy\Readline\Hoa\Console;
@@ -59,36 +60,28 @@ class UserController extends Controller
     }
 
     // ユーザー情報取得
-    // public function get_user(Request $request) {
-    //     DB::select('SELECT * ')
-    // }
+    public function get_user(Request $request) {
+        DB::select('SELECT * FROM user_table WHERE id='.$request);
+    }
 
-    //　製品データをDBの製品テーブルに登録
-    public function product(Request $request)
-    {
-        // formDataから値を取得
-        //　ファイル名取得
-        $file_name = $request->file('file')->getClientOriginalName();
-
-        // storage/app/publicに、ファイルを保存
-        $request->file('file')->storeAs('public/product', $file_name);
-
-        $product = $request->input('product');
-        $overview = $request->input('overview');
-        // Log::debug($request->file('file'));
-        // Log::debug($product);
-        // Log::debug($overview);
-
-        if (DB::table('product_table')->insert([
-            'name' => $product,
-            'image' => $file_name,
-            'overview' => $overview,
-            'temp_regist' => 1,
-        ])) {
-            Log::debug('成功');
+    // ログイン
+    public function login(Request $request) {
+        Session::forget("soundjam_user");
+        if (strpos($request["loginID"], '@')) {
+            // メールアドレスでログイン
+            $user = DB::select('SELECT * FROM user_table WHERE EMAIL_ADDRESS='.$request["loginID"]);
+            if ($user[0]["PASSWORDS"] == $request["loginPass"]) {
+                Session::put('soundjam_user', $user[0]["id"]);
+            }
         } else {
-            Log::debug('失敗');
+            // ログインIDでログイン
+            $user = DB::select('SELECT * FROM user_table WHERE ID='.$request["loginID"]);
+            $user[0] = (array)$user[0];
+            if ($user[0]["PASSWORDS"] == $request["loginPass"]) {
+                Session::put('soundjam_user', $user[0]["id"]);
+            }
         }
+        return Session::all();
     }
     //　自由投稿をDBの投稿テーブルに登録
     public function postcreate(Request $request)
@@ -169,5 +162,10 @@ class UserController extends Controller
         } else {
             Log::debug('失敗');
         }
+    
+    // session情報取得
+    public function get_session() {
+        Log::emergency(Session::all());
+        return Session::get('soundjam_user');
     }
 }
