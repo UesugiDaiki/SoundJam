@@ -83,6 +83,7 @@ class UserController extends Controller
         }
         return Session::all();
     }
+
     //　自由投稿をDBの投稿テーブルに登録
     public function postcreate(Request $request)
     {
@@ -165,7 +166,11 @@ class UserController extends Controller
     
     // session情報取得
     public function get_session() {
-        Log::emergency(Session::all());
         return Session::get('soundjam_user');
+    }
+
+    // ログアウト
+    public function logout() {
+        Session::forget("soundjam_user");
     }
 }

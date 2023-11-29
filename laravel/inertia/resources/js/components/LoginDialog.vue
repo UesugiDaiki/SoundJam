@@ -97,8 +97,8 @@ export default {
                     console.log('失敗')
                     console.log(error)
                 })
-
-            this.loginDialog = false
+            
+            location.reload()
         },
     }
 }

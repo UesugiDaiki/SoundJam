@@ -48,6 +48,7 @@ export default {
     }),
     created() {
         this.path = this.$route.path
+        this.getLogin()
     },
     methods: {
         onLogout() {
@@ -62,6 +63,12 @@ export default {
         onRegistProduct() {
             this.$refs.registProduct.openRegistProduct()
         },
+        async getLogin() {
+            let session = await axios.get('api/getSession')
+            console.log(session)
+            console.log(!(session['data'] == ''))
+            this.loginFlg = !(session['data'] == '')
+        }
     },
 }
 </script>
