@@ -90,7 +90,7 @@ class UserController extends Controller
             Log::debug('失敗');
         }
     }
-        //　投稿をDBの投稿テーブルに登録
+    //　自由投稿をDBの投稿テーブルに登録
     public function postcreate(Request $request)
     {
         // formDataから値を取得
@@ -120,6 +120,47 @@ class UserController extends Controller
             'LIKES' => 0,
             'AUDIO1' => $mp3_name,
             'AUDIO2' => null,
+            'IMAGES' => $img_name,
+            'POST_TYPE' => 2,
+            'SOURCE_POST_ID' => 1,
+        ])) {
+            Log::debug('成功');
+        } else {
+            Log::debug('失敗');
+        }
+    }
+    //　レビュー投稿をDBの投稿テーブルに登録
+    public function editReview(Request $request)
+    {
+        // formDataから値を取得
+
+        //　音声ファイル名取得
+        $mp3_1_name = $request->file('mp3_1')->getClientOriginalName();
+        $mp3_2_name = $request->file('mp3_2')->getClientOriginalName();
+        // storage/app/publicに、ファイルを保存
+        $request->file('mp3_1')->storeAs('public/product', $mp3_1_name);
+        $request->file('mp3_2')->storeAs('public/product', $mp3_2_name);
+
+        //　画像ファイル名取得
+        $img_name = $request->file('img')->getClientOriginalName();
+        // storage/app/publicに、ファイルを保存
+        $request->file('img')->storeAs('public/product', $img_name);
+
+        $product = $request->input('product');
+        $overview = $request->input('overview');
+        $recordingMethod = $request->input('recordingMethod');
+
+
+        if (DB::table('post_table')->insert([
+            'USER_ID' => 1,
+            'PRODUCT_ID' => 1,
+            'TITLE' => $product,
+            'OVERVIEW' => $overview,
+            'RECORDING_METHOD' => $recordingMethod,
+            'DATES' => '2023/11/29',
+            'LIKES' => 0,
+            'AUDIO1' => $mp3_1_name,
+            'AUDIO2' => $mp3_2_name,
             'IMAGES' => $img_name,
             'POST_TYPE' => 1,
             'SOURCE_POST_ID' => 1,

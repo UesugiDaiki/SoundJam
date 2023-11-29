@@ -24,7 +24,7 @@ class UserController extends Controller
                 $post_key[] = $key;
                 $post_value[] = $value;
             }
-            
+
             // ユーザー名
             $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id='.$post["USER_ID"]);
             foreach($user as $value){

@@ -88,15 +88,15 @@
                                     </v-col>
                                     <v-col cols="6" class="pb-0">
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth"
-                                        hint="音声（エフェクターOFF）" required></v-file-input>
+                                        hint="音声（エフェクターOFF）" @change="fileSelect1_1" required></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像"
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像" @change="fileSelect2"
                                             required></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth"
-                                        hint="音声（エフェクターON）" required></v-file-input>
+                                        hint="音声（エフェクターON）" @change="fileSelect1_2" required></v-file-input>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -141,7 +141,7 @@
                                 </v-card-actions>
 
                                 <v-card-actions class="mt-4">
-                                    <v-btn variant="flat" class="me-4" type="submit" color="primary">
+                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="editReview">
                                         投稿
                                     </v-btn>
                                     <v-spacer></v-spacer>
@@ -184,9 +184,17 @@ export default {
                 ],
             },
             review: {
+                // タイトル
                 product: "",
+                // 概要
                 overview: "",
+                // 録音情報
                 recordingMethod: "",
+                // 音声情報
+                selected_file1_1: null,
+                selected_file1_2: null,
+                // 画像
+                selected_file2: null,
                 products: [
                     {index: 0, product: ""},
                 ],
@@ -248,6 +256,17 @@ export default {
             this.selected_file2 = e.target.files[0];
         },
 
+        //音声ファイル1選択時の処理
+        fileSelect1_1: function(e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.selected_file1_1 = e.target.files[0];
+        },
+        //音声ファイル2選択時の処理
+        fileSelect1_2: function(e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.selected_file1_2 = e.target.files[0];
+        },
+
         // 投稿処理
         postcreate() {
             // 確認
@@ -269,6 +288,36 @@ export default {
             };
 
             axios.post('/api/postcreate', formData, config)
+                .then(function(response) {
+                    console.log('成功')
+                })
+                .catch(function(error) {
+                    console.log('失敗');
+                    console.log(error);
+                })
+        },
+        // 投稿処理
+        editReview() {
+            // 確認
+            console.log(this.selected_file);
+            console.log(this.product);
+            console.log(this.overview);
+            let formData = new FormData();
+
+            formData.append('product',this.product);
+            formData.append('overview',this.overview);
+            formData.append('recordingMethod',this.recordingMethod);
+            formData.append('mp3_1',this.selected_file1_2);
+            formData.append('mp3_2',this.selected_file1_2);
+            formData.append('img',this.selected_file2);
+
+            let config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            };
+
+            axios.post('/api/editReview', formData, config)
                 .then(function(response) {
                     console.log('成功')
                 })
