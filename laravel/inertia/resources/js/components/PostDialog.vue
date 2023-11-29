@@ -22,12 +22,10 @@
                                         <v-text-field v-model="free.product" label="タイトル" required></v-text-field>
                                     </v-col>
                                     <v-col cols="6" class="pb-0">
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth"
-                                        hint="音声" required></v-file-input>
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" hint="音声" @change="fileSelect1" required></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像"
-                                            required></v-file-input>
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像" @change="fileSelect2" required></v-file-input>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -72,7 +70,7 @@
                                 </v-card-actions>
 
                                 <v-card-actions class="mt-4">
-                                    <v-btn variant="flat" class="me-4" type="submit" color="primary">
+                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="postcreate">
                                         投稿
                                     </v-btn>
                                     <v-spacer></v-spacer>
@@ -165,9 +163,22 @@ export default {
             dialog: false,
             tab: null,
             free: {
-                title: "",
+                // title: "",
+                // overview: "",
+                // recordingMethod: "",
+                // products: [
+                //     {index: 0, product: ""},
+                // ],
+                // タイトル
+                product: "",
+                // 概要
                 overview: "",
+                // 録音情報
                 recordingMethod: "",
+                // 音声情報
+                selected_file1: null,
+                // 画像
+                selected_file2: null,
                 products: [
                     {index: 0, product: ""},
                 ],
@@ -225,6 +236,46 @@ export default {
             } else if (type === 'review') {
                 this.linkingReview.pop()
             }
+        },
+        //音声ファイル選択時の処理
+        fileSelect1: function(e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.selected_file1 = e.target.files[0];
+        },
+        // 画像ファイル選択時の処理
+        fileSelect2: function(e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.selected_file2 = e.target.files[0];
+        },
+
+        // 投稿処理
+        postcreate() {
+            // 確認
+            console.log(this.selected_file);
+            console.log(this.product);
+            console.log(this.overview);
+            let formData = new FormData();
+
+            formData.append('product',this.product);
+            formData.append('overview',this.overview);
+            formData.append('recordingMethod',this.recordingMethod);
+            formData.append('mp3',this.selected_file1);
+            formData.append('img',this.selected_file2);
+
+            let config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            };
+
+            axios.post('/api/postcreate', formData, config)
+                .then(function(response) {
+                    console.log('成功')
+                })
+                .catch(function(error) {
+                    console.log('失敗');
+                    console.log(error);
+                })
         }
     }
 }
