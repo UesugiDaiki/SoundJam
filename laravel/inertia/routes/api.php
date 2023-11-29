@@ -21,5 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/hello', [HelloController::class, 'hello']);
 
+Route::get('/getPosts', [UserController::class, 'index']);
+
+Route::post('/product', [UserController::class, 'product']);
+
 Route::get('/getPosts', [UserController::class, 'get_posts']);
 // Route::get('/getUser', [UserController::class, 'get_user']);
+
