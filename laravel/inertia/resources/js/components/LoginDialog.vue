@@ -8,11 +8,11 @@
                 <v-card-text>
                     <v-container>
                         <!-- ログイン情報入力テキストボックス -->
-                        <v-text-field label="メールアドレス/ユーザーID" required></v-text-field>
-                        <v-text-field label="パスワード" type="password" required></v-text-field>
+                        <v-text-field v-model="loginID" label="メールアドレス/ユーザーID" required></v-text-field>
+                        <v-text-field v-model="loginPass" label="パスワード" type="password" required></v-text-field>
                         <v-card-item class="mt-3 d-flex justify-center ">
                             <!-- ログインボタン -->
-                            <v-btn style="font-size: 16px;" color="black" width="200" height="40">ログイン</v-btn>
+                            <v-btn style="font-size: 16px;" color="black" width="200" height="40" @click="login">ログイン</v-btn>
                             <!-- アカウント登録へ飛ぶボタン -->
                             <v-btn class="mt-2 d-flex justify-center" width="200" @click="openRegistDialog">アカウント登録</v-btn>
                         </v-card-item>
@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     data() {
         return {
@@ -61,6 +63,8 @@ export default {
             registDialog: false,
             show1: false,
             show2: false,
+            loginID: '',
+            loginPass: '',
             password: '',
             checkPassWord: '',
             rules: {
@@ -77,7 +81,25 @@ export default {
         },
         openRegistDialog() {
             this.registDialog = true
-        }
+        },
+        async login() {
+            let loginData = {
+                loginID: this.loginID,
+                loginPass: this.loginPass,
+            }
+            
+            axios.post('/api/login', loginData)
+                .then(function(response) {
+                    console.log('成功')
+                    console.log(response['data']['soundjam_user'])
+                })
+                .catch(function(error) {
+                    console.log('失敗')
+                    console.log(error)
+                })
+
+            this.loginDialog = false
+        },
     }
 }
 </script>
