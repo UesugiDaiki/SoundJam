@@ -91,8 +91,8 @@ class UserController extends Controller
         //　ファイル名取得
         $file_name = $request->file('file')->getClientOriginalName();
 
-        // storage/app/publicに、ファイルを保存
-        $request->file('file')->storeAs('public/product', $file_name);
+        // storage/app/publicに、画像ファイルを保存
+        $request->file('file')->storeAs('public/img', $file_name);
 
         $product = $request->input('product');
         $overview = $request->input('overview');
@@ -118,13 +118,13 @@ class UserController extends Controller
 
         //　音声ファイル名取得
         $mp3_name = $request->file('mp3')->getClientOriginalName();
-        // storage/app/publicに、ファイルを保存
-        $request->file('mp3')->storeAs('public/product', $mp3_name);
+        // storage/app/publicに、音声ファイルを保存
+        $request->file('mp3')->storeAs('public/music', $mp3_name);
 
         //　画像ファイル名取得
         $img_name = $request->file('img')->getClientOriginalName();
         // storage/app/publicに、ファイルを保存
-        $request->file('img')->storeAs('public/product', $img_name);
+        $request->file('img')->storeAs('public/img', $img_name);
 
         $product = $request->input('product');
         $overview = $request->input('overview');
@@ -159,13 +159,13 @@ class UserController extends Controller
         $mp3_1_name = $request->file('mp3_1')->getClientOriginalName();
         $mp3_2_name = $request->file('mp3_2')->getClientOriginalName();
         // storage/app/publicに、ファイルを保存
-        $request->file('mp3_1')->storeAs('public/product', $mp3_1_name);
-        $request->file('mp3_2')->storeAs('public/product', $mp3_2_name);
+        $request->file('mp3_1')->storeAs('public/music', $mp3_1_name);
+        $request->file('mp3_2')->storeAs('public/music', $mp3_2_name);
 
         //　画像ファイル名取得
         $img_name = $request->file('img')->getClientOriginalName();
         // storage/app/publicに、ファイルを保存
-        $request->file('img')->storeAs('public/product', $img_name);
+        $request->file('img')->storeAs('public/img', $img_name);
 
         $product = $request->input('product');
         $overview = $request->input('overview');
