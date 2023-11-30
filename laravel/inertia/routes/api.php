@@ -27,6 +27,8 @@ Route::post('/product', [UserController::class, 'product']);
 
 Route::post('/postcreate', [UserController::class, 'postcreate']);
 
+Route::post('/editReview', [UserController::class, 'editReview']);
+
 Route::get('/getPosts', [UserController::class, 'get_posts']);
 Route::get('/getUser', [UserController::class, 'get_user']);
 Route::post('/login', [UserController::class, 'login']);

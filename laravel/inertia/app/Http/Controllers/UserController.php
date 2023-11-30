@@ -83,7 +83,33 @@ class UserController extends Controller
         }
         return Session::all();
     }
+    //　製品データをDBの製品テーブルに登録
+    public function product(Request $request)
+    {
+        // formDataから値を取得
+        //　ファイル名取得
+        $file_name = $request->file('file')->getClientOriginalName();
 
+        // storage/app/publicに、ファイルを保存
+        $request->file('file')->storeAs('public/product', $file_name);
+
+        $product = $request->input('product');
+        $overview = $request->input('overview');
+        // Log::debug($request->file('file'));
+        // Log::debug($product);
+        // Log::debug($overview);
+
+        if (DB::table('product_table')->insert([
+            'name' => $product,
+            'image' => $file_name,
+            'overview' => $overview,
+            'temp_regist' => 1,
+        ])) {
+            Log::debug('成功');
+        } else {
+            Log::debug('失敗');
+        }
+    }
     //　自由投稿をDBの投稿テーブルに登録
     public function postcreate(Request $request)
     {
@@ -164,7 +190,7 @@ class UserController extends Controller
             Log::debug('失敗');
         }
     }
-    
+
     // session情報取得
     public function get_session() {
         return Session::get('soundjam_user');
