@@ -79,7 +79,7 @@ export default {
       PostId: 1,
       userId:123,
       name: "雅弥",
-      myImg: "src/assets/png",
+      myImg: "src/assets/masaya.png",
       title: "ZOOM/ MS-50G マルチストンプ マルチエフェクター",
       img: "src/assets/ms50g.png",
       music1: "src/assets/maou_bgm_piano40.mp3",
