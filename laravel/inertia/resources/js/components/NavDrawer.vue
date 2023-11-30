@@ -17,9 +17,9 @@
                     === 0 ? "$cog" : "$cogOutline" }}</v-icon></v-list-item>
                 <v-list-item @click="onPost" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px" value="post"><v-icon class="text-h4">$guitarPickOutline</v-icon></v-list-item>
                 <v-list-item @click="onRegistProduct" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px" value="post"><v-icon class="text-h4">$guitarPick</v-icon></v-list-item>
-                <v-list-item v-if="loginFlg" @click="onLogout" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon
+                <v-list-item v-if="loginFlg === true" @click="onLogout" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon
                         class="text-h4">$logout</v-icon></v-list-item>
-                <v-list-item v-if="!loginFlg" @click="onLogin" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon
+                <v-list-item v-if="loginFlg === false" @click="onLogin" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon
                         class="text-h4">$login</v-icon></v-list-item>
             </v-list>
         </v-navigation-drawer>
@@ -44,7 +44,7 @@ export default {
         // パスを格納
         // https://qiita.com/kke1229/items/3f41dc44decd61b36c97
         path: '',
-        loginFlg: false,
+        loginFlg: null,
     }),
     created() {
         this.path = this.$route.path
