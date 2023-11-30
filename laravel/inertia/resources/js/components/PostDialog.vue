@@ -271,13 +271,12 @@ export default {
         postcreate() {
             // 確認
             console.log(this.selected_file);
-            console.log(this.product);
-            console.log(this.overview);
+            console.log(this.free.product);
+            console.log(this.free.overview);
             let formData = new FormData();
-
-            formData.append('product',this.product);
-            formData.append('overview',this.overview);
-            formData.append('recordingMethod',this.recordingMethod);
+            formData.append('product',this.free.product);
+            formData.append('overview',this.free.overview);
+            formData.append('recordingMethod',this.free.recordingMethod);
             formData.append('mp3',this.selected_file1);
             formData.append('img',this.selected_file2);
 
@@ -300,13 +299,13 @@ export default {
         editReview() {
             // 確認
             console.log(this.selected_file);
-            console.log(this.product);
-            console.log(this.overview);
+            console.log(this.review.product);
+            console.log(this.review.overview);
             let formData = new FormData();
 
-            formData.append('product',this.product);
-            formData.append('overview',this.overview);
-            formData.append('recordingMethod',this.recordingMethod);
+            formData.append('product',this.review.product);
+            formData.append('overview',this.review.overview);
+            formData.append('recordingMethod',this.review.recordingMethod);
             formData.append('mp3_1',this.selected_file1_2);
             formData.append('mp3_2',this.selected_file1_2);
             formData.append('img',this.selected_file2);
