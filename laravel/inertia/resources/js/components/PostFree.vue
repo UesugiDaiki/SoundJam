@@ -10,7 +10,7 @@
         <div class="aaa">
           <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="post.IMAGES"></v-img>
           <div class="audio">
-            <audio controlslist="nodownload" class="audio-position-free" controls :src="post.AUDIO1"></audio>
+            <audio controlslist="nodownload" class="audio-position-free" controls :src="post.music"></audio>
           </div>
         </div>
         <v-card-actions>
@@ -24,7 +24,7 @@
                   <h2>
                     使用機材
                   </h2>
-                  <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary">
+                  <v-list v-for="item in post.items" :key="item" :value="item" color="primary">
                     <v-list-item-title :padding="0">■{{ item }}</v-list-item-title>
                   </v-list>
                 </div>
@@ -33,7 +33,7 @@
                   <h2>
                     録音方法
                   </h2>
-                    {{ post.RECORDING_METHOD }}
+                    {{ post.recording }}
                 </div>
               </v-row>
           </div>
