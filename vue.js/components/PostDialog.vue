@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center">
-        <v-dialog v-model="dialog" scrollable min-width="320" width="640" height="515">
+        <v-dialog v-model="dialog" scrollable min-width="320" width="690" height="515">
             <v-card>
                 <v-card-actions>
                     <v-btn density="comfortable" icon="$close" v-on:click="initialization" @click="dialog = false"></v-btn>
@@ -26,22 +26,24 @@
                                     <v-col cols="6" class="py-0" width="300">
                                         <!-- 画像選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera" ref="previewFree"
-                                            v-on:change="showFree" accept="image/*" 
-                                            show-size></v-file-input>
+                                            label="画像" hint="(5MBまで)" v-on:change="showFree" accept=".png,.jpg" show-size
+                                            persistent-hint :error="imgRuleFree"></v-file-input>
                                         <!-- 上げた画像表示 -->
                                         <div class="previewFree-box" style="margin-bottom: 22px" v-if="urlFree">
-                                            <v-img class="image-previewFree mx-auto" v-bind:src="urlFree" max-width="250"
-                                                min-width="250" max-height="190" min-height="190"></v-img>
+                                            <v-img class="image-previewFree mx-auto" v-bind:src="urlFree" max-width="300"
+                                                min-width="300" max-height="220" min-height="220"></v-img>
                                         </div>
                                     </v-col>
                                     <!-- 音声 -->
                                     <v-col cols="6" class="py-0" width="300">
                                         <!--　音声ファイル選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                        hint="音声" required ref="playFree" show-size v-on:change="playFree"></v-file-input>
+                                            hint="(10MBまで)" label="音声" required ref="playFree" show-size
+                                            v-on:change="playFree" persistent-hint :error="audioRuleFree"></v-file-input>
                                         <!-- 上げた音声表示 -->
-                                        <div class="playFree-box" v-if="audioUrlFree">
-                                                <audio controlslist="nodownload" class="audio-playFree audio-position-free" controls
+                                        <div class="playFree-box" v-if="audioUrlFree"
+                                            style="margin-bottom: 22px; height: 54px; ">
+                                            <audio controlslist="nodownload" class="audio-playFree " controls
                                                 v-bind:src="audioUrlFree"></audio>
                                         </div>
                                     </v-col>
@@ -76,7 +78,7 @@
                                     <!-- 音声 -->
                                     <v-col cols="6" class="pb-0">
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            hint="音声" required></v-file-input>
+                                            hint="音声" persistent-hint required ></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
                                         <v-textarea rows="1" label="概要"></v-textarea>
@@ -84,8 +86,8 @@
                                     <!-- 画像 -->
                                     <v-col cols="6" class="py-0">
                                         <!-- 画像選択 -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像"
-                                            accept="image/*" ref="preview" v-on:change="showLinkingFree"
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" label="画像" hint="(5MBまで)"
+                                            persistent-hint accept=".png , .jpg" ref="preview" v-on:change="showLinkingFree"
                                             required></v-file-input>
                                         <!-- 画像プレビュー -->
                                         <div class="preview-box" v-if="urlLinkingFree">
@@ -122,32 +124,37 @@
                                     <!-- 画像 -->
                                     <v-col cols="6" class="py-0" width="300">
                                         <!-- 画像選択 -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像"
-                                            accept="image/*" v-on:change="showReview"  ref="previewReview" required></v-file-input>
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" label="つまみの状態がわかる画像"
+                                            hint="(5MBまで)" persistent-hint accept=".png,.jpg" v-on:change="showReview"
+                                            ref="previewReview" required :error="imgRuleReview"></v-file-input>
                                         <!-- 画像プレビュー -->
                                         <div class="previewReview-box" v-if="urlReview">
-                                            <v-img class="image-previewReview" v-bind:src="urlReview" max-width="250"
-                                                min-width="250" max-height="190" min-height="190"></v-img>
+                                            <v-img class="image-previewReview" v-bind:src="urlReview" max-width="300"
+                                                min-width="300" max-height="220" min-height="220"></v-img>
                                         </div>
                                     </v-col>
                                     <!-- 音声 -->
                                     <v-col cols="6" class="py-0" width="300">
                                         <!-- 音声ファイル１ -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            hint="音声（エフェクターOFF）" required ref="playReview1" show-size v-on:change="playReview1"></v-file-input>
-                                            <!-- 上げた音声表示１ -->
-                                            <div class="playReview1-box" v-if="audioUrlReview1">
-                                                <audio controlslist="nodownload" class="audio-playReview1 audio-position-free" controls
+                                            persistent-hint hint="(10MBまで)" label="音声（エフェクターOFF）" required ref="playReview1"
+                                            show-size v-on:change="playReview1" :error="audioRuleReview1"></v-file-input>
+                                        <!-- 上げた音声表示１ -->
+                                        <div class="playReview1-box" v-if="audioUrlReview1"
+                                            style="margin-bottom: 22px; height: 54px; ">
+                                            <audio controlslist="nodownload" class="audio-playReview1  " controls
                                                 v-bind:src="audioUrlReview1"></audio>
-                                            </div>
+                                        </div>
                                         <!-- 音声ファイル２ -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            hint="音声（エフェクターON）" required ref="playReview2" show-size v-on:change="playReview2"></v-file-input>
-                                            <!-- 上げた音声表示２ -->
-                                            <div class="playReview2-box" v-if="audioUrlReview2">
-                                                <audio controlslist="nodownload" class="audio-playReview2 audio-position-free" controls
+                                            persistent-hint hint="(10MBまで)" label="音声（エフェクターON）" required ref="playReview2"
+                                            show-size v-on:change="playReview2" :error="audioRuleReview2"></v-file-input>
+                                        <!-- 上げた音声表示２ -->
+                                        <div class="playReview2-box" v-if="audioUrlReview2"
+                                            style="margin-bottom: 22px; height: 54px;">
+                                            <audio controlslist="nodownload" class="audio-playReview2 " controls
                                                 v-bind:src="audioUrlReview2"></audio>
-                                            </div>
+                                        </div>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
                                         <v-textarea v-model="review.overview" rows="2" label="概要"></v-textarea>
@@ -176,7 +183,7 @@
                                     <!-- 音声 -->
                                     <v-col cols="6" class="pb-0">
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            hint="音声" required></v-file-input>
+                                            hint="音声" persistent-hint required></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
                                         <v-textarea rows="1" label="概要"></v-textarea>
@@ -185,7 +192,7 @@
                                     <v-col cols="6" class="py-0">
                                         <!-- 画像選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像"
-                                            accept="image/*"  required></v-file-input>
+                                            accept=".png,.jpg" required></v-file-input>
                                         <!-- 上げた画像表示 -->
                                         <!-- 未実装 -->
                                         <!-- <div class="preview-box" v-if="urlLinkingReview">
@@ -229,6 +236,14 @@ export default {
             // urlLinkingFree:"",   //連結自由投稿
             urlReview:"",        //レビュー投稿
             // urlLinkingReview:"", //連結レビュー投稿
+            // 画像サイズ制限用
+            imgRuleFree: false,     //自由投稿
+            imgRuleReview: false,   //レビュー投稿
+            // 音声サイズ制限用
+            audioRuleFree: false,     //自由投稿
+            audioRuleReview1: false,   //レビュー投稿の１つ目
+            audioRuleReview2: false,   //レビュー投稿の２つ目
+
             dialog: false,
             tab: null,
             free: {
@@ -249,7 +264,7 @@ export default {
             },
             linkingFree: [],
             linkingReview: [],
-            Files: "",
+
         }
     },
     methods: {
@@ -300,18 +315,34 @@ export default {
         showFree() {
             const fileFree = this.$refs.previewFree.files[0];
             this.urlFree = URL.createObjectURL(fileFree);
+            //上限サイズは5MB
+            if (fileFree.size > 5000000) {
+                // エラー表示
+                this.imgRuleFree = true
+            }else{
+                this.imgRuleFree = false
+            }
         },
+            
         // 連結自由投稿 
         // 未実装
         // showLinkingFree() {
         //     const file = this.$refs.preview.files[0];
         //     this.urlLinkingFree = URL.createObjectURL(file);
         // },
+
         // レビュー投稿 
         showReview() {
             const fileReview = this.$refs.previewReview.files[0];
             this.urlReview = URL.createObjectURL(fileReview);
+            //上限サイズは5MB
+            if (fileReview.size > 5000000) {
+                this.imgRuleReview = true
+            }else{
+                this.imgRuleReview = false
+            }
         },
+        
         // 連結レビュー投稿 
         // 未実装
         // showLinkingReview() {
@@ -322,18 +353,36 @@ export default {
         // === 音声ファイルプレビュー === //
         // 自由投稿
         playFree() {
-            const file = this.$refs.playFree.files[0];
-            this.audioUrlFree = URL.createObjectURL(file);
+            const fileAudioFree = this.$refs.playFree.files[0];
+            this.audioUrlFree = URL.createObjectURL(fileAudioFree);
+            //上限サイズは10MB
+            if (fileAudioFree.size > 10000000) {
+                this.audioRuleFree = true
+            }else{
+                this.audioRuleFree = false
+            }
         },
         // レビュー投稿１
         playReview1() {
-            const file = this.$refs.playReview1.files[0];
-            this.audioUrlReview1 = URL.createObjectURL(file);
+            const fileAudioReview1 = this.$refs.playReview1.files[0];
+            this.audioUrlReview1 = URL.createObjectURL(fileAudioReview1);
+            //上限サイズは10MB
+            if (fileAudioReview1.size > 10000000) {
+                this.audioRuleReview1 = true
+            }else{
+                this.audioRuleReview1 = false
+            }
         },
         // レビュー投稿２
         playReview2() {
-            const file = this.$refs.playReview2.files[0];
-            this.audioUrlReview2 = URL.createObjectURL(file);
+            const fileAudioReview2 = this.$refs.playReview2.files[0];
+            this.audioUrlReview2 = URL.createObjectURL(fileAudioReview2);
+            //上限サイズは10MB
+            if (fileAudioReview2.size > 10000000) {
+                this.audioRuleReview2 = true
+            }else{
+                this.audioRuleReview2 = false
+            }
         },
 
         // 閉じる際に初期化
