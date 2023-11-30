@@ -69,7 +69,8 @@ class UserController extends Controller
         Session::forget("soundjam_user");
         if (strpos($request["loginID"], '@')) {
             // メールアドレスでログイン
-            $user = DB::select('SELECT * FROM user_table WHERE EMAIL_ADDRESS='.$request["loginID"]);
+            $user = DB::select("SELECT * FROM user_table WHERE EMAIL_ADDRESS='".$request["loginID"]."'");
+            $user[0] = (array)$user[0];
             if ($user[0]["PASSWORDS"] == $request["loginPass"]) {
                 Session::put('soundjam_user', $user[0]["id"]);
             }
@@ -198,6 +199,6 @@ class UserController extends Controller
 
     // ログアウト
     public function logout() {
-        Session::forget("soundjam_user");
+        Session::forget('soundjam_user');
     }
 }
