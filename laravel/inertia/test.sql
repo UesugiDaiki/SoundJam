@@ -231,19 +231,30 @@ create table admin_table (
 );
 
 -- insert into user_table values(null, 'test', 'テストですよ！！', 'https://mamimumemo','text/icon', 'test@gmail.com', 'test000', true, true, false)
-INSERT INTO user_table VALUES (1,'雅弥','プロフィールプロフィール','linklink','/assets/masaya.png','test@test','testtest',1,1,0);
-INSERT INTO user_table VALUES (2,'管理者','プロフィールプロフィール','testlink','/assets/masaya.png','admin@admin','adminadmin',1,1,0);
-INSERT INTO product_table VALUES (1,'ZOOM/ MS-50G マルチストンプ マルチエフェクター','/assets/ms50g.png','製品概要',true);
-INSERT INTO product_table VALUES (2,'ギターだよ','/assets/ms50g.png','これはギターです。',true);
-INSERT INTO post_table VALUES (1,1,1,'投稿１','投稿１の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
-INSERT INTO post_table VALUES (2,1,2,'投稿2','投稿2の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
-INSERT INTO post_table VALUES (3,1,1,'投稿3','投稿3の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
-INSERT INTO post_table VALUES (4,2,2,'投稿2-1','投稿2-1の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
-INSERT INTO post_table VALUES (5,2,2,'投稿2-2','投稿2-2の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
-INSERT INTO post_table VALUES (6,2,2,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21',3,'/assets/maou_bgm_piano40.mp3','/assets/maou_bgm_fantasy15.mp3','/assets/ms50g.png',true,null);
+INSERT INTO user_table VALUES (1,'雅弥','プロフィールプロフィール','linklink','storage/icon/masaya.png','test@test','testtest',1,1,0);
+INSERT INTO user_table VALUES (2,'管理者','プロフィールプロフィール','testlink','storage/icon/masaya.png','admin@admin','adminadmin',1,1,0);
+INSERT INTO user_table VALUES (3,'オフロスキー','お風呂は好きかい？','testlink','storage/icon/オフロスキー1.jpg','admin@admin','adminadmin',1,1,0);
+
+INSERT INTO product_table VALUES (1,'ZOOM/ MS-50G マルチストンプ マルチエフェクター','storage/product/ms50g.png','製品概要',true);
+INSERT INTO product_table VALUES (2,'ギターだよ','storage/product/ms50g.png','これはギターです。',true);
+
+INSERT INTO post_table VALUES (1,1,1,'投稿１','投稿１の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_acoustic54.mp3','storage/music/maou_bgm_acoustic54.mp3','storage/product/ms50g.png',true,null);
+INSERT INTO post_table VALUES (2,1,2,'投稿2','投稿2の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_acoustic54.mp3','storage/music/maou_bgm_acoustic54.mp3','storage/product/ms50g.png',true,null);
+INSERT INTO post_table VALUES (3,1,1,'投稿3','投稿3の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_acoustic54.mp3','storage/music/maou_bgm_acoustic54.mp3','storage/product/ms50g.png',true,null);
+INSERT INTO post_table VALUES (4,2,2,'投稿2-1','投稿2-1の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_acoustic54.mp3','storage/music/maou_bgm_acoustic54.mp3','storage/product/ms50g.png',true,null);
+INSERT INTO post_table VALUES (5,2,2,'投稿2-2','投稿2-2の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_acoustic54.mp3','storage/music/maou_bgm_acoustic54.mp3','storage/product/ms50g.png',true,null);
+INSERT INTO post_table VALUES (6,2,2,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_acoustic54.mp3','storage/music/maou_bgm_acoustic54.mp3','storage/product/ms50g.png',true,null);
+INSERT INTO post_table VALUES (7,3,2,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_acoustic54.mp3','storage/music/maou_bgm_acoustic54.mp3','storage/product/AC-3.jpg',true,null);
 
 INSERT INTO equip_table VALUES (null,1,1,'マルチストンプ');
 INSERT INTO equip_table VALUES (null,1,2,'投稿1使用機材2');
 INSERT INTO equip_table VALUES (null,1,3,'投稿1使用機材3');
 INSERT INTO equip_table VALUES (null,2,1,'ギター');
 INSERT INTO equip_table VALUES (null,3,1,'ギター');
+INSERT INTO equip_table VALUES (null,7,1,'マルチストンプ');
+INSERT INTO equip_table VALUES (null,7,2,'投稿1使用機材2');
+INSERT INTO equip_table VALUES (null,7,3,'投稿1使用機材3');
+INSERT INTO equip_table VALUES (null,7,1,'ギター');
+
+
+
