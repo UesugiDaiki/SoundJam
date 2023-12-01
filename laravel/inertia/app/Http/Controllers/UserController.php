@@ -102,7 +102,7 @@ class UserController extends Controller
 
         if (DB::table('product_table')->insert([
             'name' => $product,
-            'image' => $file_name,
+            'image' => 'storage/img/'.$file_name,
             'overview' => $overview,
             'temp_regist' => 1,
         ])) {
