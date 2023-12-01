@@ -19,15 +19,15 @@
                             <form @submit.prevent="submit">
                                 <v-row>
                                     <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="inquiry.title" label="件名" required></v-text-field>
+                                        <v-text-field label="件名" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-textarea v-model="inquiry.overview" label="本文" required></v-textarea>
+                                        <v-textarea label="本文" required></v-textarea>
                                     </v-col>
                                 </v-row>
 
                                 <v-card-actions class="mt-15">
-                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="question" v-on:click="dialog = false">
+                                    <v-btn variant="flat" class="me-4" type="submit" color="primary">
                                         送信
                                     </v-btn>
                                 </v-card-actions>
@@ -39,19 +39,19 @@
                             <form @submit.prevent="submit">
                                 <v-row>
                                     <v-col cols="6" class="pb-0">
-                                        <v-text-field v-model="review.title" label="製品名" required></v-text-field>
+                                        <v-text-field v-model="review.product" label="製品名" required></v-text-field>
                                     </v-col>
                                     <v-col cols="6" class="pb-0">
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth"
-                                            hint="音声（エフェクターOFF）" @change="fileSelect_OFF" required></v-file-input>
+                                            hint="音声（エフェクターOFF）" required></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像"
-                                        @change="fileSelect_img" required></v-file-input>
+                                            required></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth"
-                                            hint="音声（エフェクターON）" @change="fileSelect_ON" required></v-file-input>
+                                            hint="音声（エフェクターON）" required></v-file-input>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -98,9 +98,8 @@
                                 </v-card-actions>
 
                                 <v-card-actions class="mt-4">
-                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="application" v-on:click="dialog = false">
-                                        <!-- 投稿 -->
-                                        申請
+                                    <v-btn variant="flat" class="me-4" type="submit" color="primary">
+                                        投稿
                                     </v-btn>
                                 </v-card-actions>
                             </form>
@@ -111,29 +110,20 @@
         </v-dialog>
     </v-row>
 </template>
-
+  
 <script>
 export default {
     data() {
         return {
             dialog: false,
             tab: null,
-            // プロモ
             review: {
-                title: "",
+                product: "",
                 overview: "",
                 recordingMethod: "",
-                fileSelectimg: null,
-                fileSelectOFF: null,
-                fileSelectON: null,
                 products: [
                     { index: 0, product: "" },
                 ],
-            },
-            // お問合せ用
-            inquiry: {
-                title: "",
-                overview: "",
             },
             linkingReview: [],
         }
@@ -160,80 +150,8 @@ export default {
         // 連結投稿削除
         removeLinkingPost() {
             this.linkingReview.pop()
-        },
-
-        // 画像ファイル選択時の処理
-        fileSelect_img: function(e) {
-            //選択したファイルの情報を取得しプロパティにいれる
-            this.fileSelectimg = e.target.files[0];
-        },
-
-        //音声ファイルOFF選択時の処理
-        fileSelect_OFF: function(e) {
-            //選択したファイルの情報を取得しプロパティにいれる
-            this.fileSelectOFF = e.target.files[0];
-        },
-        //音声ファイルON選択時の処理
-        fileSelect_ON: function(e) {
-            //選択したファイルの情報を取得しプロパティにいれる
-            this.fileSelectON = e.target.files[0];
-        },
-
-        //　問い合わせ送信処理1
-        question(){
-            console.log(this.inquiry.title);
-            console.log(this.inquiry.overview);
-            let formData = new FormData();
-            formData.append('title',this.inquiry.title);
-            formData.append('overview',this.inquiry.overview);
-            formData.append('recordingMethod',this.inquiry.recordingMethod);
-            formData.append('img',this.fileSelectimg);
-            formData.append('music1',this.fileSelectOFF);
-            formData.append('music2',this.fileSelectON);
-
-            let config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            };
-
-            axios.post('/api/question', formData, config)
-                .then(function(response) {
-                    console.log('成功')
-                })
-                .catch(function(error) {
-                    console.log('失敗');
-                    console.log(error);
-                })
-        },
-        // 申請処理0
-        application(){
-            console.log(this.review.title);
-            console.log(this.review.overview);
-            let formData = new FormData();
-
-            formData.append('title',this.review.title);
-            formData.append('overview',this.review.overview);
-            formData.append('recordingMethod',this.review.recordingMethod);
-            formData.append('img',this.fileSelectimg);
-            formData.append('OFF',this.fileSelectOFF);
-            formData.append('ON',this.fileSelectON);
-
-            let config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            };
-
-            axios.post('/api/application', formData, config)
-                .then(function(response) {
-                    console.log('成功プロ')
-                })
-                .catch(function(error) {
-                    console.log('失敗プロ');
-                    console.log(error);
-                })
         }
     }
 }
 </script>
+  

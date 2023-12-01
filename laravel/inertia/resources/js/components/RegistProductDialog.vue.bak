@@ -24,7 +24,7 @@
                         </v-row>
 
                         <v-card-actions>
-                            <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="postProducts" v-on:click="dialog = false">
+                            <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="postProducts">
                                 登録
                             </v-btn>
                         </v-card-actions>
