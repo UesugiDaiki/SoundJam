@@ -22,12 +22,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/hello', [HelloController::class, 'hello']);
 
 Route::get('/getPosts', [UserController::class, 'index']);
-
+// 製品
 Route::post('/product', [UserController::class, 'product']);
-
+// 自由投稿
 Route::post('/postcreate', [UserController::class, 'postcreate']);
-
+// レビュー投稿
 Route::post('/editReview', [UserController::class, 'editReview']);
+// 問い合わせ
+Route::post('/question', [UserController::class, 'question']);
+// 申請
+Route::post('/application', [UserController::class, 'application']);
 
 Route::get('/getPosts', [UserController::class, 'get_posts']);
 Route::get('/getUser', [UserController::class, 'get_user']);

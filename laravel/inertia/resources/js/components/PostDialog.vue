@@ -141,7 +141,7 @@
                                 </v-card-actions>
 
                                 <v-card-actions class="mt-4">
-                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="editReview">
+                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="editReview" v-on:click="dialog = false">
                                         投稿
                                     </v-btn>
                                     <v-spacer></v-spacer>
