@@ -58,41 +58,14 @@ class UserController extends Controller
 
             array_push($posts, $post);
         };
-
+        Log::debug($posts);
         return $posts;
     }
 
-    // ユーザー情報取得
-    public function get_user(Request $request)
-    {
-        DB::select('SELECT * FROM user_table WHERE id=' . $request);
-    }
 
-    // ログイン
-    public function login(Request $request)
-    {
-        Session::forget("soundjam_user");
-        if (strpos($request["loginID"], '@')) {
-            // メールアドレスでログイン
-            $user = DB::select("SELECT * FROM user_table WHERE EMAIL_ADDRESS='" . $request["loginID"] . "'");
-            $user[0] = (array)$user[0];
-            if ($user[0]["PASSWORDS"] == $request["loginPass"]) {
-                Session::put('soundjam_user', $user[0]["id"]);
-            }
-        } else {
-            // ログインIDでログイン
-            $user = DB::select('SELECT * FROM user_table WHERE ID=' . $request["loginID"]);
-            $user[0] = (array)$user[0];
-            if ($user[0]["PASSWORDS"] == $request["loginPass"]) {
-                Session::put('soundjam_user', $user[0]["id"]);
-            }
-        }
-        return Session::all();
-    }
     //　製品データをDBの製品テーブルに登録
     public function product(Request $request)
     {
-        // formDataから値を取得
         //　ファイル名取得
         $file_name = $request->file('file')->getClientOriginalName();
 
@@ -121,8 +94,6 @@ class UserController extends Controller
     //　自由投稿をDBに登録
     public function postcreate(Request $request)
     {
-        // formDataから値を取得
-
         //　音声ファイル名取得
         $mp3_name = $request->file('mp3')->getClientOriginalName();
         // storage/app/publicに、音声ファイルを保存
@@ -137,9 +108,9 @@ class UserController extends Controller
         $overview = $request->input('overview');
         $recordingMethod = $request->input('recordingMethod');
 
-
-        if (DB::table('post_table')->insert([
-            'USER_ID' => 1,
+        $post_id = null;
+        if ($post_id = DB::table('post_table')->insertGetId([
+            'USER_ID' => Session::get('soundjam_user'),
             'PRODUCT_ID' => 1,
             'TITLE' => $product,
             'OVERVIEW' => $overview,
@@ -150,38 +121,82 @@ class UserController extends Controller
             'AUDIO2' => null,
             'IMAGES' => 'storage/product/' . $img_name,
             'POST_TYPE' => 0,
-            'SOURCE_POST_ID' => null,
         ])) {
-            Log::debug('成功');
+            Log::debug('自由成功');
         } else {
-            Log::debug('失敗');
+            Log::debug('自由失敗');
+        }
+
+        //連結投稿データの数を取得
+        $count = (int)$request->input('connectCounter');
+        Log::debug((int)$count);
+
+        //連結投稿の数だけデータを取得
+        for ($i = 0; $i < $count; $i++) {
+
+            //タイトル
+            $title = $request->input('connectFree' . $i . '_1');
+            //概要
+            $overview = $request->input('connectFree' . $i . '_2');
+
+            //音声ファイルの名前を取得
+            $audio1 = $request->file('connectFree' . $i . '_3')->getClientOriginalName();
+            //音声データをstorage/app/public/productに保存
+            $request->file('connectFree' . $i . '_3')->storeAs('public/music', $audio1);
+
+            //画像ファイルの名前を取得
+            $images = $request->file('connectFree' . $i . '_4')->getClientOriginalName();
+            //画像データをstorage/app/public/productに保存
+            $request->file('connectFree' . $i . '_4')->storeAs('public/product', $audio1);
+
+            //連結投稿データを格納する
+            if (DB::table('connected_post_table')->insert([
+                //連結元のID
+                'SOURCE_POST_ID' => $post_id,
+                //タイトル
+                'TITLE' => $title,
+                //概要
+                'OVERVIEW' => $overview,
+                //音声
+                'AUDIO1' => 'storage/music/' . $audio1,
+                //画像
+                'IMAGES' => 'storage/product/' . $images,
+            ])) {
+                Log::debug('連結投稿成功');
+            } else {
+                Log::debug('連結投稿失敗');
+                return '連結投稿失敗';
+            };
         }
     }
 
     //　レビュー投稿をDBに登録
     public function editReview(Request $request)
     {
-        // formDataから値を取得
 
         //　音声ファイル名取得
         $mp3_1_name = $request->file('mp3_1')->getClientOriginalName();
         $mp3_2_name = $request->file('mp3_2')->getClientOriginalName();
-        // storage/app/publicに、ファイルを保存
+        // storage/app/public/musicに、ファイルを保存
         $request->file('mp3_1')->storeAs('public/music', $mp3_1_name);
         $request->file('mp3_2')->storeAs('public/music', $mp3_2_name);
 
         //　画像ファイル名取得
         $img_name = $request->file('img')->getClientOriginalName();
-        // storage/app/publicに、ファイルを保存
+        // storage/app/public/productに、ファイルを保存
         $request->file('img')->storeAs('public/product', $img_name);
 
+        //レビュー投稿データを取得
         $product = $request->input('product');
         $overview = $request->input('overview');
         $recordingMethod = $request->input('recordingMethod');
 
+        //挿入するデータのID取得用変数
+        $post_id = null;
 
-        if (DB::table('post_table')->insert([
-            'USER_ID' => 1,
+        //レビュー投稿データをDBに格納
+        if ($post_id = DB::table('post_table')->insertGetId([
+            'USER_ID' => Session::get('soundjam_user'),
             'PRODUCT_ID' => 1,
             'TITLE' => $product,
             'OVERVIEW' => $overview,
@@ -193,13 +208,60 @@ class UserController extends Controller
             'AUDIO2' => 'storage/music/' . $mp3_2_name,
             'IMAGES' => 'storage/product/' . $img_name,
             'POST_TYPE' => 1,
-            'SOURCE_POST_ID' => null,
         ])) {
-            Log::debug('成功');
+            Log::debug('レビュー投稿成功');
         } else {
-            Log::debug('失敗');
+            Log::debug('レビュー投稿失敗');
+        }
+
+        //連結投稿データの数を取得
+        $count = (int)$request->input('connectCounter');
+        Log::debug((int)$count);
+
+        //連結投稿の数だけデータを取得
+        for ($i = 0; $i < $count; $i++) {
+            // Log::debug($i);
+            // Log::debug($request->input('connectReview' . $i . '_1'));
+            // Log::debug($request->input('connectReview' . $i . '_2'));
+            // Log::debug($request->file('connectReview' . $i . '_3')->getClientOriginalName());
+            // Log::debug($request->file('connectReview' . $i . '_4')->getClientOriginalName());
+
+            //タイトル
+            $title = $request->input('connectReview' . $i . '_1');
+            //概要
+            $overview = $request->input('connectReview' . $i . '_2');
+
+            //音声ファイルの名前を取得
+            $audio1 = $request->file('connectReview' . $i . '_3')->getClientOriginalName();
+            //音声データをstorage/app/public/productに保存
+            $request->file('connectReview' . $i . '_3')->storeAs('public/music', $audio1);
+
+            //画像ファイルの名前を取得
+            $images = $request->file('connectReview' . $i . '_4')->getClientOriginalName();
+            //画像データをstorage/app/public/productに保存
+            $request->file('connectReview' . $i . '_4')->storeAs('public/product', $audio1);
+
+            //連結投稿データを格納する
+            if (DB::table('connected_post_table')->insert([
+                //連結元のID
+                'SOURCE_POST_ID' => $post_id,
+                //タイトル
+                'TITLE' => $title,
+                //概要
+                'OVERVIEW' => $overview,
+                //音声
+                'AUDIO1' => 'storage/music/' . $audio1,
+                //画像
+                'IMAGES' => 'storage/product/' . $images,
+            ])) {
+                Log::debug('連結投稿成功');
+            } else {
+                Log::debug('連結投稿失敗');
+                return '連結投稿失敗';
+            };
         }
     }
+
     // お問い合わせ処理
     public function question(Request $request)
     {
@@ -268,11 +330,46 @@ class UserController extends Controller
     }
 
 
-
+    /*
+    ===============================ログイン認証処理======================================
+    */
     // session情報取得
     public function get_session()
     {
         return Session::get('soundjam_user');
+    }
+
+    // ユーザー情報取得
+    public function get_user(Request $request)
+    {
+        DB::select('SELECT * FROM user_table WHERE id=' . $request);
+    }
+
+    // ログイン
+    public function login(Request $request)
+    {
+        // 引数に指定したセッションデータを削除
+        Session::forget("soundjam_user");
+        //　strpos:指定した文字列が見つかる位置を返す
+        if (strpos($request["loginID"], '@')) {
+            // メールアドレスでログイン
+            $user = DB::select("SELECT * FROM user_table WHERE EMAIL_ADDRESS='" . $request["loginID"] . "'");
+            //デバッグ
+            Log::debug($user);
+            $user[0] = (array)$user[0];
+            if ($user[0]["PASSWORDS"] == $request["loginPass"]) {
+                Session::put('soundjam_user', $user[0]["id"]);
+            }
+        } else {
+            // ログインIDでログイン
+            $user = DB::select('SELECT * FROM user_table WHERE ID=' . $request["loginID"]);
+            $user[0] = (array)$user[0];
+            if ($user[0]["PASSWORDS"] == $request["loginPass"]) {
+                Session::put('soundjam_user', $user[0]["id"]);
+            }
+        }
+        Log::debug((Session::all()));
+        return Session::all();
     }
 
     // ログアウト
@@ -280,4 +377,13 @@ class UserController extends Controller
     {
         Session::forget('soundjam_user');
     }
+
+    //使用機材登録
+    // public function createEquip(Request $request)
+    // {
+    //     //ログインユーザーのIDを取得
+    //     $loginUserId = Session::get('soundjam_user');
+    //     //
+    //     $user = DB::select('SELECT * FROM post_table WHERE USER_ID=' . $loginUserId);
+    // }
 }

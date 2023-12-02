@@ -2,28 +2,40 @@
     <v-container>
         <v-navigation-drawer permanent>
             <v-list nav class="justify-end">
-                <v-list-item to="/home" :ripple="false" :active="false" class="text-h6 font-weight-black text-center ml-auto" width="120px">SoundJam</v-list-item>
-                <v-list-item to="/home" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4 text-right">{{
+                <!-- SoudJamロゴ -->
+                <v-list-item @click="Home" :ripple="false" :active="false" class="text-h6 font-weight-black text-center ml-auto" width="120px">SoundJam</v-list-item>
+                <!-- ホーム -->
+                <v-list-item @click="Home" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4 text-right">{{
                     path === "/home" ? "$home" : "$homeOutline" }}</v-icon></v-list-item>
-                <v-list-item to="/search" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon
+                <!-- 検索 -->
+                <v-list-item @click="Search" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon
                         class="text-h4">$magnify</v-icon></v-list-item>
-                <v-list-item to="/notifications" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{
+                <!-- 通知 -->
+                <v-list-item @click="Notifications" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{
                     path === "/notifications" ? "$bell" : "$bellOutline" }}</v-icon></v-list-item>
-                <v-list-item to="/inquiry" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path ===
-                    "/inquiry" ? "$email" : "$emailOutline" }}</v-icon></v-list-item>
-                <v-list-item to="/user" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path ===
+                <!-- お問い合わせ -->
+                <v-list-item @click="Inquiry" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path ===
+                "/inquiry" ? "$email" : "$emailOutline" }}</v-icon></v-list-item>
+                <!-- ユーザー（プロフィール） -->
+                <v-list-item @click="User" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path ===
                     "/user" ? "$account" : "$accountOutline" }}</v-icon></v-list-item>
-                <v-list-item to="/settings/notice_setting" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path.indexOf('/settings')
+                <!-- 設定詳細 -->
+                <v-list-item @click="Settings" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path.indexOf('/settings')
                     === 0 ? "$cog" : "$cogOutline" }}</v-icon></v-list-item>
+                <!-- 投稿ダイアログ表示 -->
                 <v-list-item @click="onPost" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px" value="post"><v-icon class="text-h4">$guitarPickOutline</v-icon></v-list-item>
+                <!-- 製品登録ダイアログ表示 -->
                 <v-list-item @click="onRegistProduct" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px" value="post"><v-icon class="text-h4">$guitarPick</v-icon></v-list-item>
+                <!-- ログイン時のボタン表示 -->
                 <v-list-item v-if="loginFlg === true" @click="onLogout" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon
                         class="text-h4">$logout</v-icon></v-list-item>
+                <!-- ログアウト時のボタン表示 -->
                 <v-list-item v-if="loginFlg === false" @click="onLogin" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon
                         class="text-h4">$login</v-icon></v-list-item>
             </v-list>
         </v-navigation-drawer>
 
+        <!-- ダイアログ各種 -->
         <logout-dialog ref="logout"/>
         <login-dialog ref="login"/>
         <post-dialog ref="post"/>
@@ -33,7 +45,7 @@
 
 <script setup>
 import LogoutDialog from './LogoutDialog.vue'
-import LoginDialog from './LoginDialog.vue' 
+import LoginDialog from './LoginDialog.vue'
 import PostDialog from './PostDialog.vue'
 import RegistProductDialog from './RegistProductDialog.vue'
 </script>
@@ -46,27 +58,93 @@ export default {
         path: '',
         loginFlg: null,
     }),
+    //ページロード時実行
     created() {
         this.path = this.$route.path
         this.getLogin()
     },
     methods: {
+        //ログインページ起動
         onLogout() {
             this.$refs.logout.openLogout()
         },
+        // ログアウトページ起動
         onLogin() {
             this.$refs.login.openLogin()
         },
+        //投稿登録ダイアログを表示
         onPost() {
-            this.$refs.post.openPost()
+            if (this.loginFlg === false) {
+                alert('ログインしてください');
+            } else {
+                // 投稿ダイアログを表示
+                this.$refs.post.openPost()
+            }
         },
+        //製品登録ダイアログを表示
         onRegistProduct() {
-            this.$refs.registProduct.openRegistProduct()
+            if (this.loginFlg === false) {
+                alert('ログインしてください');
+            } else {
+                // 製品登録ダイアログを表示
+                this.$refs.registProduct.openRegistProduct()
+            }
         },
+        //ログイン状態か確認
         async getLogin() {
             let session = await axios.get('api/getSession')
             this.loginFlg = !(session['data'] == '')
-        }
+        },
+        //ホーム
+        Home() {
+            // ホーム画面に遷移
+            this.$router.push('/home');
+        },
+        //検索
+        Search() {
+            // 検索画面に遷移
+            this.$router.push('/search');
+        },
+        //通知
+        Notifications() {
+            //ログイン判定
+            if (this.loginFlg === false) {
+                alert('ログインしてください');
+            } else {
+                // 通知画面に遷移
+                this.$router.push('/notifications');
+            }
+        },
+        //お問い合わせ
+        Inquiry() {
+            //ログイン判定
+            if (this.loginFlg === false) {
+                alert('ログインしてください');
+            } else {
+                // お問い合わせ画面に遷移
+                this.$router.push('/inquiry');
+            }
+        },
+        //ユーザー(プロフィール)
+        User() {
+            //ログイン判定
+            if (this.loginFlg === false) {
+                alert('ログインしてください');
+            } else {
+                // プロフィール画面に遷移
+                this.$router.push('/user');
+            }
+        },
+        //設定
+        Settings() {
+            //ログイン判定
+            if (this.loginFlg === false) {
+                alert('ログインしてください');
+            } else {
+                // 設定画面に遷移
+                this.$router.push('/settings/notice_setting');
+            }
+        },
     },
 }
 </script>

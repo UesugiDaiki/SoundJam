@@ -1,47 +1,47 @@
 <template>
-  <v-row class="pl-3" justify="center">
+<v-row class="pl-3" justify="center">
     <v-col cols="auto" class="soto">
-      <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0"
-         link :ripple="false">
+    <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0"
+        link :ripple="false" to="/post">
         <Title :name="post.USER_NAME" :myImg="post.ICON" />
         <v-card-title>
-          {{ post.TITLE }}
+        {{ post.TITLE }}
         </v-card-title>
         <div class="aaa">
-          <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="post.IMAGES"></v-img>
-          <div class="audio">
+        <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="post.IMAGES"></v-img>
+        <div class="audio">
             <audio controlslist="nodownload" class="audio-position-free" controls :src="post.AUDIO1"></audio>
-          </div>
+        </div>
         </div>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn :icon="show ? '$chevronUp' : '$chevronDown'" @click.stop="show = !show"></v-btn>
+        <v-spacer></v-spacer>
+        <v-btn :icon="show ? '$chevronUp' : '$chevronDown'" @click.stop="show = !show"></v-btn>
         </v-card-actions>
         <v-expand-transition>
-          <div v-show="show">
-              <v-row no-gutters>
+        <div v-show="show">
+            <v-row no-gutters>
                 <div class="add1">
-                  <h2>
+                <h2>
                     使用機材
-                  </h2>
-                  <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary">
+                </h2>
+                <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary">
                     <v-list-item-title :padding="0">■{{ item }}</v-list-item-title>
-                  </v-list>
+                </v-list>
                 </div>
                 <v-divider vertical class="mx-4 border-opacity-25" inset></v-divider>
                 <div class="add2">
-                  <h2>
+                <h2>
                     録音方法
-                  </h2>
+                </h2>
                     {{ post.RECORDING_METHOD }}
                 </div>
-              </v-row>
-          </div>
+            </v-row>
+        </div>
         </v-expand-transition>
-      </v-card>
+    </v-card>
     </v-col>
     <v-divider length="570"></v-divider>
-  </v-row>
+</v-row>
 </template>
 
 <script setup>
@@ -50,61 +50,67 @@ import Title from '@/components/Title.vue'
 
 <script>
 export default {
-  data: () => ({
+data: () => ({
     show: false,
     reveal: false,
-  }),
-  props: {
+}),
+methods: {
+    // /postにリダイレクトする
+    toPost: function() {
+    this.$router.push("/post");
+    },
+},
+props: {
     post: Object,
-  }
+}
 }
 </script>
 
 <style>
 .aaa {
-  display: flex;
-  gap: 6px;
-  padding-left: 6px;
+display: flex;
+gap: 6px;
+padding-left: 6px;
 }
 
 .center {
-  float: left;
+float: left;
 }
 
 .v-card--reveal {
-  bottom: 0;
-  opacity: 1 !important;
-  position: absolute;
-  width: 100%;
+bottom: 0;
+opacity: 1 !important;
+position: absolute;
+width: 100%;
 }
 
 .audio {
-  width: 300px;
+width: 300px;
 }
 
 .audio-position-free {
-  margin-top: 80px;
+margin-top: 80px;
 }
 
 .add1 {
-  width: 250px;
-  margin-left: 20px;
+width: 250px;
+margin-left: 20px;
 }
 
 .add2 {
-  width: 250px;
+width: 250px;
 }
 
 .text-length {
-  height: 120px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6;
-  /* 任意の行数を指定 */
+height: 120px;
+overflow: hidden;
+display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 6;
+/* 任意の行数を指定 */
 }
 
 .soto {
-  padding: 0;
+padding: 0;
 }
 </style>

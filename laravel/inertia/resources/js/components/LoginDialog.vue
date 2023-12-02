@@ -87,17 +87,19 @@ export default {
                 loginID: this.loginID,
                 loginPass: this.loginPass,
             }
-            
+
             axios.post('/api/login', loginData)
                 .then(function(response) {
-                    console.log('成功')
-                    console.log(response['data']['soundjam_user'])
+                    console.log('成功');
+                    console.log(response);
+                    console.log(response['data']['soundjam_user']);
                 })
                 .catch(function(error) {
-                    console.log('失敗')
-                    console.log(error)
+                    console.log('失敗');
+                    console.log(error);
                 })
-            
+
+            //axios.postの結果をコンソールで確認する場合、下をコメントアウト
             location.reload()
         },
     }
