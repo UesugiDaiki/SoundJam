@@ -339,10 +339,62 @@ class UserController extends Controller
         return Session::get('soundjam_user');
     }
 
-    // ユーザー情報取得
-    public function get_user(Request $request)
+    //ユーザー情報更新
+    public function updateUser(Request $request)
     {
-        DB::select('SELECT * FROM user_table WHERE id=' . $request);
+        //デバッグ
+        Log::debug($request);
+        Log::debug($request->input('icon'));
+
+        //画像名格納変数
+        $icon_name = null;
+        //アイコン画像変更フラグ
+        $icon_change = null;
+
+        // 画像が変更されていない場合は、そのままパスを取得
+        if (is_string($request->input('icon'))) {
+            $icon_name = mb_substr($request->input('icon'), 13);
+            $icon_change = false;
+        } else {
+            //そうでない場合は、新しい画像のデータから名前を取得
+            $icon_name =  $request->file('icon')->getClientOriginalName();
+            $icon_change = true;
+        }
+        //updateを実行
+        if (DB::update('UPDATE user_table SET USER_NAME = ?, PROFILES = ?, WEBSITE = ?, ICON = ?  WHERE id = ?',  [$request->input('name'), $request->input('profiles'), $request->input('website'), 'storage/icon/' . $icon_name, Session::get('soundjam_user')])) {
+
+            //アイコンが変更しているか判定
+            if ($icon_change) {
+                //変更した画像のデータを保存
+                $request->file('icon')->storeAs('public/icon', $icon_name);
+                return '成功（画像変更あり）';
+            } else {
+                return '成功（画像変更なし）';
+            }
+        } else {
+            return '失敗';
+        };
+    }
+
+    // ユーザー情報取得
+    public function get_user()
+    {
+
+        $posts = [];
+        foreach (DB::select('SELECT * FROM user_table WHERE id=' . Session::get('soundjam_user')) as $post) {
+
+            // オブジェクト -> 連想配列
+            $post = (array)$post;
+            foreach ($post as $key => $value) {
+                $post_key[] = $key;
+                $post_value[] = $value;
+            }
+            $post = array_combine($post_key, $post_value);
+
+            array_push($posts, $post);
+        }
+        Log::debug($posts);
+        return $posts;
     }
 
     // ログイン

@@ -19,13 +19,18 @@ import Post from '@/components/Post.vue'
 
 <script>
 export default {
+    async created() {
+        await this.getUser();
+    },
+    methods: {
+        async getUser() {
+            const res = await axios.get('/api/getUser')
+            this.user = res.data[0];
+            console.log(this.user);
+        }
+    },
     data: () => ({
-        user: {
-            id: '12345',
-            name: '雅弥',
-            link: 'link',
-            profile: 'プロフィールプロフィールプロフィールプロフィールプロフィール',
-        },
+        user: [],
         posts: [
             {
                 name: "雅弥",

@@ -92,8 +92,13 @@ export default {
         },
         //ログイン状態か確認
         async getLogin() {
+            // user_idを取得
             let session = await axios.get('api/getSession')
-            this.loginFlg = !(session['data'] == '')
+            //　session情報を基にflagを変更
+            if (this.loginFlg = !(session['data'] == '')) {
+                //ログイン状態の場合ユーザー情報を取得
+                axios.get('/api/get_user');
+            }
         },
         //ホーム
         Home() {
@@ -126,7 +131,7 @@ export default {
             }
         },
         //ユーザー(プロフィール)
-        User() {
+        async User() {
             //ログイン判定
             if (this.loginFlg === false) {
                 alert('ログインしてください');

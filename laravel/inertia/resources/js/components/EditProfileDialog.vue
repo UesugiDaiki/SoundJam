@@ -13,21 +13,21 @@
                     <form @submit.prevent="submit">
                         <v-row>
                             <v-col cols="12" class="pb-0">
-                                <v-text-field label="ユーザー名" v-model="user.name" required></v-text-field>
+                                <v-text-field label="ユーザー名" v-model="user.USER_NAME" required></v-text-field>
                             </v-col>
                             <v-col cols="6" class="py-0">
-                                <v-file-input prepend-icon="" prepend-inner-icon="$camera"></v-file-input>
+                                <v-file-input prepend-icon="" prepend-inner-icon="$camera" @change="fileSelect"></v-file-input>
                             </v-col>
                             <v-col cols="6" class="py-0">
-                                <v-text-field prepend-inner-icon="$link" v-model="user.link" required></v-text-field>
+                                <v-text-field prepend-inner-icon="$link" v-model="user.WEBSITE" required></v-text-field>
                             </v-col>
                             <v-col cols="12" class="py-0">
-                                <v-textarea label="プロフィール" rows="3" v-model="user.profile" required></v-textarea>
+                                <v-textarea label="プロフィール" rows="3" v-model="user.PROFILES" required></v-textarea>
                             </v-col>
                         </v-row>
 
                         <v-card-actions>
-                            <v-btn variant="flat" class="me-4" type="submit" color="primary">
+                            <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="updateUser">
                                 保存
                             </v-btn>
                         </v-card-actions>
@@ -37,22 +37,46 @@
         </v-dialog>
     </v-row>
 </template>
-  
+
 <script>
 export default {
+    props: {
+        user: Object,
+    },
     data() {
         return {
             dialog: false,
         }
     },
-    props: {
-        user: Object,
-    },
     methods: {
+        //ファイル選択時の処理
+        fileSelect: function(e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.user.ICON = e.target.files[0];
+        },
         openEditProfile() {
             this.dialog = true
+        },
+        async updateUser() {
+            let formData = new FormData();
+            formData.append('name', this.user.USER_NAME);
+            formData.append('website', this.user.WEBSITE);
+            formData.append('profiles', this.user.PROFILES);
+            formData.append('icon', this.user.ICON);
+            await axios.post('/api/updateUser', formData)
+                .then(function(response) {
+                        console.log('成功');
+                        //ページリロード
+                        location.reload();
+                        console.log(response);
+                    })
+                    .catch(function(error) {
+                        console.log('失敗');
+                        //ページリロード
+                        // location.reload();
+                        console.log(error);
+                    })
         }
     }
 }
 </script>
-  

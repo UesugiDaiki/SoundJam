@@ -37,6 +37,7 @@ export default {
         async getPosts() {
             const res = await axios.get("/api/getPosts");
             this.posts = res.data;
+            console.log(this.posts);
         },
         // 投稿リアルタイム更新
         async reactiveGetPosts() {

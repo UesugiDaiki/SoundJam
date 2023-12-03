@@ -24,7 +24,9 @@ const routes = [
 },
 {
     path: '/user',
+    name: 'user',
     component: () => import('@/layouts/user/User.vue'),
+    props: true,
 },
 {
     path: '/settings',

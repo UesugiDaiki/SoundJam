@@ -22,20 +22,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/hello', [HelloController::class, 'hello']);
 
 Route::get('/getPosts', [UserController::class, 'index']);
-// »•i
+// ï¿½ï¿½ï¿½i
 Route::post('/product', [UserController::class, 'product']);
-// ©—R“Še
+// ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½e
 Route::post('/postcreate', [UserController::class, 'postcreate']);
-// ƒŒƒrƒ…[“Še
+// ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½e
 Route::post('/editReview', [UserController::class, 'editReview']);
-// –â‚¢‡‚í‚¹
+// ï¿½â‚¢ï¿½ï¿½ï¿½í‚¹
 Route::post('/question', [UserController::class, 'question']);
-// \¿
+// ï¿½\ï¿½ï¿½
 Route::post('/application', [UserController::class, 'application']);
 
 Route::get('/getPosts', [UserController::class, 'get_posts']);
 Route::get('/getUser', [UserController::class, 'get_user']);
+Route::post('/updateUser', [UserController::class, 'updateUser']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);
 Route::get('/getSession', [UserController::class, 'get_session']);
-
