@@ -4,13 +4,13 @@
             link to="/profile">
             <v-card-title class="d-flex pa-0">
                 <!-- ?A?C?R?? -->
-                <v-avatar :image="user.icon" size="47" style="font-size: " ></v-avatar>
+                <v-avatar :image="user.ICON" size="47" style="font-size: " ></v-avatar>
                 <!-- ?A?J?E???g?? -->
                 <v-card-text style="font-size: 20px; " class="px-2 py-0 ">
-                    <v-card-title class="pa-0" style="height: 28px;">{{ user.name }}</v-card-title>
-                    
+                    <v-card-title class="pa-0" style="height: 28px;">{{ user.USER_NAME }}</v-card-title>
+
                     <v-card-subtitle class="pl-0"><v-icon class="mx-0">$at</v-icon>{{ user.id }}</v-card-subtitle>
-                </v-card-text> 
+                </v-card-text>
                 <!-- ???[?U?[ID -->
                 <!-- ??????? -->
                 <v-icon size="50" icon="$chevronRight"></v-icon>

@@ -23,29 +23,30 @@
             <v-window v-model="searchTab" class="py-3">
 
                 <!-- 検索結果(すべて) -->
-                <v-window-item :value="1"> 
+                <!-- <v-window-item :value="1">
                     <SearchResults  />
-                </v-window-item>
+                </v-window-item> -->
 
                 <!-- 検索結果(いいね順) -->
-                <v-window-item :value="2"> 
+                <!-- <v-window-item :value="2">
                     <search-results-like  />
-                </v-window-item>
+                </v-window-item> -->
 
                 <!-- 検索結果(新着順) -->
-                <v-window-item :value="3"> 
+                <!-- <v-window-item :value="3">
                     <search-results-new  />
-                </v-window-item>
+                </v-window-item> -->
 
                 <!-- 検索結果(製品) -->
-                <v-window-item :value="4"> 
+                <v-window-item :value="4">
                     <search-results-product />
                 </v-window-item>
 
                 <!-- 検索結果(アカウント) -->
-                <v-window-item :value="5"> 
-                    <search-results-account />
+                <v-window-item :value="5" v-click-outside="getAccount">
+                    <search-results-account :users="account"/>
                 </v-window-item>
+
             </v-window>
         </v-main>
     </v-app>
@@ -63,8 +64,36 @@ import SearchResultsAccount from '@/components/SearchResultsAccount.vue'
 
 <script>
     export default {
+        async created() {
+            this.getAccount();
+        },
+        //ページ作成時に実行
+        // async created() {
+        //     //searchTabのデータを監視
+        //     this.$watch('searchTab', async function(newVal, oldVal) {
+        //         // 処理
+        //         switch(newVal) {
+        //             case 5:
+        //                 await this.getAccount();
+        //                 break;
+        //         }
+
+        // }, {
+        //     deep: true,
+        //     immediate: true
+        // })
+        // },
+        methods: {
+            //全アカウント情報を取得
+            async getAccount() {
+                const res = await axios.get('/api/getAccount');;
+                this.account = res.data;
+                console.log(this.account)
+            },
+        },
         data: () => ({
             searchTab: 1,
+            account: [],
         }),
     }
 </script>

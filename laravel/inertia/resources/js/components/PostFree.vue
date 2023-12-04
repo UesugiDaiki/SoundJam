@@ -2,7 +2,8 @@
 <v-row class="pl-3" justify="center">
     <v-col cols="auto" class="soto">
     <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0"
-        link :ripple="false" to="/post">
+        link :ripple="false" :to="{name: 'post', params: {postId: this.post.id}}" @click="setPostDetail">
+        <!-- to="/post" -->
         <Title :name="post.USER_NAME" :myImg="post.ICON" />
         <v-card-title>
         {{ post.TITLE }}
@@ -50,19 +51,36 @@ import Title from '@/components/Title.vue'
 
 <script>
 export default {
-data: () => ({
-    show: false,
-    reveal: false,
-}),
-methods: {
-    // /postにリダイレクトする
-    toPost: function() {
-    this.$router.push("/post");
+    created() {
+        // this.$store.commit('addData', this.post);
+        //ユーザーの投稿データをstore.jsのstateに保存
+        this.$store.commit('addData', this.post);
+        // this.post = this.$store.state.postData;
+        console.log('feafaefa' + this.$store.state.postData);
     },
-},
-props: {
-    post: Object,
-}
+    data: () => ({
+        show: false,
+        reveal: false,
+        // post: Object,
+        // store.jsに投稿データを渡す
+    }),
+    methods: {
+        // /postにリダイレクトする
+        toPost: function() {
+            // this.$router.push("/post");
+            console.log('関数遷移成功')
+            // postに遷移した時、この投稿のidを渡す
+            // this.$router.push({name: 'post', params: {userId: this.post.id}});
+        },
+        //投稿詳細のデータをセットする関数
+        setPostDetail() {
+            //ユーザーの投稿データをstore.jsのstateに保存
+            this.$store.commit('addData', this.post);
+        }
+    },
+    props: {
+        post: Object,
+    }
 }
 </script>
 

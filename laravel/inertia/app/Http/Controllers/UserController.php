@@ -15,10 +15,12 @@ class UserController extends Controller
     public function get_posts()
     {
         $posts = [];
-        // id列の値を基準に昇順
+        // 投稿データ取得 (id列の値を基準に昇順)
         $tmp_posts = DB::select('SELECT * FROM post_table ORDER BY id DESC');
         foreach ($tmp_posts as $post) {
             $items = [];
+
+            $items2 = [];
             // 1投稿ずつのJSON整形
 
             // オブジェクト -> 連想配列
@@ -52,7 +54,19 @@ class UserController extends Controller
             }
             $post_key[] = 'ITEMS';
             $post_value[] = $items;
+            Log::debug('アイテム↓');
             Log::debug($items);
+
+            // 連結投稿データ取得
+            $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID=' . $post["id"]);
+            foreach ($test as $item) {
+                $item = (array)$item;
+                $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
+            }
+            $post_key[] = 'CONNECT';
+            $post_value[] = $items2;
+            Log::debug('アイテム↓');
+            Log::debug($items2);
 
             $post = array_combine($post_key, $post_value);
 
@@ -329,6 +343,25 @@ class UserController extends Controller
         // IDENTIFICATION →問い合わせ１，申請０
     }
 
+    //全ユーザのアカウント情報を取得
+    public function getAccount()
+    {
+        //全アカウント情報を取得
+        // $allAccount = DB::select('SELECT id, USER_NAME, ICON, FOLLOW_NOTICE, LIKE_NOTICE, FROZEN FROM user_table ORDER BY id DESC');
+        // Log::debug((array)$allAccount);
+
+        $posts = [];
+        foreach (DB::select('SELECT id, USER_NAME, ICON, FOLLOW_NOTICE, LIKE_NOTICE, FROZEN FROM user_table ORDER BY id DESC') as $post) {
+            // オブジェクト -> 連想配列
+            $post = (array)$post;
+            //デバッグ
+            Log::debug($post);
+            //posts配列に連想配列をプッシュ
+            array_push($posts, $post);
+        }
+        Log::debug($posts);
+        return $posts;
+    }
 
     /*
     ===============================ログイン認証処理======================================

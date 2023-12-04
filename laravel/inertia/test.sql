@@ -248,13 +248,15 @@ create table admin_table (
     PASSWORDS varchar(200) not null
 );
 
--- insert into user_table values(null, 'test', 'テストですよ！！', 'https://mamimumemo','text/icon', 'test@gmail.com', 'test000', true, true, false)
+
 INSERT INTO user_table VALUES (1,'雅弥','プロフィールプロフィール','linklink','storage/icon/masaya.png','test@test','testtest',1,1,0);
 INSERT INTO user_table VALUES (2,'管理者','プロフィールプロフィール','testlink','storage/icon/masaya.png','admin@admin','adminadmin',1,1,0);
 INSERT INTO user_table VALUES (3,'オフロスキー','お風呂は好きかい？','testlink','storage/icon/オフロスキー1.jpg','admin@admin','adminadmin',1,1,0);
 
+
 INSERT INTO product_table VALUES (1,'ZOOM/ MS-50G マルチストンプ マルチエフェクター','storage/product/ms50g.png','製品概要',true);
 INSERT INTO product_table VALUES (2,'ギターだよ','storage/product/ms50g.png','これはギターです。',true);
+
 
 INSERT INTO post_table VALUES (1,1,1,'投稿１','投稿１の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_fantasy15.mp3','storage/music/maou_bgm_fantasy15.mp3','storage/product/ms50g.png',true);
 INSERT INTO post_table VALUES (2,1,2,'投稿2','投稿2の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_fantasy15.mp3','storage/music/maou_bgm_fantasy15.mp3','storage/product/ms50g.png',true);
@@ -263,6 +265,11 @@ INSERT INTO post_table VALUES (4,2,2,'投稿2-1','投稿2-1の概要です','録
 INSERT INTO post_table VALUES (5,2,2,'投稿2-2','投稿2-2の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_fantasy15.mp3','storage/music/maou_bgm_fantasy15.mp3','storage/product/ms50g.png',true);
 INSERT INTO post_table VALUES (6,2,2,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_fantasy15.mp3','storage/music/maou_bgm_fantasy15.mp3','storage/product/ms50g.png',true);
 INSERT INTO post_table VALUES (7,3,2,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_fantasy15.mp3','storage/music/maou_bgm_fantasy15.mp3','storage/product/AC-3.jpg',true);
+
+INSERT INTO post_table VALUES (8,3,2,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21',3,'storage/music/maou_bgm_fantasy15.mp3',null,'storage/product/AC-3.jpg',false);
+
+
+INSERT INTO connected_post_table VALUES (null, 8,'連結投稿','概要','storage/music/maou_bgm_fantasy15.mp3','storage/product/AC-3.jpg');
 
 INSERT INTO equip_table VALUES (null,1,1,'マルチストンプ');
 INSERT INTO equip_table VALUES (null,1,2,'投稿1使用機材2');

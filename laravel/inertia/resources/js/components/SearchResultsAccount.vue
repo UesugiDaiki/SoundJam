@@ -9,24 +9,9 @@ import AnUser from '@/components/AnUser.vue'
 <script>
 export default {
     data: () => ({
-        //  ユーザーデータ
-        users:[
-            {
-                id: '12345',
-                name: '園田',
-                icon: 'assets/masaya.png',
-            },
-            {
-                id: '56789',
-                name: '雅弥',
-                icon: 'assets/rock.png',
-            },
-            {
-                id: '11111',
-                name: 'Masayaaaaaa',
-                icon: 'assets/paper.png',
-            },
-        ],
-    })
+    }),
+    props: {
+        users: Object,
+    }
 }
 </script>

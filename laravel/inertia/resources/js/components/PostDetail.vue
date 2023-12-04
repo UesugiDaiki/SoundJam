@@ -3,21 +3,20 @@
     <v-col cols="auto" class="soto">
 
     <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0" :ripple="false">
-        <Title :name="motoPost.name" :myImg="motoPost.myImg" :title="motoPost.title" />
+        <Title :name="post.USER_NAME" :myImg="'../../' + post.ICON" :title="post.TITLE" />
         <v-card-subtitle class="day">
         2023/05/30
         </v-card-subtitle>
 
         <v-card-title>
-        {{ motoPost.title }}
+        {{ post.TITLE }}
         <div class="Item-Content-Flg4"></div>
         </v-card-title>
         <div class="aaa">
-        <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="motoPost.img">
+        <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="'../../' + post.IMAGES">
         </v-img>
         <div class="audio">
-            <audio controlslist="nodownload" class="audio-position" controls :src="motoPost.music1"></audio>
-            <audio controlslist="nodownload" class="audio-position" controls :src="motoPost.music2"></audio>
+            <audio controlslist="nodownload" class="audio-position" controls :src="'../../'+post.AUDIO1"></audio>
         </div>
         </div>
 
@@ -25,7 +24,7 @@
         概要
         </v-card-title>
         <v-card-text>
-        {{ motoPost.overview }}
+        {{ post.OVERVIEW }}
         </v-card-text>
         <hr>
         <v-expand-transition class="mb-5">
@@ -36,8 +35,8 @@
                 <h2>
                     使用機材
                 </h2>
-                <v-list v-for="(item, i) in motoPost.items" :key="i" :value="item" color="primary">
-                    <v-list-item-title :padding="0">■{{ item.text }}</v-list-item-title>
+                <v-list v-for="(item, i) in post.ITEMS" :key="i" :value="item" color="primary">
+                    <v-list-item-title :padding="0">■{{ item }}</v-list-item-title>
                 </v-list>
                 </div>
                 <v-divider vertical class="mx-4 border-opacity-25" inset></v-divider>
@@ -46,17 +45,18 @@
                     録音方法
                 </h2>
                 <v-text>
-                    {{ motoPost.recording }}
+                    {{ post.RECORDING_METHOD }}
                 </v-text>
                 </div>
             </v-row>
             </v-text>
         </div>
         </v-expand-transition>
-        <LinkingPost v-for="renPost in renPosts" :key="renPost" :title="renPost.title" :img="renPost.img"
-        :music1="renPost.music1" :overview="renPost.overview" />
+        <LinkingPost v-for="renPost in post.CONNECT" :key="renPost" :title="renPost[0]" :img="'../../'+renPost[3]"
+        :music1="'../../'+renPost[2]" :overview="renPost[1]" />
 
-        <v-col v-if="motoPost.userId == 123" cols="auto" >
+        <!-- <v-col v-if="motoPost.userId == 123" cols="auto" > -->
+        <v-col  cols="auto" >
         <v-btn icon="$plusBoxOutline" elevation="0" style="float: right;"></v-btn>
         </v-col>
     </v-card>
@@ -71,48 +71,59 @@ import LinkingPost from '@/components/LinkingPost.vue'
 
 <script>
 export default {
-data: () => ({
-    show: true,
-    reveal: false,
-    motoPost: {
-    ID: 1,
-    PostId: 1,
-    userId:123,
-    name: "雅弥",
-    myImg: "assets/png",
-    title: "ZOOM/ MS-50G マルチストンプ マルチエフェクター",
-    img: "assets/ms50g.png",
-    music1: "assets/maou_bgm_piano40.mp3",
-    music2: "assets/maou_bgm_fantasy15.mp3",
-    overview: "今回はBOSSのMS-50gのレビューをしてみました。１００種のエフェクトから最大６種類組み合わせることができるのですが、今回私はファズを使ってみました。今回使用したファズは、「TB MK1.5」というファズです。追加エフェクトなのでPCとつないで追加する必要があります。「ZNR」というノイズリダクションも追加します。",
-    recording: "PRESONUS Studio 24cからPCに取り込みました。DTMのソフトはStudio one5のArtistを使用しました。",
-    items: [
-        { text: 'YAMAHA REVSTAR420' },
-        { text: 'CANARE シールド' },
-        { text: 'BOSS MS-50g' },
-        { text: 'CANARE シールド' },
-        { text: 'PRESONUS Studio 24c' },
-    ],
+    //ページ読み込み時発動
+    async created() {
+        //　storeに保存している投稿データを取得
+        this.post = this.$store.state.postData;
+        //デバッグ
+        console.log(this.$store.state.postData);
+        console.log(this.post.CONNECT);
+        console.log(this.post.ITEMS);
     },
-    renPosts: [
-    {
-        ID: 2,
-        PostId: 1,
-        title: "ZOOM/ MS-50G のコーラス",
-        img: "assets/ms50g.png",
-        music1: "assets/maou_bgm_piano40.mp3",
-        overview: "今回はBOSSのMS-50gのレビューをしてみました。１００種のエフェクトから最大６種類組み合わせることができるのですが、今回私はコーラスを使ってみました。今回使用したコーラスは、「TB MK1.5」というファズです。追加エフェクトなのでPCとつないで追加する必要があります。「ZNR」というノイズリダクションも追加します。",
-    },
-    {
-        ID: 3,
-        PostId: 1,
-        title: "ZOOM/ MS-50G の歪",
-        img: "assets/ms50g.png",
-        music1: "assets/maou_bgm_piano40.mp3",
-        overview: "今回はBOSSのMS-50gのレビューをしてみました。１００種のエフェクトから最大６種類組み合わせることができるのですが、今回私はコーラスを使ってみました。今回使用したコーラスは、「TB MK1.5」というファズです。追加エフェクトなのでPCとつないで追加する必要があります。「ZNR」というノイズリダクションも追加します。",
-    },
-    ]
-}),
+    data: () => ({
+        //投稿データを保存するデータ
+        post: Object,
+        show: true,
+        reveal: false,
+        // motoPost: {
+        //     ID: 1,
+        //     PostId: 1,
+        //     userId:123,
+        //     name: "雅弥",
+        //     myImg: "assets/png",
+        //     title: "ZOOM/ MS-50G マルチストンプ マルチエフェクター",
+        //     img: "assets/ms50g.png",
+        //     music1: "assets/maou_bgm_piano40.mp3",
+        //     music2: "assets/maou_bgm_fantasy15.mp3",
+        //     overview: "今回はBOSSのMS-50gのレビューをしてみました。１００種のエフェクトから最大６種類組み合わせることができるのですが、今回私はファズを使ってみました。今回使用したファズは、「TB MK1.5」というファズです。追加エフェクトなのでPCとつないで追加する必要があります。「ZNR」というノイズリダクションも追加します。",
+        //     recording: "PRESONUS Studio 24cからPCに取り込みました。DTMのソフトはStudio one5のArtistを使用しました。",
+        //     items: [
+        //         { text: 'YAMAHA REVSTAR420' },
+        //         { text: 'CANARE シールド' },
+        //         { text: 'BOSS MS-50g' },
+        //         { text: 'CANARE シールド' },
+        //         { text: 'PRESONUS Studio 24c' },
+        //     ],
+        // },
+        // renPosts: [
+        //     {
+        //         ID: 2,
+        //         PostId: 1,
+        //         title: "ZOOM/ MS-50G のコーラス",
+        //         img: "assets/ms50g.png",
+        //         music1: "assets/maou_bgm_piano40.mp3",
+        //         overview: "今回はBOSSのMS-50gのレビューをしてみました。１００種のエフェクトから最大６種類組み合わせることができるのですが、今回私はコーラスを使ってみました。今回使用したコーラスは、「TB MK1.5」というファズです。追加エフェクトなのでPCとつないで追加する必要があります。「ZNR」というノイズリダクションも追加します。",
+        //     },
+        //     {
+        //         ID: 3,
+        //         PostId: 1,
+        //         title: "ZOOM/ MS-50G の歪",
+        //         img: "assets/ms50g.png",
+        //         music1: "assets/maou_bgm_piano40.mp3",
+        //         overview: "今回はBOSSのMS-50gのレビューをしてみました。１００種のエフェクトから最大６種類組み合わせることができるのですが、今回私はコーラスを使ってみました。今回使用したコーラスは、「TB MK1.5」というファズです。追加エフェクトなのでPCとつないで追加する必要があります。「ZNR」というノイズリダクションも追加します。",
+        //     },
+        // ]
+    }),
 }
 </script>
 

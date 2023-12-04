@@ -21,6 +21,8 @@
         "vuetify": "^3.4.2"
     },
     "dependencies": {
-        "vue-router": "^4.2.5"
+        "vue-router": "^4.2.5",
+        "vuex": "^4.0.2",
+        "vuex-persistedstate": "^4.1.0"
     }
 }

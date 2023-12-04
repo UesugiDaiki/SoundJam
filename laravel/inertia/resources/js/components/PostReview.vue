@@ -2,7 +2,7 @@
 <v-row class="pl-3" justify="center">
     <v-col cols="auto" class="soto">
     <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0"
-        link :ripple="false" to="/post">
+        link :ripple="false" @click="setPostDetail" :to="{name: 'post', params: {postId: this.post.id}}" >
         <Title :name="post.USER_NAME" :myImg="post.ICON" />
         <v-card-title>
         {{ post.TITLE }}
@@ -52,22 +52,30 @@ import Title from '@/components/Title.vue'
 
 <script>
 export default {
-data: () => ({
-    show: false,
-    reveal: false,
-}),
-props: {
-    post: Object,
-},
-methods:{
-    toPost: function() {
-    this.$router.push("/post");
+    // created() {
+
+    // },
+    data: () => ({
+        show: false,
+        reveal: false,
+    }),
+    methods:{
+        // toPost: function() {
+        // this.$router.push("/post");
+        // },
+        accodion: function(event) {
+        event.preventDefault()
+        this.show = !this.show
+        },
+        //投稿詳細のデータをセットする関数
+        setPostDetail() {
+            //ユーザーの投稿データをstore.jsのstateに保存
+            this.$store.commit('addData', this.post);
+        }
     },
-    accodion: function(event) {
-    event.preventDefault()
-    this.show = !this.show
-    }
-}
+    props: {
+        post: Object,
+    },
 }
 </script>
 

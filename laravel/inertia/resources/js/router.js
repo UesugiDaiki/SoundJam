@@ -43,9 +43,10 @@ const routes = [
     ]
 },
 {
-    path: '/post',
+    path: '/post/:postId/',
     name: 'post',
     component: () => import('@/layouts/postDetail/PostDetail.vue'),
+    props: true,
 },
 {
     path: '/detail',

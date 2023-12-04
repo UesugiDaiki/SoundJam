@@ -39,3 +39,6 @@ Route::post('/updateUser', [UserController::class, 'updateUser']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);
 Route::get('/getSession', [UserController::class, 'get_session']);
+
+//全ユーザーのアカウントを取得
+Route::get('/getAccount', [UserController::class, 'getAccount']);
