@@ -23,27 +23,27 @@
             <v-window v-model="searchTab" class="py-3">
 
                 <!-- 検索結果(すべて) -->
-                <!-- <v-window-item :value="1">
-                    <SearchResults  />
-                </v-window-item> -->
+                <v-window-item :value="1">
+                    <SearchResults :posts="post" />
+                </v-window-item>
 
                 <!-- 検索結果(いいね順) -->
-                <!-- <v-window-item :value="2">
-                    <search-results-like  />
-                </v-window-item> -->
+                <v-window-item :value="2">
+                    <search-results-like :posts="post"/>
+                </v-window-item>
 
                 <!-- 検索結果(新着順) -->
-                <!-- <v-window-item :value="3">
-                    <search-results-new  />
-                </v-window-item> -->
+                <v-window-item :value="3">
+                    <search-results-new :posts="post"/>
+                </v-window-item>
 
                 <!-- 検索結果(製品) -->
                 <v-window-item :value="4">
-                    <search-results-product />
+                    <search-results-product :products="product"/>
                 </v-window-item>
 
                 <!-- 検索結果(アカウント) -->
-                <v-window-item :value="5" v-click-outside="getAccount">
+                <v-window-item :value="5">
                     <search-results-account :users="account"/>
                 </v-window-item>
 
@@ -65,35 +65,56 @@ import SearchResultsAccount from '@/components/SearchResultsAccount.vue'
 <script>
     export default {
         async created() {
-            this.getAccount();
+            // 全投稿データ取得
+            await this.getPosts();
+            //全アカウント取得
+            await this.getAccount();
+            //全製品データ取得
+            await this.getProduct();
+            // 1分ごとにデータベースから投稿データを取得する
+            await this.reactiveGetPosts();
         },
-        //ページ作成時に実行
-        // async created() {
-        //     //searchTabのデータを監視
-        //     this.$watch('searchTab', async function(newVal, oldVal) {
-        //         // 処理
-        //         switch(newVal) {
-        //             case 5:
-        //                 await this.getAccount();
-        //                 break;
-        //         }
-
-        // }, {
-        //     deep: true,
-        //     immediate: true
-        // })
-        // },
+        //ページ離脱時に実行
+        unmounted() {
+            console.log('setIntervalのID:' + this.IntervalId);
+            //リアルタイム更新停止
+            clearInterval(this.IntervalId);
+            console.log('setIntervalを停止しました')
+        },
         methods: {
+            // 投稿データ取得
+            async getPosts() {
+                const res = await axios.get("/api/getPosts");
+                this.post = res.data;
+                console.log(this.post);
+            },
             //全アカウント情報を取得
             async getAccount() {
                 const res = await axios.get('/api/getAccount');;
                 this.account = res.data;
                 console.log(this.account)
             },
+            //全製品情報を取得
+            async getProduct() {
+                const res = await axios.get('/api/getProduct');
+                this.product = res.data;
+                console.log(this.product)
+            },
+            // 投稿リアルタイム更新
+            async reactiveGetPosts() {
+                this.IntervalId = await setInterval(() => {
+                    this.getPosts();
+                    this.getAccount();
+                    this.getProduct();
+                    console.log('更新されました');
+                }, 10000);
+            },
         },
         data: () => ({
             searchTab: 1,
             account: [],
+            product: [],
+            post: [],
         }),
     }
 </script>
