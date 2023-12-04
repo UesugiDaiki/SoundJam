@@ -141,7 +141,6 @@ class UserController extends Controller
             'AUDIO2' => null,
             'IMAGES' => 'storage/product/' . $img_name,
             'POST_TYPE' => 0,
-            'SOURCE_POST_ID' => null,
         ])) {
             // postのidを取得
             $post_id = DB::select('SELECT LAST_INSERT_ID()');
