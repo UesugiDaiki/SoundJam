@@ -87,13 +87,11 @@
                                     <v-col cols="6" class="py-0">
                                         <!-- 画像選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera" label="画像" hint="(5MBまで)"
-                                            persistent-hint accept=".png , .jpg" ref="preview" v-on:change="showLinkingFree"
+                                            persistent-hint accept=".png , .jpg"
                                             required></v-file-input>
                                         <!-- 画像プレビュー -->
-                                        <div class="preview-box" v-if="urlLinkingFree">
-                                            <v-img class="image-preview" v-bind:src="urlLinkingFree" max-width="250"
-                                                min-width="250" max-height="190" min-height="190"></v-img>
-                                        </div>
+                                        <!-- 未実装 -->
+
                                     </v-col>
                                 </v-row>
                                 <!-- 連結投稿消す － -->
@@ -195,10 +193,6 @@
                                             accept=".png,.jpg" required></v-file-input>
                                         <!-- 上げた画像表示 -->
                                         <!-- 未実装 -->
-                                        <!-- <div class="preview-box" v-if="urlLinkingReview">
-                                            <v-img class="image-preview" v-bind:src="urlLinkingReview" max-width="250"
-                                                min-width="250" max-height="190" min-height="190"></v-img>
-                                        </div> -->
                                     </v-col>
                                 </v-row>
 
@@ -233,9 +227,7 @@ export default {
             audioUrlReview2:"", //レビュー投稿内の２つ目
             // 画像プレビュー用
             urlFree:"",          //自由投稿
-            // urlLinkingFree:"",   //連結自由投稿
             urlReview:"",        //レビュー投稿
-            // urlLinkingReview:"", //連結レビュー投稿
             // 画像サイズ制限用
             imgRuleFree: false,     //自由投稿
             imgRuleReview: false,   //レビュー投稿
@@ -326,10 +318,6 @@ export default {
             
         // 連結自由投稿 
         // 未実装
-        // showLinkingFree() {
-        //     const file = this.$refs.preview.files[0];
-        //     this.urlLinkingFree = URL.createObjectURL(file);
-        // },
 
         // レビュー投稿 
         showReview() {
@@ -345,10 +333,6 @@ export default {
         
         // 連結レビュー投稿 
         // 未実装
-        // showLinkingReview() {
-        //     const file = this.$refs.preview.files[0];
-        //     this.urlLinkingReview = URL.createObjectURL(file);
-        // },
 
         // === 音声ファイルプレビュー === //
         // 自由投稿
