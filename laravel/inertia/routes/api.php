@@ -25,7 +25,7 @@ Route::get('/getPosts', [UserController::class, 'index']);
 // ���i
 Route::post('/product', [UserController::class, 'product']);
 // ���R���e
-Route::post('/postcreate', [UserController::class, 'postcreate']);
+Route::post('/postFree', [UserController::class, 'post_free']);
 // ���r���[���e
 Route::post('/editReview', [UserController::class, 'editReview']);
 // �₢���킹

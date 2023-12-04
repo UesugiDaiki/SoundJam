@@ -39,12 +39,14 @@ class UserController extends Controller
                 $post_value[] = $value["USER_NAME"];
                 $post_value[] = $value["ICON"];
             }
-            // 製品名
-            $product_name = DB::select('SELECT NAME FROM product_table WHERE id=' . $post["PRODUCT_ID"]);
-            foreach ($product_name as $value) {
-                $post_key[] = 'PRODUCT_NAME';
-                $value = (array)$value;
-                $post_value[] = $value["NAME"];
+            if ($post["POST_TYPE"] == 1) {
+                // 製品名
+                $product_name = DB::select('SELECT NAME FROM product_table WHERE id=' . $post["PRODUCT_ID"]);
+                foreach ($product_name as $value) {
+                    $post_key[] = 'PRODUCT_NAME';
+                    $value = (array)$value;
+                    $post_value[] = $value["NAME"];
+                }
             }
             // 使用機材
             $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
@@ -106,7 +108,7 @@ class UserController extends Controller
 
 
     //　自由投稿をDBに登録
-    public function postcreate(Request $request)
+    public function post_free(Request $request)
     {
         //　音声ファイル名取得
         $mp3_name = $request->file('mp3')->getClientOriginalName();
@@ -118,69 +120,49 @@ class UserController extends Controller
         // storage/app/publicに、ファイルを保存
         $request->file('img')->storeAs('public/product', $img_name);
 
-        $product = $request->input('product');
+        $title = $request->input('title');
         $overview = $request->input('overview');
-        $recordingMethod = $request->input('recordingMethod');
+        $recording_method = $request->input('recordingMethod');
+        $equips = $request->except(['title', 'overview', 'recordingMethod', 'mp3', 'img']);
+        
+        // 使用機材のDB挿入が成功か
+        $success_flg = true;
 
-        $post_id = null;
-        if ($post_id = DB::table('post_table')->insertGetId([
-            'USER_ID' => Session::get('soundjam_user'),
-            'PRODUCT_ID' => 1,
-            'TITLE' => $product,
+        // post_tableへの挿入
+        if (DB::table('post_table')->insert([
+            'USER_ID' => 1,
+            'PRODUCT_ID' => null,
+            'TITLE' => $title,
             'OVERVIEW' => $overview,
-            'RECORDING_METHOD' => $recordingMethod,
+            'RECORDING_METHOD' => $recording_method,
             'DATES' => '2023/11/29',
             'LIKES' => 0,
             'AUDIO1' => 'storage/music/' . $mp3_name,
             'AUDIO2' => null,
             'IMAGES' => 'storage/product/' . $img_name,
             'POST_TYPE' => 0,
+            'SOURCE_POST_ID' => null,
         ])) {
-            Log::debug('自由成功');
-        } else {
-            Log::debug('自由失敗');
-        }
-
-        //連結投稿データの数を取得
-        $count = (int)$request->input('connectCounter');
-        Log::debug((int)$count);
-
-        //連結投稿の数だけデータを取得
-        for ($i = 0; $i < $count; $i++) {
-
-            //タイトル
-            $title = $request->input('connectFree' . $i . '_1');
-            //概要
-            $overview = $request->input('connectFree' . $i . '_2');
-
-            //音声ファイルの名前を取得
-            $audio1 = $request->file('connectFree' . $i . '_3')->getClientOriginalName();
-            //音声データをstorage/app/public/productに保存
-            $request->file('connectFree' . $i . '_3')->storeAs('public/music', $audio1);
-
-            //画像ファイルの名前を取得
-            $images = $request->file('connectFree' . $i . '_4')->getClientOriginalName();
-            //画像データをstorage/app/public/productに保存
-            $request->file('connectFree' . $i . '_4')->storeAs('public/product', $audio1);
-
-            //連結投稿データを格納する
-            if (DB::table('connected_post_table')->insert([
-                //連結元のID
-                'SOURCE_POST_ID' => $post_id,
-                //タイトル
-                'TITLE' => $title,
-                //概要
-                'OVERVIEW' => $overview,
-                //音声
-                'AUDIO1' => 'storage/music/' . $audio1,
-                //画像
-                'IMAGES' => 'storage/product/' . $images,
-            ])) {
-                Log::debug('連結投稿成功');
-            } else {
-                Log::debug('連結投稿失敗');
-                return '連結投稿失敗';
-            };
+            // postのidを取得
+            $post_id = DB::select('SELECT LAST_INSERT_ID()');
+            $post_id = (array)$post_id[0];
+            $post_id = $post_id['LAST_INSERT_ID()'];
+            
+            $i = 0;
+            $j = 1;
+            while ($i < count($equips) and $success_flg) {
+                $equip = $equips['equip'.$i];
+                if (!(empty($equip))) {
+                    // equip_tableへの挿入
+                    $success_flg = DB::table('equip_table')->insert([
+                        'POST_ID' => $post_id,
+                        'NUMBERS' => $j,
+                        'EQUIP_NAME' => $equip,
+                    ]);
+                    $j++;
+                }
+                $i++;
+            }
         }
     }
 
