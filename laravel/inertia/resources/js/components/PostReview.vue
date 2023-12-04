@@ -64,8 +64,8 @@ export default {
         // this.$router.push("/post");
         // },
         accodion: function(event) {
-        event.preventDefault()
-        this.show = !this.show
+            event.preventDefault()
+            this.show = !this.show
         },
         //投稿詳細のデータをセットする関数
         setPostDetail() {

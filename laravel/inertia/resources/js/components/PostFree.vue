@@ -16,7 +16,7 @@
         </div>
         <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn :icon="show ? '$chevronUp' : '$chevronDown'" @click.stop="show = !show"></v-btn>
+        <v-btn :icon="show ? '$chevronUp' : '$chevronDown'" @click="accodion($event)"></v-btn>
         </v-card-actions>
         <v-expand-transition>
         <div v-show="show">
@@ -65,6 +65,11 @@ export default {
         // store.jsに投稿データを渡す
     }),
     methods: {
+        // 使用機材、録音方法を開くとき遷移しない
+        accodion: function(event) {
+            event.preventDefault()
+            this.show = !this.show
+        },
         // /postにリダイレクトする
         toPost: function() {
             // this.$router.push("/post");
