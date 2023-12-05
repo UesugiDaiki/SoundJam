@@ -27,7 +27,7 @@ Route::post('/product', [UserController::class, 'product']);
 // ���R���e
 Route::post('/postFree', [UserController::class, 'post_free']);
 // ���r���[���e
-Route::post('/editReview', [UserController::class, 'editReview']);
+Route::post('/postReview', [UserController::class, 'editReview']);
 // �₢���킹
 Route::post('/question', [UserController::class, 'question']);
 // �\��
