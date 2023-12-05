@@ -121,7 +121,7 @@
                                     <v-col cols="6" class="py-0" width="300">
                                         <!-- 画像選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera" label="つまみの状態がわかる画像"
-                                            hint="(5MBまで)" persistent-hint accept=".png,.jpg" @change="fileSelect2" v-on:change="showReview"
+                                            hint="(5MBまで)" persistent-hint accept=".png,.jpg" @change="fileSelect3" v-on:change="showReview"
                                             ref="previewReview" required :error="imgRuleReview"></v-file-input>
                                         <!-- 画像プレビュー -->
                                         <div class="previewReview-box" v-if="urlReview">
@@ -213,6 +213,8 @@
             </v-card>
         </v-dialog>
     </v-row>
+
+    <v-snackbar v-model="snackbar"> {{ snackbarMessage }} </v-snackbar>
 </template>
 
 <script>
@@ -234,6 +236,8 @@ export default {
             audioRuleReview1: false,   //レビュー投稿の１つ目
             audioRuleReview2: false,   //レビュー投稿の２つ目
 
+            snackbar: false,
+            snackbarMessage: '',
             dialog: false,
             tab: null,
             free: {
@@ -250,9 +254,9 @@ export default {
                 // 録音情報
                 recordingMethod: "",
                 // 音声情報
-                selected_file1: null,
+                audio: null,
                 // 画像
-                selected_file2: null,
+                image: null,
                 equips: [
                     {index: 0, equip: ""},
                 ],
@@ -265,10 +269,10 @@ export default {
                 // 録音情報
                 recordingMethod: "",
                 // 音声情報
-                selected_file1_1: null,
-                selected_file1_2: null,
+                audio1: null,
+                audio2: null,
                 // 画像
-                selected_file2: null,
+                image: null,
                 equips: [
                     {index: 0, equip: ""},
                 ],
@@ -323,34 +327,38 @@ export default {
         //音声ファイル選択時の処理
         fileSelect1: function(e) {
             //選択したファイルの情報を取得しプロパティにいれる
-            this.selected_file1 = e.target.files[0];
+            this.free.audio = e.target.files[0];
         },
         // 画像ファイル選択時の処理
         fileSelect2: function(e) {
             //選択したファイルの情報を取得しプロパティにいれる
-            this.selected_file2 = e.target.files[0];
+            this.free.image = e.target.files[0];
+        },
+        // 画像ファイル選択時の処理
+        fileSelect3: function(e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.review.image = e.target.files[0];
         },
 
         //音声ファイル1選択時の処理
         fileSelect1_1: function(e) {
             //選択したファイルの情報を取得しプロパティにいれる
-            this.selected_file1_1 = e.target.files[0];
+            this.review.audio1 = e.target.files[0];
         },
         //音声ファイル2選択時の処理
         fileSelect1_2: function(e) {
             //選択したファイルの情報を取得しプロパティにいれる
-            this.selected_file1_2 = e.target.files[0];
+            this.review.audio2 = e.target.files[0];
         },
 
         // 自由投稿
-        postFree() {
-            console.log(this.free.equips);
+        async postFree() {
             let formData = new FormData();
             formData.append('title', this.free.title);
             formData.append('overview', this.free.overview);
             formData.append('recordingMethod', this.free.recordingMethod);
-            formData.append('mp3', this.selected_file1);
-            formData.append('img', this.selected_file2);
+            formData.append('mp3', this.free.audio);
+            formData.append('img', this.free.image);
             let i = 0;
             for (i = 0; i < this.free.equips.length; i++) {
                 formData.append('equip' + i, this.free.equips[i]["equip"]);
@@ -362,19 +370,30 @@ export default {
                 }
             };
 
-            axios.post('/api/postFree', formData, config)
+            let successFlg = false
+            await axios.post('/api/postFree', formData, config)
                 .then(function(response) {
                     console.log('成功')
+                    successFlg = true
                 })
                 .catch(function(error) {
-                    console.log('失敗');
-                    console.log(error);
+                    console.log('失敗')
+                    console.log(error)
+                    successFlg = false
                 })
-                
+    
+            // メッセージ表示
+            if (successFlg) {
+                this.snackbarMessage = '投稿しました。'
+            } else {
+                this.snackbarMessage = '投稿に失敗しました。'
+            }
+            this.snackbar = true
             this.dialog = false
+            this.initialization()
         },
         // 投稿処理
-        editReview() {
+        async editReview() {
             // 確認
             console.log(this.selected_file);
             console.log(this.review.product);
@@ -384,9 +403,9 @@ export default {
             formData.append('product',this.review.product);
             formData.append('overview',this.review.overview);
             formData.append('recordingMethod',this.review.recordingMethod);
-            formData.append('mp3_1',this.selected_file1_2);
-            formData.append('mp3_2',this.selected_file1_2);
-            formData.append('img',this.selected_file2);
+            formData.append('mp3_1',this.review.audio1);
+            formData.append('mp3_2',this.review.audio2);
+            formData.append('img',this.review.image);
 
             let config = {
                 headers: {
@@ -394,14 +413,27 @@ export default {
                 }
             };
 
-            axios.post('/api/editReview', formData, config)
+            let successFlg = false
+            await axios.post('/api/editReview', formData, config)
                 .then(function(response) {
                     console.log('成功')
+                    successFlg = true
                 })
                 .catch(function(error) {
-                    console.log('失敗');
-                    console.log(error);
+                    console.log('失敗')
+                    console.log(error)
+                    successFlg = false
                 })
+
+            // メッセージ表示
+            if (successFlg) {
+                this.snackbarMessage = '投稿しました。'
+            } else {
+                this.snackbarMessage = '投稿に失敗しました。'
+            }
+            this.snackbar = true
+            this.dialog = false
+            this.initialization()
         },
         
         // === 画像ファイルプレビュー === //
@@ -471,20 +503,59 @@ export default {
             }
         },
 
-        // 閉じる際に初期化
+        // 投稿ダイアログ初期化
         initialization(){
-            //投稿の画像のプレビュー用
-            this.urlFree = "" 
-            // this.urlLinkingFree = "" 
-            this.urlReview = "" 
-            // this.urlLinkingReview = ""
-            //投稿の音声プレビュー用
-            this.audioUrlFree = "" 
-            this.audioUrlReview1 = "" 
-            this.audioUrlReview2 = "" 
+            this.audioUrlFree = ""          //自由投稿
+            this.audioUrlReview1 = ""       //レビュー投稿内の１つ目
+            this.audioUrlReview2 = ""       //レビュー投稿内の２つ目
+            this.urlFree = ""               //自由投稿
+            this.urlReview = ""             //レビュー投稿
+            // 画像サイズ制限用
+            this.imgRuleFree = false        //自由投稿
+            this.imgRuleReview = false      //レビュー投稿
+            // 音声サイズ制限用
+            this.audioRuleFree = false      //自由投稿
+            this.audioRuleReview1 = false   //レビュー投稿の１つ目
+            this.audioRuleReview2 = false   //レビュー投稿の２つ目
+
+            this.snackbar = false
+            this.snackbarMessage = ''
+            this.dialog = false
+            this.tab = null
+            this.free = {
+                // タイトル
+                title: "",
+                // 概要
+                overview: "",
+                // 録音情報
+                recordingMethod: "",
+                // 音声情報
+                audio: null,
+                // 画像
+                image: null,
+                equips: [
+                    {index: 0, equip: ""},
+                ],
+            },
+            this.review = {
+                // タイトル
+                product: "",
+                // 概要
+                overview: "",
+                // 録音情報
+                recordingMethod: "",
+                // 音声情報
+                audio1: null,
+                audio2: null,
+                // 画像
+                image: null,
+                equips: [
+                    {index: 0, equip: ""},
+                ],
+            },
+            this.linkingFree = []
+            this.linkingReview = []
         },
     },
 }
-
-
 </script>
