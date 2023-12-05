@@ -3,7 +3,7 @@
         <v-card width="570px" rounded="0" elevation="0">
             <!-- アイコン、ユーザー名 -->
             <v-card-title class="d-flex">
-                <v-avatar :image="user.ICON" size="150"></v-avatar>
+                <v-avatar :image="'../../'+user.ICON" size="150"></v-avatar>
                 <v-card-title class="my-auto text-h5 font-weight-bold">{{ user.USER_NAME }}</v-card-title>
                 <v-spacer></v-spacer>
                 <!-- ログイン済アカウント -->

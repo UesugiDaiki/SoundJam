@@ -4,14 +4,14 @@
     <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0"
         link :ripple="false" :to="{name: 'post', params: {postId: this.post.id}}" @click="setPostDetail">
         <!-- to="/post" -->
-        <Title :name="post.USER_NAME" :myImg="post.ICON" />
+        <Title :name="post.USER_NAME" :myImg="'../../'+post.ICON" :userId="post.id"/>
         <v-card-title>
         {{ post.TITLE }}
         </v-card-title>
         <div class="aaa">
-        <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="post.IMAGES"></v-img>
+        <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="'../../'+post.IMAGES"></v-img>
         <div class="audio">
-            <audio controlslist="nodownload" class="audio-position-free" controls :src="post.AUDIO1"></audio>
+            <audio controlslist="nodownload" class="audio-position-free" controls :src="'../../' + post.AUDIO1"></audio>
         </div>
         </div>
         <v-card-actions>
@@ -57,6 +57,7 @@ export default {
         this.$store.commit('addData', this.post);
         // this.post = this.$store.state.postData;
         console.log('feafaefa' + this.$store.state.postData);
+        console.log(this.post);
     },
     data: () => ({
         show: false,

@@ -17,8 +17,7 @@
                 <v-list-item @click="Inquiry" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path ===
                 "/inquiry" ? "$email" : "$emailOutline" }}</v-icon></v-list-item>
                 <!-- ユーザー（プロフィール） -->
-                <v-list-item @click="User" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path ===
-                    "/user" ? "$account" : "$accountOutline" }}</v-icon></v-list-item>
+                <v-list-item @click="User" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path.includes('/user') ? "$account" : "$accountOutline" }}</v-icon></v-list-item>
                 <!-- 設定詳細 -->
                 <v-list-item @click="Settings" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px"><v-icon class="text-h4">{{ path.indexOf('/settings')
                     === 0 ? "$cog" : "$cogOutline" }}</v-icon></v-list-item>
@@ -57,6 +56,7 @@ export default {
         // https://qiita.com/kke1229/items/3f41dc44decd61b36c97
         path: '',
         loginFlg: null,
+        session: null,
     }),
     //ページロード時実行
     created() {
@@ -93,12 +93,9 @@ export default {
         //ログイン状態か確認
         async getLogin() {
             // user_idを取得
-            let session = await axios.get('api/getSession')
+            this.session = await axios.get('api/getSession')
             //　session情報を基にflagを変更
-            if (this.loginFlg = !(session['data'] == '')) {
-                //ログイン状態の場合ユーザー情報を取得
-                axios.get('/api/get_user');
-            }
+            this.loginFlg = !(this.session['data'] == '');
         },
         //ホーム
         Home() {
@@ -136,8 +133,10 @@ export default {
             if (this.loginFlg === false) {
                 alert('ログインしてください');
             } else {
+                console.log(this.session['data']);
                 // プロフィール画面に遷移
-                this.$router.push('/user');
+                // this.$router.push('/user');
+                this.$router.push({name: 'user', params: {userId: this.session['data']}});
             }
         },
         //設定

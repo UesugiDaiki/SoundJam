@@ -1,21 +1,22 @@
 <template>
-  <v-card-title class="masaya">
+<v-card-title class="masaya">
     <router-link to="/">
-      <v-img
+    <!-- <router-link :to="{name: 'user', params: {userId: this.userId}}"> -->
+    <v-img
         :width="47"
         :height="47"
         margin="auto"
         cover
         :src="myImg"
         class="title rounded-circle"
-      ></v-img>
+    ></v-img>
     </router-link>
-    
+
     <v-card-title class="title name">
-      {{ name }}
+    {{ name }}
     </v-card-title>
-      <like class="title iine" />
-  </v-card-title>
+    <like class="title iine" />
+</v-card-title>
 </template>
 
 
@@ -25,25 +26,26 @@ import Like from '@/components/Like.vue'
 
 <script>
 export default {
-  props: {
+props: {
     name: String,
-    myImg: String
-  }
+    myImg: String,
+    userId: Number,
+}
 }
 </script>
 
 <style>
 .name {
-  width: 300px;
-  padding: 12px;
+width: 300px;
+padding: 12px;
 }
 
 .iine {
-  width: 100px;
-  padding: 4px;
+width: 100px;
+padding: 4px;
 }
 
 .title {
-  float: left;
+float: left;
 }
 </style>

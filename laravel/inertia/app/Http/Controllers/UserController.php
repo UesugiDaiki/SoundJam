@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Psy\Readline\Hoa\Console;
 
+use function Laravel\Prompts\select;
+
 class UserController extends Controller
 {
     // 投稿全件取得
@@ -77,7 +79,6 @@ class UserController extends Controller
         Log::debug($posts);
         return $posts;
     }
-
 
     //　製品データをDBの製品テーブルに登録
     public function product(Request $request)
@@ -462,24 +463,18 @@ class UserController extends Controller
     }
 
     // ユーザー情報取得
-    public function get_user()
+    public function get_user(Request $request)
     {
 
-        $posts = [];
-        foreach (DB::select('SELECT * FROM user_table WHERE id=' . Session::get('soundjam_user')) as $post) {
-
-            // オブジェクト -> 連想配列
-            $post = (array)$post;
-            foreach ($post as $key => $value) {
-                $post_key[] = $key;
-                $post_value[] = $value;
-            }
-            $post = array_combine($post_key, $post_value);
-
-            array_push($posts, $post);
-        }
-        Log::debug($posts);
-        return $posts;
+        Log::debug($request['userId']);
+        $post = DB::select('SELECT * FROM user_table WHERE id=' . $request['userId']);
+        // オブジェクト -> 連想配列
+        $post = (array)$post;
+        //配列の中のオブジェクト　-> 連想配列
+        $post = (array)$post[0];
+        Log::debug($post);
+        //ユーザの情報を返す
+        return $post;
     }
 
     // ログイン
@@ -515,12 +510,86 @@ class UserController extends Controller
         Session::forget('soundjam_user');
     }
 
-    //使用機材登録
-    // public function createEquip(Request $request)
-    // {
-    //     //ログインユーザーのIDを取得
-    //     $loginUserId = Session::get('soundjam_user');
-    //     //
-    //     $user = DB::select('SELECT * FROM post_table WHERE USER_ID=' . $loginUserId);
-    // }
+    // ユーザーの投稿データ取得
+    public function getUserPostData(Request $request)
+    {
+        $posts = [];
+        // 投稿データ取得 (id列の値を基準に昇順)
+        $tmp_posts = DB::select('SELECT * FROM post_table WHERE USER_ID=' . $request["userId"]);
+        foreach ($tmp_posts as $post) {
+            //使用機材、連結投稿格納
+            $items = [];
+            $items2 = [];
+            // 1投稿ずつのJSON整形
+
+            // オブジェクト -> 連想配列
+            $post = (array)$post;
+            foreach ($post as $key => $value) {
+                $post_key[] = $key;
+                $post_value[] = $value;
+            }
+
+            // ユーザー情報
+            $user = DB::select('SELECT id, USER_NAME, PROFILES, WEBSITE, ICON, FOLLOW_NOTICE, LIKE_NOTICE, FROZEN FROM user_table WHERE id=' . $request["userId"]);
+            foreach ($user as $value) {
+                $post_key[] = 'id';
+                $post_key[] = 'USER_NAME';
+                $post_key[] = 'PROFILES';
+                $post_key[] = 'WEBSITE';
+                $post_key[] = 'ICON';
+                $post_key[] = 'FOLLOW_NOTICE';
+                $post_key[] = 'LIKE_NOTICE';
+                $post_key[] = 'FROZEN';
+                $value = (array)$value;
+                $post_value[] = $value['id'];
+                $post_value[] = $value['USER_NAME'];
+                $post_value[] = $value['PROFILES'];
+                $post_value[] = $value['WEBSITE'];
+                $post_value[] = $value['ICON'];
+                $post_value[] = $value['FOLLOW_NOTICE'];
+                $post_value[] = $value['LIKE_NOTICE'];
+                $post_value[] = $value['FROZEN'];
+            }
+
+            //レビュー投稿の場合
+            if ($post["POST_TYPE"] == 1) {
+                // 製品名
+                $product_name = DB::select('SELECT NAME FROM product_table WHERE id=' . $post["PRODUCT_ID"]);
+                foreach ($product_name as $value) {
+                    $post_key[] = 'PRODUCT_NAME';
+                    $value = (array)$value;
+                    $post_value[] = $value["NAME"];
+                }
+            }
+            // 使用機材
+            $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
+            foreach ($tmp_items as $item) {
+                $item = (array)$item;
+                $items[] = $item["EQUIP_NAME"];
+            }
+            $post_key[] = 'ITEMS';
+            $post_value[] = $items;
+            Log::debug('アイテム↓');
+            Log::debug($items);
+
+            // 連結投稿データ取得
+            $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID=' . $post["id"]);
+            foreach ($test as $item) {
+                $item = (array)$item;
+                $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
+            }
+            $post_key[] = 'CONNECT';
+            $post_value[] = $items2;
+            Log::debug('アイテム↓');
+            Log::debug($items2);
+
+            $post = array_combine($post_key, $post_value);
+
+            array_push($posts, $post);
+        };
+
+        Log::debug('ループ終了');
+        Log::debug($posts);
+        return $posts;
+    }
 }

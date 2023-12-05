@@ -34,12 +34,15 @@ Route::post('/question', [UserController::class, 'question']);
 Route::post('/application', [UserController::class, 'application']);
 
 Route::get('/getPosts', [UserController::class, 'get_posts']);
-Route::get('/getUser', [UserController::class, 'get_user']);
 Route::post('/updateUser', [UserController::class, 'updateUser']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);
 Route::get('/getSession', [UserController::class, 'get_session']);
 
+//　引数に設定したidのユーザ情報を取得する
+Route::post('/getUser', [UserController::class, 'get_user']);
+// 引数に指定したユーザの情報、投稿情報の全てを取得
+Route::post('/getUserPostData', [UserController::class, 'getUserPostData']);
 //全ユーザーのアカウントを取得
 Route::get('/getAccount', [UserController::class, 'getAccount']);
 //全製品データを取得

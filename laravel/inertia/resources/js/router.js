@@ -23,7 +23,8 @@ const routes = [
     component: () => import('@/layouts/inquiry/Inquiry.vue')
 },
 {
-    path: '/user',
+    // path: '/user',
+    path: '/user/:userId',
     name: 'user',
     component: () => import('@/layouts/user/User.vue'),
     props: true,
