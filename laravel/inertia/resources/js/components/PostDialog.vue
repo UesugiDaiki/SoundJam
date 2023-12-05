@@ -67,24 +67,24 @@
                                 </v-row>
 
                                 <!-- ======== 連結自由投稿 ======== -->
-                                <v-row v-for="linking in linkingFree">
+                                <v-row v-for="linking in linkingFree" :key="linking" :value="linking.value">
                                     <v-divider></v-divider>
                                     <!-- タイトル -->
                                     <v-col cols="6" class="pb-0">
-                                        <v-text-field label="タイトル" required></v-text-field>
+                                        <v-text-field label="タイトル" v-model="linking.title"  required></v-text-field>
                                     </v-col>
                                     <!-- 音声 -->
                                     <v-col cols="6" class="pb-0">
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            hint="音声" persistent-hint required ></v-file-input>
+                                            hint="音声" @change="connectAudio1"  persistent-hint required ></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea rows="1" label="概要"></v-textarea>
+                                        <v-textarea rows="1" label="概要" v-model="linking.overview"></v-textarea>
                                     </v-col>
                                     <!-- 画像 -->
                                     <v-col cols="6" class="py-0">
                                         <!-- 画像選択 -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" label="画像" hint="(5MBまで)"
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" label="画像" hint="(5MBまで)" @change="connectImg1"
                                             persistent-hint accept=".png , .jpg"
                                             required></v-file-input>
                                         <!-- 画像プレビュー -->
@@ -162,32 +162,33 @@
                                     </v-col>
                                     <v-col cols="6" class="pt-0">
                                         <v-text-field v-for="equip in review.equips"
+                                        v-model="review.equips[equip.index].equip"
                                             :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'" :label="'機材' + String(equip.index + 1)"></v-text-field>
                                         <v-btn variant="flat" icon="$plus" @click="addEquip(tab)"></v-btn>
-                                    </v-col>
+                                        </v-col>
                                     <v-col cols="6" class="pt-0 d-flex align-end" style="padding-bottom: 86px;">
                                         <v-btn v-if="review.equips.length > 1" variant="flat" icon="$minus" @click="removeEquip(tab)"></v-btn>
                                     </v-col>
                                 </v-row>
 
                                 <!-- ======== 連結レビュー投稿 ======== -->
-                                <v-row v-for="linking in linkingReview">
+                                <v-row v-for="linking in linkingReview" :key="linking" :value="linking.value">
                                     <v-divider></v-divider>
                                     <v-col cols="6" class="pb-0">
-                                        <v-text-field label="タイトル" required></v-text-field>
+                                        <v-text-field label="タイトル" v-model="linking.product" required></v-text-field>
                                     </v-col>
                                     <!-- 音声 -->
                                     <v-col cols="6" class="pb-0">
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*" @change="connectAudio2"
                                             hint="音声" persistent-hint required></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea rows="1" label="概要"></v-textarea>
+                                        <v-textarea rows="1" label="概要" v-model="linking.overview" ></v-textarea>
                                     </v-col>
                                     <!-- 画像 -->
                                     <v-col cols="6" class="py-0">
                                         <!-- 画像選択 -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像"
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" hint="つまみの状態がわかる画像" @change="connectImg2"
                                             accept=".png,.jpg" required></v-file-input>
                                         <!-- 上げた画像表示 -->
                                         <!-- 未実装 -->
@@ -277,8 +278,15 @@ export default {
                     {index: 0, equip: ""},
                 ],
             },
+            //連結投稿に必要な部分です。消さないで下さい。
             linkingFree: [],
             linkingReview: [],
+            FreeConnect: -1,
+            ReviewConnect: -1,
+            connectCounter: 0,
+            //機材追加数計測カウンター
+            equipsReviewCounter: 0,
+            equipsFreeCounter: 0,
         }
     },
     methods: {
@@ -308,19 +316,27 @@ export default {
         // 連結投稿追加
         addLinkingPost(type) {
             if (type === 'free') {
-                let newLinkingPost = {title: "", overview: ""}
+                let newLinkingPost = {title: "", overview: "", Audio: null, Img: null}
                 this.linkingFree.push(newLinkingPost)
+                this.FreeConnect++;
+                console.log(this.FreeConnect);
             } else if (type === 'review') {
-                let newLinkingPost = {product: "", overview: ""}
+                let newLinkingPost = {product: "", overview: "", Audio: null, Img: null}
                 this.linkingReview.push(newLinkingPost)
+                this.ReviewConnect++;
+                console.log(this.ReviewConnect);
             }
         },
         // 連結投稿削除
         removeLinkingPost(type) {
             if (type === 'free') {
                 this.linkingFree.pop()
+                this.FreeConnect -= 1;
+                console.log(this.FreeConnect);
             } else if (type === 'review') {
                 this.linkingReview.pop()
+                this.ReviewConnect -= 1;
+                console.log(this.ReviewConnect);
             }
         },
 
@@ -351,8 +367,38 @@ export default {
             this.review.audio2 = e.target.files[0];
         },
 
+
+/*＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝連結投稿：ファイルデータ保存処理部分＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝※決して消さないで下さい＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
+        //自由投稿
+        connectAudio1: function(e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.linkingFree[this.FreeConnect].Audio = e.target.files[0];
+            console.log(this.linkingFree);
+        },
+        //自由投稿
+        connectImg1: function(e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.linkingFree[this.FreeConnect].Img = e.target.files[0];
+            console.log(this.linkingFree);
+        },
+        //レビュー投稿
+        connectAudio2: function(e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.linkingReview[this.ReviewConnect].Audio = e.target.files[0];
+            console.log(this.linkingReview);
+        },
+        //レビュー投稿
+        connectImg2: function(e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.linkingReview[this.ReviewConnect].Img = e.target.files[0];
+            console.log(this.linkingReview);
+        },
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
         // 自由投稿
         async postFree() {
+            //自由投稿データ
             let formData = new FormData();
             formData.append('title', this.free.title);
             formData.append('overview', this.free.overview);
@@ -362,7 +408,29 @@ export default {
             let i = 0;
             for (i = 0; i < this.free.equips.length; i++) {
                 formData.append('equip' + i, this.free.equips[i]["equip"]);
+                //機材追加数計測カウンター
+                this.equipsFreeCounter++;
             }
+            //機材数を格納
+            formData.append('equipsCounter', this.equipsFreeCounter);
+//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝連結投稿データをformDataに追加する処理＝＝＝＝＝＝＝＝＝＝＝＝＝
+//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝絶対に消さないで下さい＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+            //連結投稿データ：整形処理
+            Object.entries(this.linkingFree).forEach(([key, value]) => {
+                //デバッグ
+                console.log(key);
+                console.log(value);
+                //連結投稿データ追加
+                formData.append('connectFree' + key + '_1', value.title)
+                formData.append('connectFree' + key + '_2', value.overview)
+                formData.append('connectFree' + key + '_3', value.Audio)
+                formData.append('connectFree' + key + '_4', value.Img)
+                //連結する数を集計
+                this.connectCounter++;
+            });
+            //連結数を格納
+            formData.append('connectCounter', this.connectCounter);
+//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 
             let config = {
                 headers: {
@@ -381,7 +449,7 @@ export default {
                     console.log(error)
                     successFlg = false
                 })
-    
+
             // メッセージ表示
             if (successFlg) {
                 this.snackbarMessage = '投稿しました。'
@@ -392,20 +460,46 @@ export default {
             this.dialog = false
             this.initialization()
         },
-        // 投稿処理
-        async editReview() {
-            // 確認
-            console.log(this.selected_file);
-            console.log(this.review.product);
-            console.log(this.review.overview);
-            let formData = new FormData();
 
-            formData.append('product',this.review.product);
-            formData.append('overview',this.review.overview);
-            formData.append('recordingMethod',this.review.recordingMethod);
-            formData.append('mp3_1',this.review.audio1);
-            formData.append('mp3_2',this.review.audio2);
-            formData.append('img',this.review.image);
+
+        // レビュー投稿処理
+        async editReview() {
+            //レビュー投稿データ
+            let formData = new FormData();
+            formData.append('product', this.review.product);
+            formData.append('overview', this.review.overview);
+            formData.append('recordingMethod', this.review.recordingMethod);
+            formData.append('mp3_1', this.review.audio1);
+            formData.append('mp3_2', this.review.audio2);
+            formData.append('img', this.review.image);
+            let i = 0;
+            for (i = 0; i < this.review.equips.length; i++) {
+                console.log(i);
+                formData.append('equip' + i, this.review.equips[i]["equip"]);
+                //機材追加数計測カウンター
+                this.equipsReviewCounter++;
+            }
+            console.log(this.equipsReviewCounter);
+            //機材数を格納
+            formData.append('equipsCounter', this.equipsReviewCounter);
+//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝連結投稿データをformDataに追加する処理＝＝＝＝＝＝＝＝＝＝＝＝＝
+//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝絶対に消さないで下さい＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+            //連結投稿データ：整形処理
+            Object.entries(this.linkingReview).forEach(([key, value]) => {
+                //デバッグ
+                console.log(key);
+                console.log(value);
+                //連結投稿データ追加
+                formData.append('connectReview' + key + '_1', value.product)
+                formData.append('connectReview' + key + '_2', value.overview)
+                formData.append('connectReview' + key + '_3', value.Audio)
+                formData.append('connectReview' + key + '_4', value.Img)
+                //連結する数を集計
+                this.connectCounter++;
+            });
+            //連結数を格納
+            formData.append('connectCounter', this.connectCounter);
+//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 
             let config = {
                 headers: {
@@ -414,7 +508,7 @@ export default {
             };
 
             let successFlg = false
-            await axios.post('/api/editReview', formData, config)
+            await axios.post('/api/postReview', formData, config)
                 .then(function(response) {
                     console.log('成功')
                     successFlg = true
@@ -435,7 +529,7 @@ export default {
             this.dialog = false
             this.initialization()
         },
-        
+
         // === 画像ファイルプレビュー === //
         // 自由投稿
         showFree() {
@@ -449,11 +543,11 @@ export default {
                 this.imgRuleFree = false
             }
         },
-            
-        // 連結自由投稿 
+
+        // 連結自由投稿
         // 未実装
 
-        // レビュー投稿 
+        // レビュー投稿
         showReview() {
             const fileReview = this.$refs.previewReview.files[0];
             this.urlReview = URL.createObjectURL(fileReview);
@@ -464,8 +558,8 @@ export default {
                 this.imgRuleReview = false
             }
         },
-        
-        // 連結レビュー投稿 
+
+        // 連結レビュー投稿
         // 未実装
 
         // === 音声ファイルプレビュー === //
@@ -555,6 +649,12 @@ export default {
             },
             this.linkingFree = []
             this.linkingReview = []
+            this.FreeConnect = -1
+            this.ReviewConnect = -1
+            this.connectCounter = 0
+            //機材追加数計測カウンター
+            this.equipsReviewCounter = 0;
+            this.equipsFreeCounter = 0
         },
     },
 }
