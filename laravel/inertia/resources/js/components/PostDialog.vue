@@ -26,7 +26,7 @@
                                     <v-col cols="6" class="py-0" width="300">
                                         <!-- 画像選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera" ref="previewFree"
-                                            label="画像" hint="(5MBまで)" @change="fileSelect2" v-on:change="showFree" accept=".png,.jpg" show-size
+                                            label="画像" hint="(5MBまで)" @change="fileSelect2" v-on:change="showFree" accept=".png,.jpg" show-size v-model="free.imageName"
                                             persistent-hint :error="imgRuleFree"></v-file-input>
                                         <!-- 上げた画像表示 -->
                                         <div class="previewFree-box" style="margin-bottom: 22px" v-if="urlFree">
@@ -38,7 +38,7 @@
                                     <v-col cols="6" class="py-0" width="300">
                                         <!--　音声ファイル選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            hint="(10MBまで)" label="音声" required ref="playFree" show-size
+                                            hint="(10MBまで)" label="音声" required ref="playFree" show-size v-model="free.audioName"
                                             @change="fileSelect1" v-on:change="playFree" persistent-hint :error="audioRuleFree"></v-file-input>
                                         <!-- 上げた音声表示 -->
                                         <div class="playFree-box" v-if="audioUrlFree"
@@ -99,7 +99,7 @@
                                 </v-card-actions>
 
                                 <v-card-actions class="mt-4">
-                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="postFree" v-on:click="dialog = false">
+                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="postFree" v-on:click="dialog = false" :disabled="isEnterFree">
                                         投稿
                                     </v-btn>
                                     <v-spacer></v-spacer>
@@ -120,7 +120,7 @@
                                     <!-- 画像 -->
                                     <v-col cols="6" class="py-0" width="300">
                                         <!-- 画像選択 -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" label="つまみの状態がわかる画像"
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" label="つまみの状態がわかる画像" v-model="review.imageName"
                                             hint="(5MBまで)" persistent-hint accept=".png,.jpg" @change="fileSelect3" v-on:change="showReview"
                                             ref="previewReview" required :error="imgRuleReview"></v-file-input>
                                         <!-- 画像プレビュー -->
@@ -132,7 +132,7 @@
                                     <!-- 音声 -->
                                     <v-col cols="6" class="py-0" width="300">
                                         <!-- 音声ファイル１ -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*" v-model="review.audio1Name"
                                             persistent-hint hint="(10MBまで)" label="音声（エフェクターOFF）" required ref="playReview1"
                                             show-size @change="fileSelect1_1" v-on:change="playReview1" :error="audioRuleReview1"></v-file-input>
                                         <!-- 上げた音声表示１ -->
@@ -142,7 +142,7 @@
                                                 v-bind:src="audioUrlReview1"></audio>
                                         </div>
                                         <!-- 音声ファイル２ -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*" v-model="review.audio2Name"
                                             persistent-hint hint="(10MBまで)" label="音声（エフェクターON）" required ref="playReview2"
                                             show-size @change="fileSelect1_2" v-on:change="playReview2" :error="audioRuleReview2"></v-file-input>
                                         <!-- 上げた音声表示２ -->
@@ -201,7 +201,7 @@
                                 </v-card-actions>
 
                                 <v-card-actions class="mt-4">
-                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="editReview" v-on:click="dialog = false">
+                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="editReview" v-on:click="dialog = false" :disabled="isEnterReview">
                                         投稿
                                     </v-btn>
                                     <v-spacer></v-spacer>
@@ -242,12 +242,6 @@ export default {
             dialog: false,
             tab: null,
             free: {
-                // title: "",
-                // overview: "",
-                // recordingMethod: "",
-                // products: [
-                //     {index: 0, product: ""},
-                // ],
                 // タイトル
                 title: "",
                 // 概要
@@ -256,8 +250,10 @@ export default {
                 recordingMethod: "",
                 // 音声情報
                 audio: null,
+                audioName: [],
                 // 画像
                 image: null,
+                imageName: [],
                 equips: [
                     {index: 0, equip: ""},
                 ],
@@ -271,9 +267,12 @@ export default {
                 recordingMethod: "",
                 // 音声情報
                 audio1: null,
+                audio1Name: [],
                 audio2: null,
+                audio2Name: [],
                 // 画像
                 image: null,
+                imageName: [],
                 equips: [
                     {index: 0, equip: ""},
                 ],
@@ -287,6 +286,48 @@ export default {
             //機材追加数計測カウンター
             equipsReviewCounter: 0,
             equipsFreeCounter: 0,
+        }
+    },
+    computed: {
+        // 自由投稿の必須項目入力済か
+        // 連結投稿未実装
+        isEnterFree() {
+            console.log(typeof this.linkingFree)
+            console.log(this.linkingFree)
+            if (
+                this.free.title?.trim()
+                && this.free.audioName.length
+                && this.free.imageName.length
+            ) {
+                return false
+            } else {
+                return true
+            }
+        },
+        // レビュー投稿の必須項目入力済か
+        // 連結投稿未実装
+        isEnterReview() {
+            let existEquip = true
+            console.log(this.review.equips.length)
+            for (let i = 0; i < this.review.equips.length; i++) {
+                if (this.review.equips[i].equip !== '') {
+                    existEquip = true
+                }
+            }
+
+            if (
+                this.review.product?.trim()
+                && this.review.overview?.trim()
+                && this.review.recordingMethod?.trim()
+                && this.review.audio1Name.length
+                && this.review.audio2Name.length
+                && this.review.imageName.length
+                && existEquip
+            ) {
+                return false
+            } else {
+                return true
+            }
         }
     },
     methods: {
