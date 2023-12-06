@@ -612,8 +612,6 @@ export default {
             this.audioRuleReview1 = false   //レビュー投稿の１つ目
             this.audioRuleReview2 = false   //レビュー投稿の２つ目
 
-            this.snackbar = false
-            this.snackbarMessage = ''
             this.dialog = false
             this.tab = null
             this.free = {
