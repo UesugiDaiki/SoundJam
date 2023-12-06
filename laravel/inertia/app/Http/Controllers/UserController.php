@@ -111,15 +111,9 @@ class UserController extends Controller
     //　自由投稿をDBに登録
     public function post_free(Request $request)
     {
-        //　音声ファイル名取得
+        //　ファイル名取得
         $mp3_name = $request->file('mp3')->getClientOriginalName();
-        // storage/app/publicに、音声ファイルを保存
-        $request->file('mp3')->storeAs('public/music', $mp3_name);
-
-        //　画像ファイル名取得
         $img_name = $request->file('img')->getClientOriginalName();
-        // storage/app/publicに、ファイルを保存
-        $request->file('img')->storeAs('public/product', $img_name);
 
         $title = $request->input('title');
         $overview = $request->input('overview');
@@ -155,6 +149,10 @@ class UserController extends Controller
             Log::debug('投稿id' . $connect_post_id);
             Log::debug($request->input('equip0'));
 
+            // storage/app/public/post/投稿IDに、ファイルを保存
+            $request->file('mp3')->storeAs('public/post/'.$connect_post_id .'/', $mp3_name);
+            $request->file('img')->storeAs('public/post/'.$connect_post_id .'/', $img_name);
+
             $i = 0;
             $j = 1;
             $equips = (int)$request->input('equipsCounter');
@@ -184,14 +182,13 @@ class UserController extends Controller
                 $title = $request->input('connectFree' . $i . '_1');
                 //概要
                 $overview = $request->input('connectFree' . $i . '_2');
-                //音声ファイルの名前を取得
+                //ファイル名取得
                 $audio1 = $request->file('connectFree' . $i . '_3')->getClientOriginalName();
-                //音声データをstorage/app/public/productに保存
-                $request->file('connectFree' . $i . '_3')->storeAs('public/music', $audio1);
-                //画像ファイルの名前を取得
                 $images = $request->file('connectFree' . $i . '_4')->getClientOriginalName();
-                //画像データをstorage/app/public/productに保存
-                $request->file('connectFree' . $i . '_4')->storeAs('public/product', $audio1);
+                // storage/app/public/post/投稿IDに、ファイルを保存
+                $request->file('connectFree' . $i . '_3')->storeAs('public/post/'.$connect_post_id .'/', $audio1);
+                $request->file('connectFree' . $i . '_4')->storeAs('public/post/'.$connect_post_id .'/', $images);
+
                 //連結投稿データを格納する
                 if (DB::table('connected_post_table')->insert([
                     //連結元のID
@@ -206,6 +203,7 @@ class UserController extends Controller
                     'IMAGES' => 'storage/product/' . $images,
                 ])) {
                     Log::debug('連結投稿成功');
+
                 } else {
                     Log::debug('連結投稿失敗');
                     return '連結投稿失敗';
@@ -220,18 +218,10 @@ class UserController extends Controller
     //　レビュー投稿をDBに登録
     public function editReview(Request $request)
     {
-
-        //　音声ファイル名取得
+        //　ファイル名取得
         $mp3_name1 = $request->file('mp3_1')->getClientOriginalName();
         $mp3_name2 = $request->file('mp3_2')->getClientOriginalName();
-        // storage/app/publicに、音声ファイルを保存
-        $request->file('mp3_1')->storeAs('public/music', $mp3_name1);
-        $request->file('mp3_2')->storeAs('public/music', $mp3_name2);
-
-        //　画像ファイル名取得
         $img_name = $request->file('img')->getClientOriginalName();
-        // storage/app/publicに、ファイルを保存
-        $request->file('img')->storeAs('public/product', $img_name);
 
         $title = $request->input('product');
         $overview = $request->input('overview');
@@ -260,12 +250,13 @@ class UserController extends Controller
             'IMAGES' => 'storage/product/' . $img_name,
             'POST_TYPE' => 1,
         ])) {
-            // postのidを取得
-            // $post_id = DB::select('SELECT LAST_INSERT_ID()');
-            // $post_id = (array)$post_id[0];
-            // $post_id = $post_id['LAST_INSERT_ID()'];
             Log::debug('投稿id' . $connect_post_id);
             Log::debug($request);
+
+            // storage/app/public/post/投稿IDに、ファイルを保存
+            $request->file('mp3_1')->storeAs('public/post/'.$connect_post_id, $mp3_name1);
+            $request->file('mp3_2')->storeAs('public/post/'.$connect_post_id, $mp3_name2);
+            $request->file('img')->storeAs('public/post/'.$connect_post_id, $img_name);
 
             $i = 0;
             $j = 1;
@@ -298,12 +289,11 @@ class UserController extends Controller
                 $overview = $request->input('connectReview' . $i . '_2');
                 //音声ファイルの名前を取得
                 $audio1 = $request->file('connectReview' . $i . '_3')->getClientOriginalName();
-                //音声データをstorage/app/public/productに保存
-                $request->file('connectReview' . $i . '_3')->storeAs('public/music', $audio1);
-                //画像ファイルの名前を取得
                 $images = $request->file('connectReview' . $i . '_4')->getClientOriginalName();
-                //画像データをstorage/app/public/productに保存
-                $request->file('connectReview' . $i . '_4')->storeAs('public/product', $audio1);
+
+                //音声データをstorage/app/public/productに保存
+                $request->file('connectReview' . $i . '_3')->storeAs('public/post/'.$connect_post_id .'/', $audio1);
+                $request->file('connectReview' . $i . '_4')->storeAs('public/post/'.$connect_post_id .'/', $images);
                 //連結投稿データを格納する
                 if (DB::table('connected_post_table')->insert([
                     //連結元のID
