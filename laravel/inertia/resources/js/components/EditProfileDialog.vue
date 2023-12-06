@@ -36,6 +36,8 @@
             </v-card>
         </v-dialog>
     </v-row>
+
+    <v-snackbar v-model="snackbar"> {{ snackbarMessage }} </v-snackbar>
 </template>
 
 <script>
@@ -45,6 +47,8 @@ export default {
     },
     data() {
         return {
+            snackbar: false,
+            snackbarMessage: '',
             dialog: false,
         }
     },
@@ -63,19 +67,33 @@ export default {
             formData.append('website', this.user.WEBSITE);
             formData.append('profiles', this.user.PROFILES);
             formData.append('icon', this.user.ICON);
+
+            let successFlg = false
             await axios.post('/api/updateUser', formData)
                 .then(function(response) {
                         console.log('成功');
                         //ページリロード
                         location.reload();
                         console.log(response);
+                        successFlg = true
                     })
                     .catch(function(error) {
                         console.log('失敗');
                         //ページリロード
                         // location.reload();
                         console.log(error);
+                        successFlg = false
                     })
+
+            // メッセージ表示
+            if (successFlg) {
+                this.snackbarMessage = '更新しました。'
+            } else {
+                this.snackbarMessage = '更新に失敗しました。'
+            }
+            this.snackbar = true
+            this.dialog = false
+            this.initialization()
         }
     }
 }
