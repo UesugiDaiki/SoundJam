@@ -3,8 +3,7 @@
     <v-col cols="auto" class="soto">
     <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0"
         link :ripple="false" :to="{name: 'post', params: {postId: this.post.id}}" @click="setPostDetail">
-        <!-- to="/post" -->
-        <Title :name="post.USER_NAME" :myImg="'../../'+post.ICON" :userId="post.id"/>
+        <Title :name="post.USER_NAME" :myImg="'../../'+post.ICON" :userId="post.USER_ID"/>
         <v-card-title>
         {{ post.TITLE }}
         </v-card-title>
@@ -62,8 +61,6 @@ export default {
     data: () => ({
         show: false,
         reveal: false,
-        // post: Object,
-        // store.jsに投稿データを渡す
     }),
     methods: {
         // 使用機材、録音方法を開くとき遷移しない

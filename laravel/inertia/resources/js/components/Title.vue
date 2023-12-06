@@ -1,7 +1,6 @@
 <template>
 <v-card-title class="masaya">
-    <router-link to="/">
-    <!-- <router-link :to="{name: 'user', params: {userId: this.userId}}"> -->
+    <router-link :to="{name: 'user', params: {userId: this.userId}}">
     <v-img
         :width="47"
         :height="47"

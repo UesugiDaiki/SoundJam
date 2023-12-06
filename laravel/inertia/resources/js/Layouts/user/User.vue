@@ -3,9 +3,11 @@
         <nav-drawer />
 
         <v-main>
+            <!-- ページタイトル -->
             <page-title :title="user.USER_NAME" />
+            <!-- プロフィール -->
             <profile :user="user" />
-            <!-- 応急処置 -->
+            <!-- ユーザの投稿 -->
             <post v-for="post in posts" :post="post"/>
         </v-main>
     </v-app>
@@ -21,24 +23,23 @@ import Post from '@/components/Post.vue'
 <script>
 export default {
     async created() {
+        //　ユーザの投稿関連データ取得
         await this.getUserPostData();
-        //応急処置
+        //　ユーザー情報取得
         await this.getUser();
     },
     methods: {
         // //ユーザー情報取得
         async getUser() {
             const res = await axios.post('/api/getUser', {userId: this.$route.params.userId});
-            // const res = await axios.post('/api/getUser', {userId: 3});
             console.log(res.data);
             // 投稿データ取得
             this.user = res.data;
         },
 
-        //投稿
+        // ユーザの投稿関連データ取得
         async getUserPostData() {
             const res = await axios.post('/api/getUserPostData', {userId: this.$route.params.userId});
-            // const res = await axios.post('/api/getUserPostData', {userId: 3});
             console.log(res.data);
             // 投稿データ取得
             this.posts = res.data;

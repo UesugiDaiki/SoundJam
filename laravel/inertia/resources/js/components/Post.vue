@@ -10,11 +10,6 @@ import PostFree from './PostFree.vue';
 
 <script>
 export default {
-    // created() {
-    //     //ユーザーの投稿データをstore.jsのstateに保存
-    //     this.$store.commit('addData', this.post);
-    //     // console.log('post.vue' + this.post);
-    // },
     props: {
         post: Object,
     }

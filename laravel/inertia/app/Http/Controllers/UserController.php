@@ -150,8 +150,8 @@ class UserController extends Controller
             Log::debug($request->input('equip0'));
 
             // storage/app/public/post/投稿IDに、ファイルを保存
-            $request->file('mp3')->storeAs('public/post/'.$connect_post_id .'/', $mp3_name);
-            $request->file('img')->storeAs('public/post/'.$connect_post_id .'/', $img_name);
+            $request->file('mp3')->storeAs('public/post/' . $connect_post_id . '/', $mp3_name);
+            $request->file('img')->storeAs('public/post/' . $connect_post_id . '/', $img_name);
 
             $i = 0;
             $j = 1;
@@ -186,8 +186,8 @@ class UserController extends Controller
                 $audio1 = $request->file('connectFree' . $i . '_3')->getClientOriginalName();
                 $images = $request->file('connectFree' . $i . '_4')->getClientOriginalName();
                 // storage/app/public/post/投稿IDに、ファイルを保存
-                $request->file('connectFree' . $i . '_3')->storeAs('public/post/'.$connect_post_id .'/', $audio1);
-                $request->file('connectFree' . $i . '_4')->storeAs('public/post/'.$connect_post_id .'/', $images);
+                $request->file('connectFree' . $i . '_3')->storeAs('public/post/' . $connect_post_id . '/', $audio1);
+                $request->file('connectFree' . $i . '_4')->storeAs('public/post/' . $connect_post_id . '/', $images);
 
                 //連結投稿データを格納する
                 if (DB::table('connected_post_table')->insert([
@@ -203,7 +203,6 @@ class UserController extends Controller
                     'IMAGES' => 'storage/product/' . $images,
                 ])) {
                     Log::debug('連結投稿成功');
-
                 } else {
                     Log::debug('連結投稿失敗');
                     return '連結投稿失敗';
@@ -254,9 +253,9 @@ class UserController extends Controller
             Log::debug($request);
 
             // storage/app/public/post/投稿IDに、ファイルを保存
-            $request->file('mp3_1')->storeAs('public/post/'.$connect_post_id, $mp3_name1);
-            $request->file('mp3_2')->storeAs('public/post/'.$connect_post_id, $mp3_name2);
-            $request->file('img')->storeAs('public/post/'.$connect_post_id, $img_name);
+            $request->file('mp3_1')->storeAs('public/post/' . $connect_post_id, $mp3_name1);
+            $request->file('mp3_2')->storeAs('public/post/' . $connect_post_id, $mp3_name2);
+            $request->file('img')->storeAs('public/post/' . $connect_post_id, $img_name);
 
             $i = 0;
             $j = 1;
@@ -292,8 +291,8 @@ class UserController extends Controller
                 $images = $request->file('connectReview' . $i . '_4')->getClientOriginalName();
 
                 //音声データをstorage/app/public/productに保存
-                $request->file('connectReview' . $i . '_3')->storeAs('public/post/'.$connect_post_id .'/', $audio1);
-                $request->file('connectReview' . $i . '_4')->storeAs('public/post/'.$connect_post_id .'/', $images);
+                $request->file('connectReview' . $i . '_3')->storeAs('public/post/' . $connect_post_id . '/', $audio1);
+                $request->file('connectReview' . $i . '_4')->storeAs('public/post/' . $connect_post_id . '/', $images);
                 //連結投稿データを格納する
                 if (DB::table('connected_post_table')->insert([
                     //連結元のID
@@ -500,41 +499,45 @@ class UserController extends Controller
         Session::forget('soundjam_user');
     }
 
-    // ユーザーの投稿データ取得
+    // 引数に指定したIDのユーザ情報、投稿データ等を取得
     public function getUserPostData(Request $request)
     {
+        //全ての投稿関連データを格納する配列
         $posts = [];
+
         // 投稿データ取得 (id列の値を基準に昇順)
         $tmp_posts = DB::select('SELECT * FROM post_table WHERE USER_ID=' . $request["userId"]);
-        foreach ($tmp_posts as $post) {
-            //使用機材、連結投稿格納
-            $items = [];
-            $items2 = [];
-            // 1投稿ずつのJSON整形
 
-            // オブジェクト -> 連想配列
+        //取得した投稿データを一列ずつ取り出す
+        foreach ($tmp_posts as $post) {
+            // 使用機材配列
+            $items = [];
+            // 連結投稿配列
+            $items2 = [];
+
+            // 投稿データを整形
             $post = (array)$post;
             foreach ($post as $key => $value) {
                 $post_key[] = $key;
                 $post_value[] = $value;
             }
 
-            // ユーザー情報
-            $user = DB::select('SELECT id, USER_NAME, PROFILES, WEBSITE, ICON, FOLLOW_NOTICE, LIKE_NOTICE, FROZEN FROM user_table WHERE id=' . $request["userId"]);
+            //　ユーザーの情報を取得　id,
+            $user = DB::select('SELECT USER_NAME, ICON, FOLLOW_NOTICE, LIKE_NOTICE, FROZEN FROM user_table WHERE id=' . $request["userId"]);
             foreach ($user as $value) {
-                $post_key[] = 'id';
+                // $post_key[] = 'id';
                 $post_key[] = 'USER_NAME';
-                $post_key[] = 'PROFILES';
-                $post_key[] = 'WEBSITE';
+                // $post_key[] = 'PROFILES';
+                // $post_key[] = 'WEBSITE';
                 $post_key[] = 'ICON';
                 $post_key[] = 'FOLLOW_NOTICE';
                 $post_key[] = 'LIKE_NOTICE';
                 $post_key[] = 'FROZEN';
                 $value = (array)$value;
-                $post_value[] = $value['id'];
+                // $post_value[] = $value['id'];
                 $post_value[] = $value['USER_NAME'];
-                $post_value[] = $value['PROFILES'];
-                $post_value[] = $value['WEBSITE'];
+                // $post_value[] = $value['PROFILES'];
+                // $post_value[] = $value['WEBSITE'];
                 $post_value[] = $value['ICON'];
                 $post_value[] = $value['FOLLOW_NOTICE'];
                 $post_value[] = $value['LIKE_NOTICE'];
@@ -543,7 +546,7 @@ class UserController extends Controller
 
             //レビュー投稿の場合
             if ($post["POST_TYPE"] == 1) {
-                // 製品名
+                // 製品名を取得
                 $product_name = DB::select('SELECT NAME FROM product_table WHERE id=' . $post["PRODUCT_ID"]);
                 foreach ($product_name as $value) {
                     $post_key[] = 'PRODUCT_NAME';
@@ -551,7 +554,8 @@ class UserController extends Controller
                     $post_value[] = $value["NAME"];
                 }
             }
-            // 使用機材
+
+            // 取得した投稿IDに関連する使用機材を取得
             $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
             foreach ($tmp_items as $item) {
                 $item = (array)$item;
@@ -562,7 +566,7 @@ class UserController extends Controller
             Log::debug('アイテム↓');
             Log::debug($items);
 
-            // 連結投稿データ取得
+            // 取得した投稿データに関連する連結投稿データ取得
             $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID=' . $post["id"]);
             foreach ($test as $item) {
                 $item = (array)$item;
@@ -573,8 +577,10 @@ class UserController extends Controller
             Log::debug('アイテム↓');
             Log::debug($items2);
 
+            //配列に変換
             $post = array_combine($post_key, $post_value);
 
+            //配列$postsに格納
             array_push($posts, $post);
         };
 
