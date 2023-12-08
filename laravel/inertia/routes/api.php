@@ -8,6 +8,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SearchController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -53,3 +55,10 @@ Route::post('/application', [AppController::class, 'application']);
 Route::post('/product', [ProductController::class, 'create_product']);
 //全製品データを取得
 // Route::get('/getProduct', [ProductController::class, 'getProduct']);
+
+// 検索関連
+Route::post('/searchAll', [SearchController::class, 'search_all']);
+Route::post('/searchLike', [SearchController::class, 'search_like']);
+Route::post('/searchNewest', [SearchController::class, 'search_newest']);
+Route::post('/searchProduct', [SearchController::class, 'search_product']);
+Route::post('/searchUser', [SearchController::class, 'search_user']);
