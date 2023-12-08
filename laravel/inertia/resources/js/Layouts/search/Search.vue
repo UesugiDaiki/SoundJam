@@ -38,9 +38,9 @@
                 </v-window-item>
 
                 <!-- 検索結果(製品) -->
-                <v-window-item :value="4">
+                <!-- <v-window-item :value="4">
                     <search-results-product :products="product"/>
-                </v-window-item>
+                </v-window-item> -->
 
                 <!-- 検索結果(アカウント) -->
                 <v-window-item :value="5">
@@ -70,7 +70,7 @@ import SearchResultsAccount from '@/components/SearchResultsAccount.vue'
             //全アカウント取得
             await this.getAccount();
             //全製品データ取得
-            await this.getProduct();
+            // await this.getProduct();
             // 1分ごとにデータベースから投稿データを取得する
             await this.reactiveGetPosts();
         },
@@ -95,17 +95,17 @@ import SearchResultsAccount from '@/components/SearchResultsAccount.vue'
                 console.log(this.account)
             },
             //全製品情報を取得
-            async getProduct() {
-                const res = await axios.get('/api/getProduct');
-                this.product = res.data;
-                console.log(this.product)
-            },
+            // async getProduct() {
+            //     const res = await axios.get('/api/getProduct');
+            //     this.product = res.data;
+            //     console.log(this.product)
+            // },
             // 投稿リアルタイム更新
             async reactiveGetPosts() {
                 this.IntervalId = await setInterval(() => {
                     this.getPosts();
                     this.getAccount();
-                    this.getProduct();
+                    // this.getProduct();
                     console.log('更新されました');
                 }, 10000);
             },

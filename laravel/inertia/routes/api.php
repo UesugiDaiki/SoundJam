@@ -2,7 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HelloController;
+
+use App\Http\Controllers\AppController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -19,31 +23,33 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/hello', [HelloController::class, 'hello']);
+//認証関係
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout']);
+Route::get('/getSession', [AuthController::class, 'get_session']);
 
-Route::get('/getPosts', [UserController::class, 'index']);
-// ���i
-Route::post('/product', [UserController::class, 'product']);
-// ���R���e
-Route::post('/postFree', [UserController::class, 'post_free']);
-// ���r���[���e
-Route::post('/postReview', [UserController::class, 'editReview']);
-// �₢���킹
-Route::post('/question', [UserController::class, 'question']);
-// �\��
-Route::post('/application', [UserController::class, 'application']);
+//投稿関係
+Route::post('/postFree', [PostController::class, 'post_free']);
+Route::post('/postReview', [PostController::class, 'post_review']);
+Route::get('/getPosts', [PostController::class, 'get_posts']);
+Route::post('/getUserPostData', [PostController::class, 'get_user_post_data']);
 
-Route::get('/getPosts', [UserController::class, 'get_posts']);
-Route::post('/updateUser', [UserController::class, 'updateUser']);
-Route::post('/login', [UserController::class, 'login']);
-Route::get('/logout', [UserController::class, 'logout']);
-Route::get('/getSession', [UserController::class, 'get_session']);
-
+//ユーザー関連
+Route::post('/updateUser', [UserController::class, 'update_user']);
 //　引数に設定したidのユーザ情報を取得する
 Route::post('/getUser', [UserController::class, 'get_user']);
-// 引数に指定したユーザの情報、投稿情報の全てを取得
-Route::post('/getUserPostData', [UserController::class, 'getUserPostData']);
 //全ユーザーのアカウントを取得
-Route::get('/getAccount', [UserController::class, 'getAccount']);
+Route::get('/getAccount', [UserController::class, 'get_account']);
+
+// 運営に対する申請、申告関連
+//お問い合わせ
+Route::post('/question', [AppController::class, 'question']);
+//プロモーション
+Route::post('/application', [AppController::class, 'application']);
+
+
+// 製品関連
+//製品登録
+Route::post('/product', [ProductController::class, 'create_product']);
 //全製品データを取得
-Route::get('/getProduct', [UserController::class, 'getProduct']);
+// Route::get('/getProduct', [ProductController::class, 'getProduct']);
