@@ -49,11 +49,11 @@
                                     </v-col>
                                     <!-- 概要 -->
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea v-model="free.overview" rows="2" label="概要"></v-textarea>
+                                        <v-textarea auto-grow v-model="free.overview" rows="2" label="概要"></v-textarea>
                                     </v-col>
                                     <!-- 録音方法 -->
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea v-model="free.recordingMethod" rows="2" label="録音方法"></v-textarea>
+                                        <v-textarea auto-grow v-model="free.recordingMethod" rows="2" label="録音方法"></v-textarea>
                                     </v-col>
                                     <!-- 機材 -->
                                     <v-col cols="6" class="pt-0">
@@ -79,7 +79,7 @@
                                             hint="音声" @change="connectAudio1"  persistent-hint required ></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea rows="1" label="概要" v-model="linking.overview"></v-textarea>
+                                        <v-textarea auto-grow rows="1" label="概要" v-model="linking.overview"></v-textarea>
                                     </v-col>
                                     <!-- 画像 -->
                                     <v-col cols="6" class="py-0">
@@ -155,10 +155,10 @@
                                 </v-row>
                                 <v-row>
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea v-model="review.overview" rows="2" label="概要"></v-textarea>
+                                        <v-textarea auto-grow v-model="review.overview" rows="2" label="概要"></v-textarea>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea v-model="review.recordingMethod" rows="2" label="録音方法"></v-textarea>
+                                        <v-textarea auto-grow v-model="review.recordingMethod" rows="2" label="録音方法"></v-textarea>
                                     </v-col>
                                     <v-col cols="6" class="pt-0">
                                         <v-text-field v-for="equip in review.equips"
@@ -183,7 +183,7 @@
                                             hint="音声" persistent-hint required></v-file-input>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea rows="1" label="概要" v-model="linking.overview" ></v-textarea>
+                                        <v-textarea auto-grow rows="1" label="概要" v-model="linking.overview" ></v-textarea>
                                     </v-col>
                                     <!-- 画像 -->
                                     <v-col cols="6" class="py-0">
@@ -685,7 +685,7 @@ export default {
                 equips: [
                     {index: 0, equip: ""},
                 ],
-            },
+            }
             this.linkingFree = []
             this.linkingReview = []
             this.FreeConnect = -1
