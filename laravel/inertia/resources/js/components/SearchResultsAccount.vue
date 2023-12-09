@@ -8,8 +8,6 @@ import AnUser from '@/components/AnUser.vue'
 
 <script>
 export default {
-    data: () => ({
-    }),
     props: {
         users: Object,
     }

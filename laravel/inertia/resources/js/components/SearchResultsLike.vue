@@ -1,14 +1,5 @@
 <template>
-    <!-- 読み込み中に見た目でるやつ -->
-    <!-- <v-skeleton-loader> -->
-        <!-- 投稿をレビュー、自由投稿ごちゃ混ぜにいいねが多い順に表示 -->
-        <!-- forで表示 -->
-        <post v-for="post in posts" :post="post"/>
-        <!-- <PostFree :post="posts[1]" />
-        <PostReview :post="posts[0]" />
-        <PostReview :post="posts[0]" />
-        <PostReview :post="posts[0]" /> -->
-    <!-- </v-skeleton-loader> -->
+    <post v-for="post in posts" :post="post"/>
 </template>
 
 <script setup>

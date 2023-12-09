@@ -4,7 +4,7 @@
 
         <v-app-bar elevation="0">
             <v-responsive class="mx-auto my-3" min-width="340" max-width="460">
-                <v-text-field flat rounded bg-color="black" density="compact" variant="solo" append-inner-icon="$magnify"
+                <v-text-field flat rounded bg-color="#bbb" density="compact" variant="solo" append-inner-icon="$magnify"
                     single-line hide-details @click:append-inner="firstSearch" @keypress.enter="firstSearch" v-model="searchWord"></v-text-field>
             </v-responsive>
         </v-app-bar>
@@ -91,6 +91,9 @@ import SearchResultsAccount from '@/components/SearchResultsAccount.vue'
 
 <script>
 export default {
+    created() {
+        this.firstSearch()
+    },
     //ページ離脱時に実行
     unmounted() {
         console.log('setIntervalのID:' + this.IntervalId);
@@ -123,14 +126,42 @@ export default {
             switch (this.searchTab) {
                 // 「すべて」検索
                 case 1:
-                    axios.post('/api/searchAll', searchData)
-                        .then(function() {
-
+                    let __likePosts
+                    let __products
+                    let __users
+                    await axios.post('/api/searchLike', searchData)
+                        .then(function(response) {
+                            console.log('成功')
+                            console.log(response)
+                            __likePosts = response.data
                         })
                         .catch(function() {
-
+                            console.log('失敗')
                         })
-                        this.firstSearch = false
+                    await axios.post('/api/searchProduct', searchData)
+                        .then(function(response) {
+                            console.log('成功')
+                            console.log(response)
+                            __products = response.data
+                        })
+                        .catch(function(error) {
+                            console.log('失敗')
+                            console.log(error)
+                        })
+                    await axios.post('/api/searchUser', searchData)
+                        .then(function(response) {
+                            console.log('成功')
+                            console.log(response)
+                            __users = response.data
+                        })
+                        .catch(function(error) {
+                            console.log('失敗')
+                            console.log(error)
+                        })
+                    this.firstSearching = false
+                    this.likePosts = __likePosts
+                    this.products = __products
+                    this.users = __users
                     break;
 
                 // 「いいね」検索
