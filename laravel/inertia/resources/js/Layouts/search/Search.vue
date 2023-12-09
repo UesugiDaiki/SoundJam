@@ -137,13 +137,21 @@ export default {
 
                 // 「いいね」検索
                 case 2:
-                    axios.post('/api/searchLike', searchData)
-                        .then(function() {
-
+                    let _likePosts
+                    await axios.post('/api/searchLike', searchData)
+                        .then(function(response) {
+                            console.log('成功')
+                            console.log(response)
+                            _likePosts = response.data
                         })
                         .catch(function() {
-
+                            console.log('失敗')
                         })
+
+                    for (let i = 0; i < _likePosts.length; i++) {
+                        this.likePosts.push(_likePosts[i])
+                    }
+                    this.like++
                     break;
 
                 // 「最新順」検索
