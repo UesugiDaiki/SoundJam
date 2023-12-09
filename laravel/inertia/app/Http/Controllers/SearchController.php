@@ -105,11 +105,56 @@ class SearchController extends Controller
 
     // 「製品」検索
     public function search_product(Request $request) {
+        $search_words = $request->input("searchWords");
+        $product_offset = $request->input("product") * 10;
 
+        $sql = "SELECT * FROM product_table WHERE ";
+        // NAME列から部分一致
+        $i = 0;
+        foreach ($search_words as $word) {
+            if ($i == 0) {
+                $sql .= "( NAME LIKE '%" . $word;
+            } else {
+                $sql .= "%' AND NAME LIKE '%" . $word;
+            }
+            $i++;
+        }
+        $sql .= "%' ) OR ";
+        // OVERVIEW列から部分一致
+        $j = 0;
+        foreach ($search_words as $word) {
+            if ($j == 0) {
+                $sql .= "( OVERVIEW LIKE '%" . $word;
+            } else {
+                $sql .= "%' AND OVERVIEW LIKE '%" . $word;
+            }
+            $j++;
+        }
+        $sql .= "%' ) LIMIT 10 OFFSET " . $product_offset;
+        $product_results = DB::select($sql);
+
+        return $product_results;
     }
 
     // 「アカウント」検索
     public function search_user(Request $request) {
+        $search_words = $request->input("searchWords");
+        $user_offset = $request->input("user") * 10;
 
+        $sql = "SELECT * FROM user_table WHERE ";
+        // USER_NAME列から部分一致
+        $i = 0;
+        foreach ($search_words as $word) {
+            if ($i == 0) {
+                $sql .= "( USER_NAME LIKE '%" . $word;
+            } else {
+                $sql .= "%' AND USER_NAME LIKE '%" . $word;
+            }
+            $i++;
+        }
+        $sql .= "%' ) LIMIT 10 OFFSET " . $user_offset;
+        $user_results = DB::select($sql);
+
+        return $user_results;
     }
 }

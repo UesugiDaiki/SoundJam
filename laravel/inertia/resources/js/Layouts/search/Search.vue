@@ -130,6 +130,7 @@ export default {
                         .catch(function() {
 
                         })
+                        this.firstSearch = false
                     break;
 
                 // 「いいね」検索
@@ -171,28 +172,40 @@ export default {
 
                 // 「製品」検索
                 case 4:
-                    axios.post('/api/searchProduct', searchData)
-                        .then(function() {
-
+                    let _products
+                    await axios.post('/api/searchProduct', searchData)
+                        .then(function(response) {
+                            console.log('成功')
+                            console.log(response)
+                            _products = response.data
                         })
-                        .catch(function() {
-
+                        .catch(function(error) {
+                            console.log('失敗')
+                            console.log(error)
                         })
+                        this.firstSearching = false
+                        this.products = _products
+                        this.product++
                     break;
 
                 // 「アカウント」検索
                 case 5:
-                    axios.post('/api/searchUser', searchData)
-                        .then(function() {
-
+                    let _users
+                    await axios.post('/api/searchUser', searchData)
+                        .then(function(response) {
+                            console.log('成功')
+                            console.log(response)
+                            _users = response.data
                         })
-                        .catch(function() {
-
+                        .catch(function(error) {
+                            console.log('失敗')
+                            console.log(error)
                         })
+                        this.firstSearching = false
+                        this.users = _users
+                        this.user++
                     break;
             }
-
-            console.log(this.likePosts.length)
         },
 
         // 画面スクロール（もしくは画面下部ボタン）検索
