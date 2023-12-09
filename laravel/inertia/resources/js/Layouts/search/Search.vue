@@ -22,6 +22,10 @@
         </v-app-bar>
 
         <v-main style="padding-top: 96px;">
+            <div v-if="searching" class="text-center my-10">
+                <v-progress-circular :indeterminate="searching"></v-progress-circular>
+            </div>
+
             <!-- タブで表示変える部分 -->
             <v-window v-model="searchTab" class="py-3">
 
@@ -114,6 +118,7 @@ export default {
 
         // 検索
         async search() {
+            this.searching = true
             let searchData = {
                 searchWords: this.searchWords,
                 all: this.all,
@@ -147,7 +152,8 @@ export default {
                         .catch(function() {
                             console.log('失敗')
                         })
-
+                    
+                    this.searching = false
                     for (let i = 0; i < _likePosts.length; i++) {
                         this.likePosts.push(_likePosts[i])
                     }
@@ -168,6 +174,7 @@ export default {
                             console.log(error)
                         })
 
+                    this.searching = false
                     for (let i = 0; i < _newestPosts.length; i++) {
                         this.newestPosts.push(_newestPosts[i])
                     }
@@ -199,6 +206,8 @@ export default {
         }
     },
     data: () => ({
+        // 検索中か
+        searching: false,
         // 検索内容
         searchTab: 1,
         searchWord: '',
