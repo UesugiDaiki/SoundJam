@@ -23,6 +23,8 @@ class SearchController extends Controller
     // 「最新」検索
     public function search_newest(Request $request) {
         $search_words = $request->input("searchWords");
+        $newest_offset = $request->input("newest") * 10;
+        Log::debug($newest_offset);
 
         $sql = "SELECT * FROM post_table WHERE ";
         // TITLE列から部分一致
@@ -57,7 +59,8 @@ class SearchController extends Controller
             }
             $k++;
         }
-        $sql .= "%' )";
+        $sql .= "%' ) ORDER BY DATES DESC LIMIT 10 OFFSET " . $newest_offset;
+        Log::debug($sql);
         $newest_results = DB::select($sql);
 
         return $newest_results;
@@ -70,6 +73,6 @@ class SearchController extends Controller
 
     // 「アカウント」検索
     public function search_user(Request $request) {
-        
+
     }
 }

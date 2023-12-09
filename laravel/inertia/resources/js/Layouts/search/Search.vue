@@ -115,7 +115,12 @@ export default {
         // 検索
         async search() {
             let searchData = {
-                searchWords: this.searchWords
+                searchWords: this.searchWords,
+                all: this.all,
+                like: this.like,
+                newest: this.newest,
+                product: this.product,
+                user: this.user,
             }
 
             switch (this.searchTab) {
@@ -155,7 +160,10 @@ export default {
                             console.log(error)
                         })
 
-                    this.newestPosts = _newestPosts
+                    for (let i = 0; i < _newestPosts.length; i++) {
+                        this.newestPosts.push(_newestPosts[i])
+                    }
+                    this.newest++
                     break;
 
                 // 「製品」検索
@@ -183,8 +191,16 @@ export default {
         }
     },
     data: () => ({
+        // 検索内容
         searchTab: 1,
         searchWord: '',
+        // 検索回数
+        all: 0,
+        like: 0,
+        newest: 0,
+        product: 0,
+        user: 0,
+        // 検索結果
         users: [],
         products: [],
         likePosts: [],
