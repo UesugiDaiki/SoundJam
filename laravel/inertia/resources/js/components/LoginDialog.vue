@@ -1,8 +1,11 @@
 <template>
     <!-- ログインダイアログ -->
     <v-row justify="center">
-        <v-dialog v-model="loginDialog" width="380px">
+        <v-dialog v-model="loginDialog" min-width="380px" max-width="380">
             <v-card class="loginPopUp">
+                <v-card-actions>
+                    <v-btn density="comfortable" icon="$close" @click="loginDialog = false"></v-btn>
+                </v-card-actions>
                 <v-card-title class="mx-4 mt-5">
                     <span class="text-h5">ログイン</span>
                 </v-card-title>
@@ -13,13 +16,12 @@
                         <v-text-field v-model="loginPass" label="パスワード" type="password" required></v-text-field>
                         <v-card-item class="mt-3 d-flex justify-center ">
                             <!-- ログインボタン -->
-                            <v-btn style="font-size: 16px;" color="black" width="200" height="40"  :disabled="isEnterLogin"
+                            <v-btn style="font-size: 16px;" color="black" width="200" height="40" elevation="0" :disabled="isEnterLogin"
                                 @click="login">ログイン</v-btn>
                             <!-- アカウント登録へ飛ぶボタン -->
-                            <v-btn class="mt-2 d-flex justify-center" width="200" @click="openRegistDialog">アカウント登録</v-btn>
+                            <v-btn class="mt-2 d-flex justify-center" width="200" elevation="0" @click="openRegistDialog">アカウント登録</v-btn>
                         </v-card-item>
                     </v-container>
-                    <v-btn variant="tonal" @click="loginDialog = false">&lt; タイムラインに戻る</v-btn>
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -27,13 +29,16 @@
 
     <!-- 新規登録ダイアログ -->
     <v-row justify="center">
-        <v-dialog v-model="registDialog" width="400px">
+        <v-dialog v-model="registDialog" min-width="400px" max-width="400px">
             <v-card class="registerPopUp">
-                <v-card-title class="mx-4 mt-4">
+                <v-card-actions>
+                    <v-btn density="comfortable" icon="$close" @click="registDialog = false"></v-btn>
+                </v-card-actions>
+                <v-card-title class="mx-4">
                     <span class="text-h5">新規登録</span>
                 </v-card-title>
                 <v-card-text class="pt-0">
-                    <v-container>
+                    <v-container class="pb-0">
                         <!-- 新規登録情報入力テキストボックス -->
                         <v-text-field v-model="registName" label="ユーザー名" :rules="[rules.required]"></v-text-field>
                         <v-text-field v-model="registMail" label="メールアドレス" type="email" :rules="[rules.required]"></v-text-field>
@@ -49,7 +54,6 @@
                             <v-btn style="font-size: 16px;" color="black" width="200" height="40" :disabled="isEnterRegist" @click="regist">登録</v-btn>
                         </v-card-item>
                     </v-container>
-                    <v-btn variant="tonal" @click="registDialog = false">&lt; ログインに戻る</v-btn>
                 </v-card-text>
             </v-card>
         </v-dialog>
