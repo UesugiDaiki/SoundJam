@@ -3,6 +3,10 @@
         <nav-drawer />
 
         <v-main class="mt-n5">
+            <!-- "丸" -->
+            <div v-if="reloadCircular" class="text-center my-10">
+                <v-progress-circular :indeterminate="reloadCircular"></v-progress-circular>
+            </div>
             <post v-for="post in posts" :post="post"/>
         </v-main>
     </v-app>
@@ -17,13 +21,12 @@ import Post from '@/components/Post.vue'
 export default {
     //ページ読み込み時
     async created() {
+        this.reloadCircular = true;
         await this.getPosts();
+        this.reloadCircular = false;
         // 1分ごとにデータベースから投稿データを取得する
         this.reactiveGetPosts();
         console.log(this.IntervalId);
-    },
-    //ページ読み込み後
-    mounted() {
     },
     //ページ離脱時に実行
     unmounted() {
@@ -51,6 +54,7 @@ export default {
     data: () => ({
         posts: [],
         IntervalId: null,
+        reloadCircular: false,
     })
 }
 </script>

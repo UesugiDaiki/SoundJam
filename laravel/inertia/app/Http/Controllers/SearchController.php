@@ -9,13 +9,9 @@ use Illuminate\Support\Facades\Log;
 // 検索関連
 class SearchController extends Controller
 {
-    // 「すべて」検索
-    public function search_all(Request $request) {
-
-    }
-
     // 「いいね」検索
-    public function search_like(Request $request) {
+    public function search_like(Request $request)
+    {
         $search_words = $request->input("searchWords");
         $like_offset = $request->input("like") * 10;
 
@@ -60,7 +56,8 @@ class SearchController extends Controller
     
 
     // 「最新」検索
-    public function search_newest(Request $request) {
+    public function search_newest(Request $request)
+    {
         $search_words = $request->input("searchWords");
         $newest_offset = $request->input("newest") * 10;
 
@@ -104,7 +101,8 @@ class SearchController extends Controller
     }
 
     // 「製品」検索
-    public function search_product(Request $request) {
+    public function search_product(Request $request)
+    {
         $search_words = $request->input("searchWords");
         $product_offset = $request->input("product") * 10;
 
@@ -137,7 +135,8 @@ class SearchController extends Controller
     }
 
     // 「アカウント」検索
-    public function search_user(Request $request) {
+    public function search_user(Request $request)
+    {
         $search_words = $request->input("searchWords");
         $user_offset = $request->input("user") * 10;
 
