@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/getSession', [AuthController::class, 'get_session']);
+Route::post('/regist', [AuthController::class, 'regist']);
 
 //投稿関係
 Route::post('/postFree', [PostController::class, 'post_free']);
