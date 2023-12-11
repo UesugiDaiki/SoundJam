@@ -58,8 +58,6 @@
             </v-card>
         </v-dialog>
     </v-row>
-
-    <v-snackbar v-model="snackbar"> {{ snackbarMessage }} </v-snackbar>
 </template>
 
 <script>
@@ -88,9 +86,6 @@ export default {
                 min: v => v.length >= 8 || '最低8文字入力してください',
                 max: v => v.length <= 16 || '最大文字数は16文字です',
             },
-            // スナックバー
-            snackbar: false,
-            snackbarMessage: '',
         }
     },
     computed: {
@@ -123,51 +118,27 @@ export default {
         openRegistDialog() {
             this.registDialog = true
         },
+        regist() {
+        },
         async login() {
             let loginData = {
                 loginID: this.loginID,
                 loginPass: this.loginPass,
             }
 
-            await axios.post('/api/login', loginData)
-                .then(function(response) {
+            axios.post('/api/login', loginData)
+                .then(function (response) {
                     console.log('成功');
                     console.log(response);
                     console.log(response['data']['soundjam_user']);
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log('失敗');
                     console.log(error);
                 })
 
             //axios.postの結果をコンソールで確認する場合、下をコメントアウト
             location.reload()
-        },
-        async regist() {
-            let registData = {
-                registName: this.registName,
-                registMail: this.registMail,
-                registPass: this.registPass,
-            }
-
-            let successFlg = false
-            await axios.post('/api/regist', registData)
-                .then(function(response) {
-                    console.log('新規登録成功')
-                    successFlg = true
-                })
-                .catch(function(error) {
-                    console.log('新規登録失敗')
-                    successFlg = false
-                })
-
-            if (successFlg) {
-                this.snackbarMessage = 'ユーザーを作成しました。'
-            } else {
-                this.snackbarMessage = 'ユーザーの作成に失敗しました。'
-            }
-            this.snackbar = true
-            this.registDialog = false
         },
     }
 }
