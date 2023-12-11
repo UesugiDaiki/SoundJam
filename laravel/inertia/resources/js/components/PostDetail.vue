@@ -30,7 +30,7 @@
         <v-card-text>
         {{ post.OVERVIEW }}
         </v-card-text>
-        <hr>
+        <v-divider></v-divider>
         <v-expand-transition class="mb-5">
         <div v-show="show">
             <v-text>
