@@ -43,6 +43,13 @@ Route::post('/updateUser', [UserController::class, 'update_user']);
 Route::post('/getUser', [UserController::class, 'get_user']);
 //全ユーザーのアカウントを取得
 Route::get('/getAccount', [UserController::class, 'get_account']);
+// 通知設定情報取得
+Route::get('/getNoticeSettings', [UserController::class, 'get_notice_settings']);
+// 通知設定
+Route::get('/offFollowNotice', [UserController::class, 'off_follow_notice']);
+Route::get('/onFollowNotice', [UserController::class, 'on_follow_notice']);
+Route::get('/offLikeNotice', [UserController::class, 'off_like_notice']);
+Route::get('/onLikeNotice', [UserController::class, 'on_like_notice']);
 
 // 運営に対する申請、申告関連
 //お問い合わせ

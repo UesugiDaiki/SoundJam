@@ -82,4 +82,42 @@ class UserController extends Controller
         //ユーザの情報を返す
         return $post;
     }
+
+    // ログインしているユーザーの通知設定情報を取得
+    public function get_notice_settings()
+    {
+        $login_user_id = Session::get('soundjam_user');
+        Log::debug($login_user_id);
+        $settings = DB::select('SELECT FOLLOW_NOTICE, LIKE_NOTICE FROM user_table WHERE id = ?', [$login_user_id]);
+        Log::debug($settings);
+        return $settings;
+    }
+
+    // フォロー通知をON
+    public function on_follow_notice()
+    {
+        $login_user_id = Session::get('soundjam_user');
+        DB::update('UPDATE user_table set FOLLOW_NOTICE = 1 WHERE id = ?', [$login_user_id]);
+    }
+
+    // フォロー通知をOFF
+    public function off_follow_notice()
+    {
+        $login_user_id = Session::get('soundjam_user');
+        DB::update('UPDATE user_table set FOLLOW_NOTICE = 0 WHERE id = ?', [$login_user_id]);
+    }
+
+    // いいね通知をON
+    public function on_like_notice()
+    {
+        $login_user_id = Session::get('soundjam_user');
+        DB::update('UPDATE user_table set LIKE_NOTICE = 1 WHERE id = ?', [$login_user_id]);
+    }
+
+    // いいね通知をOFF
+    public function off_like_notice()
+    {
+        $login_user_id = Session::get('soundjam_user');
+        DB::update('UPDATE user_table set LIKE_NOTICE = 0 WHERE id = ?', [$login_user_id]);
+    }
 }

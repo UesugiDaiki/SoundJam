@@ -7,7 +7,7 @@
                 フォロー通知
             </v-sheet>
             <v-spacer></v-spacer>
-            <v-switch color="primary" :model-value="true" label="ON" hide-details></v-switch>
+            <v-switch color="primary" :model-value="followNotice" label="ON" hide-details @click="changeFollowNotice"></v-switch>
         </v-card-title>
         <v-card-subtitle>
             他のユーザーからフォローされた際に通知します
@@ -20,7 +20,7 @@
                 いいね通知
             </v-sheet>
             <v-spacer></v-spacer>
-            <v-switch color="primary" :model-value="true" label="ON" hide-details class=""></v-switch>
+            <v-switch color="primary" :model-value="likeNotice" label="ON" hide-details @click="changeLikeNotice"></v-switch>
         </v-card-title>
         <v-card-subtitle>
             (仮テキスト)他のユーザーからいいねされた際に通知します
@@ -29,9 +29,46 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+    created() {
+        this.getNoticeSettings()
+    },
     data: () => ({
-        loginDialog: false,
+        settings: [],
     }),
+    computed: {
+        followNotice() {
+            return this.settings["FOLLOW_NOTICE"] === 1
+        },
+        likeNotice() {
+            return this.settings["LIKE_NOTICE"] === 1
+        }
+    },
+    methods: {
+        async getNoticeSettings() {
+            let _settings = await axios.get("/api/getNoticeSettings")
+            this.settings = _settings.data[0]
+        },
+        changeFollowNotice() {
+            if (this.followNotice) {
+                this.settings["FOLLOW_NOTICE"] = 0
+                axios.get("/api/offFollowNotice")
+            } else {
+                this.settings["FOLLOW_NOTICE"] = 1
+                axios.get("/api/onFollowNotice")
+            }
+        },
+        changeLikeNotice() {
+            if (this.likeNotice) {
+                this.settings["LIKE_NOTICE"] = 0
+                axios.get("/api/offLikeNotice")
+            } else {
+                this.settings["LIKE_NOTICE"] = 1
+                axios.get("/api/onLikeNotice")
+            }
+        }
+    },
 }
 </script>
