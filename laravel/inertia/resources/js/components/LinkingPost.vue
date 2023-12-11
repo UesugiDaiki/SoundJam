@@ -1,6 +1,6 @@
 <template>
 
-<hr>
+<v-divider></v-divider>
 <v-card-title class="mt-4">
         {{ title }}
         </v-card-title>
