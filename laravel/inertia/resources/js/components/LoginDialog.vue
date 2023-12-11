@@ -126,19 +126,27 @@ export default {
                 loginPass: this.loginPass,
             }
 
-            axios.post('/api/login', loginData)
-                .then(function (response) {
+            let successFlg = false
+            await axios.post('/api/login', loginData)
+                .then(function(response) {
                     console.log('成功');
                     console.log(response);
                     console.log(response['data']['soundjam_user']);
+                    successFlg = true
                 })
                 .catch(function (error) {
                     console.log('失敗');
                     console.log(error);
+                    successFlg = false
                 })
 
             //axios.postの結果をコンソールで確認する場合、下をコメントアウト
-            location.reload()
+            if (successFlg) {
+                location.reload()
+            } else {
+                this.snackbarMessage = 'ユーザーIDもしくはパスワードが間違っています。'
+                this.snackbar = true
+            }
         },
     }
 }
