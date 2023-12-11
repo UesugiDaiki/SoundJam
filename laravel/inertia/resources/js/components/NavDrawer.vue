@@ -75,7 +75,7 @@ export default {
         //投稿登録ダイアログを表示
         onPost() {
             if (this.loginFlg === false) {
-                alert('ログインしてください');
+                this.onLogin()
             } else {
                 // 投稿ダイアログを表示
                 this.$refs.post.openPost()
@@ -84,7 +84,7 @@ export default {
         //製品登録ダイアログを表示
         onRegistProduct() {
             if (this.loginFlg === false) {
-                alert('ログインしてください');
+                this.onLogin()
             } else {
                 // 製品登録ダイアログを表示
                 this.$refs.registProduct.openRegistProduct()
@@ -111,7 +111,7 @@ export default {
         Notifications() {
             //ログイン判定
             if (this.loginFlg === false) {
-                alert('ログインしてください');
+                this.onLogin()
             } else {
                 // 通知画面に遷移
                 this.$router.push('/notifications');
@@ -121,7 +121,7 @@ export default {
         Inquiry() {
             //ログイン判定
             if (this.loginFlg === false) {
-                alert('ログインしてください');
+                this.onLogin()
             } else {
                 // お問い合わせ画面に遷移
                 this.$router.push('/inquiry');
@@ -131,7 +131,7 @@ export default {
         async User() {
             //ログイン判定
             if (this.loginFlg === false) {
-                alert('ログインしてください');
+                this.onLogin()
             } else {
                 console.log(this.session['data']);
                 // プロフィール画面に遷移
@@ -143,7 +143,7 @@ export default {
         Settings() {
             //ログイン判定
             if (this.loginFlg === false) {
-                alert('ログインしてください');
+                this.onLogin()
             } else {
                 // 設定画面に遷移
                 this.$router.push('/settings/notice_setting');
