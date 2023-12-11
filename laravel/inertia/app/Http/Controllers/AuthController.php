@@ -69,6 +69,6 @@ class AuthController extends Controller
         $user_id = DB::table('user_table')->insertGetId($regist_data);
 
         // ユーザーディレクトリ作成
-        Storage::makeDirectory('user/' . $user_id);
+        Storage::makeDirectory('public/user/' . $user_id);
     }
 }
