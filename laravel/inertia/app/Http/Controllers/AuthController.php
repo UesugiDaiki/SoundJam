@@ -49,4 +49,25 @@ class AuthController extends Controller
     {
         Session::forget('soundjam_user');
     }
+
+    // 新規登録
+    public function regist(Request $request)
+    {
+        // DB追加
+        $regist_data = [
+            'USER_NAME' => $request->input("registName"),
+            'PROFILES' => null,
+            'WEBSITE' => null,
+            'ICON' => 'storage/user/default_icon.jpg',
+            'EMAIL_ADDRESS' => $request->input("registMail"),
+            'PASSWORDS' => $request->input("registPass"),
+            'FOLLOW_NOTICE' => 1,
+            'LIKE_NOTICE' => 1,
+            'FROZEN' => 0
+        ];
+        $user_id = DB::table('user_table')->insertGetId($regist_data);
+
+        // ユーザーディレクトリ作成
+        Storage::makeDirectory('public/user/' . $user_id);
+    }
 }
