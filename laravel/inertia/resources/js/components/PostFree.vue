@@ -81,6 +81,10 @@ export default {
         setPostDetail() {
             //ユーザーの投稿データをstore.jsのstateに保存
             this.$store.commit('addData', this.post);
+            // 画面表示位置を一番上に移動
+            window.scrollTo({
+            top: 0,
+            })
         }
     },
     props: {
