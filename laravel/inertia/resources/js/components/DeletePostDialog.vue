@@ -1,14 +1,9 @@
 <template>
     <v-row justify="center">
         <v-dialog v-model="dialog" width="332px">
-            <!-- テスト用ボタン -->
-            <template v-slot:activator="{ props }">
-                <v-btn color="primary" v-bind="props"> Open Dialog </v-btn>
-            </template>
-            <!--  -->
             <v-card>
                 <!-- == 投稿のタイトルを持ってくる ==-->
-                <!-- <v-card-text class="text-center  pt-5"> この部分に持ってきたタイトル入れる </v-card-text> -->
+                <v-card-text class="text-center  pt-5"> この部分に持ってきたタイトル入れる </v-card-text>
                 <!-- =============================== -->
                 <v-card-title class="text-center pt-2">この投稿を削除しますか？</v-card-title>
                 <v-card-subtitle class="text-center pt-2">※この投稿に連結している投稿も削除されます</v-card-subtitle>
@@ -33,7 +28,7 @@ export default {
         }
     },
     methods: {
-        openLogout(){
+        openDelete(){
             this.dialog = true
         },
         deletePost(){

@@ -6,7 +6,7 @@
 <v-row align="center" justify="center">
     <v-col cols="auto" class="soto">
     <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0" :ripple="false">
-        <Title :name="post.USER_NAME" :myImg="'../../' + post.ICON" :title="post.TITLE" :userId="post.USER_ID"/>
+        <TitleDetail :name="post.USER_NAME" :myImg="'../../' + post.ICON" :title="post.TITLE" :userId="post.USER_ID"/>
         <v-card-subtitle class="day">
         2023/05/30
         </v-card-subtitle>
@@ -71,6 +71,7 @@
 <script setup>
 import Title from '@/components/Title.vue'
 import LinkingPost from '@/components/LinkingPost.vue'
+import TitleDetail from './TitleDetail.vue';
 </script>
 
 <script>
