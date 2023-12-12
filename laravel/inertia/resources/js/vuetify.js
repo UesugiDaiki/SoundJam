@@ -46,6 +46,9 @@ import {
   mdiChevronRight,
   mdiArrowLeft,
   mdiMinusBoxOutline,
+  mdiDotsHorizontal,
+  mdiDelete,
+  mdiPenPlus,
 } from '@mdi/js';
 
 // Composables
@@ -132,6 +135,15 @@ export default createVuetify({
       
     // 矢印
       arrowLeft:mdiArrowLeft,
+
+      // 三点リーダー
+      dotsHorizontal:mdiDotsHorizontal,
+
+      // ゴミ箱
+      delete:mdiDelete,
+
+      // ペンプラス
+      penPuls:mdiPenPlus,
     },
     sets: {
       mdi,
