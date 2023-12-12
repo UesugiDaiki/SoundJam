@@ -105,11 +105,11 @@ class PostController extends Controller
             'TITLE' => $title,
             'OVERVIEW' => $overview,
             'RECORDING_METHOD' => $recording_method,
-            'DATES' => '2023/11/29',
+            'DATES' => now(),
             'LIKES' => 0,
-            'AUDIO1' => 'storage/music/' . $mp3_name,
+            'AUDIO1' => $mp3_name,
             'AUDIO2' => null,
-            'IMAGES' => 'storage/product/' . $img_name,
+            'IMAGES' => $img_name,
             'POST_TYPE' => 0,
         ])) {
             // postのidを取得
@@ -212,11 +212,11 @@ class PostController extends Controller
             'TITLE' => $title,
             'OVERVIEW' => $overview,
             'RECORDING_METHOD' => $recording_method,
-            'DATES' => '2023/11/29',
+            'DATES' => now(),
             'LIKES' => 0,
-            'AUDIO1' => 'storage/music/' . $mp3_name1,
-            'AUDIO2' => 'storage/music/' . $mp3_name2,
-            'IMAGES' => 'storage/product/' . $img_name,
+            'AUDIO1' => $mp3_name1,
+            'AUDIO2' => $mp3_name2,
+            'IMAGES' => $img_name,
             'POST_TYPE' => 1,
         ])) {
             Log::debug('投稿id' . $connect_post_id);
