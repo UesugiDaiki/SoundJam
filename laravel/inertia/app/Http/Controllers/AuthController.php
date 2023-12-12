@@ -28,7 +28,6 @@ class AuthController extends Controller
             // メールアドレスでログイン
             $user = DB::select("SELECT * FROM user_table WHERE EMAIL_ADDRESS='" . $request["loginID"] . "'");
             //デバッグ
-            Log::debug($user);
             $user = (array)$user[0];
             if ($user["PASSWORDS"] == $request["loginPass"]) {
                 Session::put('soundjam_user', $user["id"]);
@@ -41,13 +40,13 @@ class AuthController extends Controller
                 Session::put('soundjam_user', $user["id"]);
             }
         }
-        Log::debug((Session::all()));
         return Session::all();
     }
 
     // ログアウト
     public function logout()
     {
+        Log::debug(Session::get('soundjam_user'));
         Session::forget('soundjam_user');
     }
 

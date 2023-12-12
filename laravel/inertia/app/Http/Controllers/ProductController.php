@@ -22,9 +22,6 @@ class ProductController extends Controller
 
         $product = $request->input('product');
         $overview = $request->input('overview');
-        // Log::debug($request->file('file'));
-        // Log::debug($product);
-        // Log::debug($overview);
 
         if (DB::table('product_table')->insert([
             'name' => $product,
