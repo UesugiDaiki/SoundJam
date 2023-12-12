@@ -28,7 +28,8 @@ export default {
             this.dialog = true
         },
         async logout(){
-            axios.get('api/logout')
+            await axios.get('/api/logout')
+
             location.reload()
         }
     }
