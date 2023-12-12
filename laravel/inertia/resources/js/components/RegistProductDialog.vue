@@ -13,13 +13,22 @@
                     <form @submit.prevent="submit">
                         <v-row>
                             <v-col cols="12" class="pb-0">
-                                <v-text-field label="製品名" v-model="product" required></v-text-field>
+                                <v-text-field label="製品名" v-model="product" required :rules="[rules.required]">
+                                    <template v-slot:label>製品名<span style="color: red"> * </span>
+                                    </template>
+                                </v-text-field>
                             </v-col>
                             <v-col cols="6">
-                                <v-text-field label="概要" v-model="overview" required></v-text-field>
+                                <v-text-field label="概要" v-model="overview" required :rules="[rules.required]">
+                                    <template v-slot:label>概要<span style="color: red"> * </span>
+                                    </template>
+                                </v-text-field>
                             </v-col>
                             <v-col cols="6">
-                                <v-file-input prepend-icon="" prepend-inner-icon="$camera" @change="fileSelect" required></v-file-input>
+                                <v-file-input auto-grow label="製品の画像" prepend-icon="" prepend-inner-icon="$camera" @change="fileSelect" required :rules="[rules.required]">
+                                    <template v-slot:label>製品の画像<span style="color: red"> * </span>
+                                    </template>
+                                </v-file-input>
                             </v-col>
                         </v-row>
 
@@ -45,6 +54,11 @@ export default {
             overview: '',
             //イメージ画像
             selected_file: null,
+
+            // 入力ルール
+            rules: {
+                required: value => !!value || '必須項目です',
+            },
 
             dialog: false,
             tab: null,
