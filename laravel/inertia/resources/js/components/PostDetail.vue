@@ -19,8 +19,8 @@
         <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="'../../storage/post/' + post.id + '/' + post.IMAGES">
         </v-img>
         <div class="audio">
-            <audio controlslist="nodownload" class="audio-position" controls :src="'../../'+post.AUDIO1"></audio>
-            <audio v-show="post.AUDIO2" controlslist="nodownload" class="audio-position" controls :src="'../../'+post.AUDIO2"></audio>
+            <audio controlslist="nodownload" class="audio-position" controls :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
+            <audio v-show="post.AUDIO2" controlslist="nodownload" class="audio-position" controls :src="'../../storage/post/' + post.id + '/' + post.AUDIO2"></audio>
         </div>
         </div>
 
