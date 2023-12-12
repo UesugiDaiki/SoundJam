@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use DateTime;
 
 
 // 投稿関連
@@ -88,6 +89,8 @@ class PostController extends Controller
         $title = $request->input('title');
         $overview = $request->input('overview');
         $recording_method = $request->input('recordingMethod');
+        date_default_timezone_set('Asia/Tokyo');
+        $date_time = new DateTime();
         // $equips = $request->except(['title', 'overview', 'recordingMethod', 'mp3', 'img']);
 
         // 使用機材のDB挿入が成功か
@@ -105,7 +108,7 @@ class PostController extends Controller
             'TITLE' => $title,
             'OVERVIEW' => $overview,
             'RECORDING_METHOD' => $recording_method,
-            'DATES' => now(),
+            'DATES' => $date_time->format('Y-m-j G:i'),
             'LIKES' => 0,
             'AUDIO1' => $mp3_name,
             'AUDIO2' => null,
@@ -195,6 +198,7 @@ class PostController extends Controller
         $title = $request->input('product');
         $overview = $request->input('overview');
         $recording_method = $request->input('recordingMethod');
+        $date_time = new DateTime();
         // $equips = $request->except(['title', 'overview', 'recordingMethod', 'mp3', 'img']);
 
         // 使用機材のDB挿入が成功か
@@ -204,6 +208,8 @@ class PostController extends Controller
         $connect_post_id = null;
         $login_user_id = Session::get('soundjam_user');
         Log::debug('ユーザID：' . $login_user_id);
+        $dateTime = now();
+        $dateTime = Carbon::parse( $dateTime )->timezone('Asia/Tokyo'); 
         // post_tableへの挿入
         if ($connect_post_id = DB::table('post_table')->insertGetId([
             //ログインしているユーザーのidを取得して格納
@@ -212,7 +218,7 @@ class PostController extends Controller
             'TITLE' => $title,
             'OVERVIEW' => $overview,
             'RECORDING_METHOD' => $recording_method,
-            'DATES' => now(),
+            'DATES' => $date_time->format('Y-m-j G:i'),
             'LIKES' => 0,
             'AUDIO1' => $mp3_name1,
             'AUDIO2' => $mp3_name2,
