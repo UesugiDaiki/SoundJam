@@ -9,5 +9,8 @@ use Illuminate\Support\Facades\Log;
 
 class LikeController extends Controller
 {
-    //
+    public function createLike(Request $request)
+    {
+        $request->input('');
+    }
 }
