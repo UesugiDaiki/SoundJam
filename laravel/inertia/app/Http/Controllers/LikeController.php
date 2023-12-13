@@ -24,5 +24,7 @@ class LikeController extends Controller
     //良いね解除
     public function deleteLike(Request $request)
     {
+        Log::debug($request['postId']);
+        DB::delete('DELETE FROM nice_table WHERE LIKER_ID =' . Session::get('soundjam_user') . ' AND POST_ID = ' . $request['postId']);
     }
 }

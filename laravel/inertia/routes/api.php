@@ -60,6 +60,7 @@ Route::post('/application', [AppController::class, 'application']);
 
 //いいね
 Route::post('/createLike', [LikeController::class, 'createLike']);
+Route::post('/deleteLike', [LikeController::class, 'deleteLike']);
 
 
 // 製品関連

@@ -7,7 +7,7 @@
             </div>
         </router-link>
         <!-- 適当に置いた良いね数 -->
-        <v-card-text aria-disabled="true">100000</v-card-text>
+        <v-card-text aria-disabled="true">{{ this.likeCount + this.likeCountPlus }}</v-card-text>
     </v-col>
 </template>
 
@@ -16,7 +16,18 @@ export default {
     name: 'HelloWold',
     //ページロード時実行
     async created() {
+        //ログイン判定
         await this.getLogin()
+        //ログインしていたら
+        if (!(this.session['data'] == '')) {
+            // 良いねフラグがtrueか判定
+            if(this.likeFlg === true) {
+                // 見た目を8分音符(オン)に
+                this.likeIcon = '$musicNoteEighth'
+                // like-role cssをオン
+                // this.likeIconClass = 'like-role'
+            }
+        }
     },
     data() {
         return {
@@ -29,6 +40,7 @@ export default {
             // $musicNoteEighth オン 8分音符
             likeIconClass: 'like-button',
             session: null,
+            likeCountPlus: 0,
         }
     },
     methods: {
@@ -56,11 +68,26 @@ export default {
                             console.log('失敗');
                             // successFlg = false
                         })
+                // // カウント数を増加
+                // this.likeCountPlus++;
                 // 見た目を8分音符(オン)に
                 this.likeIcon = '$musicNoteEighth'
                 // like-role cssをオン
                 this.likeIconClass = 'like-role'
             } else if (!(this.session['data'] == '')) {
+                //　良いね解除
+                await axios.post('/api/deleteLike', {postId: this.postId})
+                    .then(function(response) {
+                            console.log('成功');
+                            // successFlg = true
+                        })
+                        .catch(function(error) {
+                            console.log('失敗');
+                            // successFlg = false
+                        })
+                // // カウント数を減少
+                // this.likeCountPlus--;
+                // this.likeCount--;
                 //8分音符(オン)の場合
                 // 見た目を2分音符(オフ)に
                 this.likeIcon = '$musicNoteHalf'
@@ -76,6 +103,8 @@ export default {
     //投稿ID受け取り
     props: {
             postId: Number,
+            likeFlg: Boolean,
+            likeCount: Number,
     }
 }
 </script>

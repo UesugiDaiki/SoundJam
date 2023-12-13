@@ -3,7 +3,7 @@
         <v-col cols="auto" class="soto">
             <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0" link
                 :ripple="false" @click="setPostDetail" :to="{ name: 'post', params: { postId: this.post.id } }">
-                <Title :name="post.USER_NAME" :myImg="'../../storage/user/' + post.USER_ID + '/' + post.ICON" :userId="post.USER_ID" :postId="post.id"/>
+                <Title :name="post.USER_NAME" :myImg="'../../storage/user/' + post.USER_ID + '/' + post.ICON" :userId="post.USER_ID" :postId="post.id" :likeFlg="post.LIKE_FLG" :likeCount="post.LIKE_COUNT"/>
                 <v-card-title>
                     {{ post.TITLE }}
                     <div class="Item-Content-Flg4"></div>

@@ -14,7 +14,7 @@
     <v-card-title class="title name">
     {{ name }}
     </v-card-title>
-    <like class="title iine" :postId="this.postId"/>
+    <like class="title iine" :postId="this.postId" :likeFlg="likeFlg" :likeCount="likeCount"/>
 </v-card-title>
 </template>
 
@@ -30,6 +30,8 @@ export default {
         myImg: String,
         userId: Number,
         postId: Number,
+        likeFlg: Boolean,
+        likeCount: Number,
     }
 }
 </script>
