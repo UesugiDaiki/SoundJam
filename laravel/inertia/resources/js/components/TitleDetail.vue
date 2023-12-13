@@ -87,6 +87,7 @@ export default {
         },
         async getSession() {
             this.session = await axios.get('/api/getSession')
+        },
         // 投稿編集ダイアログ表示
         onEditPostDialog(){
             // レビューか自由か
@@ -100,9 +101,7 @@ export default {
                 // 自由投稿の場合
                 console.log('onEditFreePost')
                 this.$refs.editFree.openDialog()
-
             }
-
         }
     }
 }
