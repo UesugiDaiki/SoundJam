@@ -23,15 +23,6 @@
                                     <v-icon icon="$delete"></v-icon>
                                 </template>
                                 <v-list-item-title text="投稿削除">投稿削除</v-list-item-title>
-
-
-
-
-
-
-
-
-
                             </v-list-item>
                         </div>
 
