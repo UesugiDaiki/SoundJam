@@ -1,16 +1,10 @@
 <template>
-    <!-- {{ free.imageName[0].name }} -->
-    <v-btn @click="test">test</v-btn>
     <v-row justify="center">
         <v-dialog v-model="dialog" scrollable min-width="320" width="640">
-            <!-- テスト用ボタン -->
-            <template v-slot:activator="{ props }">
-                <v-btn color="primary" v-bind="props"> Open Dialog </v-btn>
-            </template>
-            <!--  -->
 
             <v-card>
                 <v-card-actions>
+                    <!-- 閉じる✕ボタン -->
                     <v-btn density="comfortable" icon="$close" @click="dialog = false"></v-btn>
                 </v-card-actions>
                 <v-card-title class="text-center">
@@ -22,14 +16,20 @@
                         <v-row>
                                     <!-- タイトル -->
                                     <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="free.title" label="タイトル" required></v-text-field>
+                                        <v-text-field v-model="free.title" required :rules="[rules.required]">
+                                            <template v-slot:label>タイトル<span style="color: red"> * </span>
+                                            </template>
+                                        </v-text-field>
                                     </v-col>
                                     <!-- 画像 -->
                                     <v-col cols="6" class="py-0" width="300">
                                         <!-- 画像選択 -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$camera" ref="previewFree"
-                                            label="画像" hint="(5MBまで)" @change="fileSelect2" v-on:change="showFree" accept=".png,.jpg" show-size v-model="free.imageName"
-                                            persistent-hint :error="imgRuleFree"></v-file-input>
+                                        <v-file-input  prepend-icon="" prepend-inner-icon="$camera"  ref="previewFree"
+                                            hint="(5MBまで)" @change="fileSelect2" v-on:change="showFree" accept=".png,.jpg" show-size v-model="free.imageName"
+                                            persistent-hint :error="imgRuleFree" required :rules="[rules.required]">
+                                            <template v-slot:label>画像<span style="color: red"> * </span>
+                                            </template>
+                                        </v-file-input>
                                         <!-- 上げた画像表示 -->
                                         <div class="previewFree-box" style="margin-bottom: 22px" v-if="urlFree">
                                             <!-- || 初期値はデータベースから持ってきた画像を表示してファイル選択されたらifで切り替える || -->
@@ -44,8 +44,11 @@
                                     <v-col cols="6" class="py-0" width="300">
                                         <!--　音声ファイル選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            hint="(10MBまで)" label="音声" required ref="playFree" show-size v-model="free.audioName"
-                                            @change="fileSelect1" v-on:change="playFree" persistent-hint :error="audioRuleFree"></v-file-input>
+                                            hint="(10MBまで)"  required :rules="[rules.required]" ref="playFree" show-size v-model="free.audioName"
+                                            @change="fileSelect1" v-on:change="playFree" persistent-hint :error="audioRuleFree" >
+                                            <template v-slot:label>音声<span style="color: red"> * </span>
+                                            </template>
+                                        </v-file-input>
                                         <!-- 上げた音声表示 -->
                                         <div class="playFree-box" v-if="audioUrlFree" style="margin-bottom: 22px; height: 54px; ">
                                             <!-- 選択前 -->
@@ -75,7 +78,7 @@
                                 </v-row>
 
                         <v-card-actions>
-                            <v-btn variant="flat" class="me-4" type="submit" color="primary">
+                            <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="editPost">
                                 保存
                             </v-btn>
                         </v-card-actions>
@@ -101,7 +104,12 @@ export default {
             // 画像サイズ制限用
             imgRuleFree: false,     
             // 音声サイズ制限用
-            audioRuleFree: false,     
+            audioRuleFree: false,   
+            
+            // 入力ルール
+            rules: {
+                required: value => !!value || '必須項目です',
+            },
 
             snackbar: false,
             snackbarMessage: '',
@@ -152,6 +160,10 @@ export default {
         },
     },
     methods: {
+        openDialog(){
+            this.dialog = true
+        },
+
         // 使用機材追加
         addEquip(type) {
                 let newIndex = this.free.equips.length
@@ -188,6 +200,12 @@ export default {
             }else{
                 this.audioRuleFree = false
             }
+        },
+
+        // 投稿編集保存
+        editPost(){
+            this.dialog = false
+            // 編集内容を適応する処理を書く
         },
 
         // 投稿ダイアログ初期化
