@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <nav-drawer />
-        <!-- <page-title title="投稿詳細" /> -->
+        <page-title title="投稿詳細" />
         <v-main>
             <post-detail />
         </v-main>
