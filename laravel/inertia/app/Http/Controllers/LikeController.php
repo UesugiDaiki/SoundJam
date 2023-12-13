@@ -9,8 +9,20 @@ use Illuminate\Support\Facades\Log;
 
 class LikeController extends Controller
 {
+    //良いね登録
     public function createLike(Request $request)
     {
-        $request->input('');
+        Log::debug($request['postId']);
+        DB::table('nice_table')->insert([
+            //ログインユーザ
+            'LIKER_ID' => Session::get('soundjam_user'),
+            //投稿ID
+            'POST_ID' => $request['postId'],
+        ]);
+    }
+
+    //良いね解除
+    public function deleteLike(Request $request)
+    {
     }
 }

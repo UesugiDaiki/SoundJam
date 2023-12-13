@@ -14,6 +14,10 @@
 <script>
 export default {
     name: 'HelloWold',
+    //ページロード時実行
+    async created() {
+        await this.getLogin()
+    },
     data() {
         return {
             title: 'Trans&Anim',
@@ -24,9 +28,15 @@ export default {
             // $musicNoteHalf オフ 2分音符
             // $musicNoteEighth オン 8分音符
             likeIconClass: 'like-button',
+            session: null,
         }
     },
     methods: {
+        //ログイン状態か確認
+        async getLogin() {
+            // user_idを取得
+            this.session = await axios.get('api/getSession')
+        },
         //フラグ変化
         doAction() {
             this.flg = !this.flg
@@ -34,8 +44,8 @@ export default {
         //非同期処理
         async likeOnOff(event) {
             event.preventDefault()
-            // 現在のいいねアイコンが2分音符(オフ)の場合
-            if (this.likeIcon == '$musicNoteHalf') {
+            // 現在のいいねアイコンが2分音符(オフ)の場合かつログイン状態の場合
+            if (this.likeIcon == '$musicNoteHalf' && !(this.session['data'] == '')) {
                 //　良いね登録
                 await axios.post('/api/createLike', {postId: this.postId})
                     .then(function(response) {
@@ -50,20 +60,22 @@ export default {
                 this.likeIcon = '$musicNoteEighth'
                 // like-role cssをオン
                 this.likeIconClass = 'like-role'
-            }
-            //8分音符(オン)の場合
-            else {
+            } else if (!(this.session['data'] == '')) {
+                //8分音符(オン)の場合
                 // 見た目を2分音符(オフ)に
                 this.likeIcon = '$musicNoteHalf'
                 // like-role cssをオフ
                 this.likeIconClass = 'cancel-like-role'
+            }else {
+                // ログインしていない場合
+                alert('ログインしてください');
             }
             return false
         },
-        //投稿ID受け取り
-        props: {
+    },
+    //投稿ID受け取り
+    props: {
             postId: Number,
-        }
     }
 }
 </script>
