@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -56,6 +57,9 @@ Route::get('/onLikeNotice', [UserController::class, 'on_like_notice']);
 Route::post('/question', [AppController::class, 'question']);
 //プロモーション
 Route::post('/application', [AppController::class, 'application']);
+
+//いいね
+Route::post('/createLike', [LikeController::class, 'createLike']);
 
 
 // 製品関連

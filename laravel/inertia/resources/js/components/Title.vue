@@ -14,7 +14,7 @@
     <v-card-title class="title name">
     {{ name }}
     </v-card-title>
-    <like class="title iine" />
+    <like class="title iine" :postId="this.postId"/>
 </v-card-title>
 </template>
 
@@ -25,11 +25,12 @@ import Like from '@/components/Like.vue'
 
 <script>
 export default {
-props: {
-    name: String,
-    myImg: String,
-    userId: Number,
-}
+    props: {
+        name: String,
+        myImg: String,
+        userId: Number,
+        postId: Number,
+    }
 }
 </script>
 
