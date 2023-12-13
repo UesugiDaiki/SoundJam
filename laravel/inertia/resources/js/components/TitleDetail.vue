@@ -23,15 +23,20 @@
                                     <v-icon icon="$delete"></v-icon>
                                 </template>
                                 <v-list-item-title text="投稿削除">投稿削除</v-list-item-title>
+
+
+
                             </v-list-item>
                         </div>
 
-                        <v-list-item value="1">
-                            <template v-slot:prepend>
-                                <v-icon icon="$penPuls"></v-icon>
-                            </template>
-                            <v-list-item-title text="投稿削除">投稿編集</v-list-item-title>
-                        </v-list-item>
+                        <div class="editFree">
+                            <v-list-item value="1" @click="onEditPostDialog">
+                                <template v-slot:prepend>
+                                    <v-icon icon="$penPuls"></v-icon>
+                                </template>
+                                <v-list-item-title text="投稿削除" >投稿編集</v-list-item-title>
+                            </v-list-item>
+                        </div>
 
                     </v-list>
 
@@ -42,11 +47,15 @@
     </v-card-title>
 
     <delete-post-dialog ref="delete"/>
+    <edit-free-dialog ref="editFree"/>
+    <!-- <edit-review-dialog ref="editReview"/> -->
 </template>
 
 <script setup>
 import Like from '@/components/Like.vue'
 import DeletePostDialog from './DeletePostDialog.vue';
+import EditFreeDialog from './EditFreeDialog.vue';
+// import EditReviewDialog from './EditReviewDialog.vue';
 </script>
 
 <script>
@@ -61,12 +70,32 @@ export default {
         name: String,
         myImg: String,
         userId: Number,
+        postType: Number,
     },
     methods: {
+        // 投稿削除ダイアログ表示
         onDeletePost() {
-            console.log('onDeletePost')
-            this.$refs.delete.openDelete()
+            // console.log('onDeletePost')
+            this.$refs.delete.openDialog()
+        },
+        // 投稿編集ダイアログ表示
+        onEditPostDialog(){
+            // レビューか自由か
+            console.log(this.postType)
+            if(this.postType){
+                // レビュー投稿の場合
+                console.log('onEditReviewPost')
+                this.$refs.editReview.openDialog()
+            }
+            else{
+                // 自由投稿の場合
+                console.log('onEditFreePost')
+                this.$refs.editFree.openDialog()
+
+            }
+
         }
+
     }
 }
 </script>
