@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
 use DateTime;
 
 
@@ -192,7 +193,7 @@ class PostController extends Controller
         $connect_post_id = null;
         $login_user_id = Session::get('soundjam_user');
         $dateTime = now();
-        $dateTime = Carbon::parse( $dateTime )->timezone('Asia/Tokyo'); 
+        $dateTime = Carbon::parse($dateTime)->timezone('Asia/Tokyo');
         // post_tableへの挿入
         if ($connect_post_id = DB::table('post_table')->insertGetId([
             //ログインしているユーザーのidを取得して格納
