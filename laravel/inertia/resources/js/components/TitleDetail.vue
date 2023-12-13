@@ -10,7 +10,7 @@
         <like class="title iine" />
         <div class="text-center">
             <v-menu v-model="menu" :close-on-content-click="false" location="end">
-                <template v-slot:activator="{ props }">
+                <template v-slot:activator="{ props }" v-if="loggedInAccount">
                     <v-btn icon="$dotsHorizontal" v-bind="props" elevation="0" style="float: right;">
                     </v-btn>
                 </template>
@@ -23,9 +23,6 @@
                                     <v-icon icon="$delete"></v-icon>
                                 </template>
                                 <v-list-item-title text="投稿削除">投稿削除</v-list-item-title>
-
-
-
                             </v-list-item>
                         </div>
 
@@ -56,6 +53,7 @@ import Like from '@/components/Like.vue'
 import DeletePostDialog from './DeletePostDialog.vue';
 import EditFreeDialog from './EditFreeDialog.vue';
 // import EditReviewDialog from './EditReviewDialog.vue';
+import axios from 'axios';
 </script>
 
 <script>
@@ -65,6 +63,7 @@ export default {
         menu: false,
         message: false,
         hints: true,
+        session: {data: null},
     }),
     props: {
         name: String,
@@ -72,12 +71,22 @@ export default {
         userId: Number,
         postType: Number,
     },
+    computed: {
+        loggedInAccount() {
+            return this.userId === this.session.data
+        }
+    },
+    created() {
+        this.getSession()
+    },
     methods: {
         // 投稿削除ダイアログ表示
         onDeletePost() {
             // console.log('onDeletePost')
             this.$refs.delete.openDialog()
         },
+        async getSession() {
+            this.session = await axios.get('/api/getSession')
         // 投稿編集ダイアログ表示
         onEditPostDialog(){
             // レビューか自由か
@@ -95,7 +104,6 @@ export default {
             }
 
         }
-
     }
 }
 </script>
