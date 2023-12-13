@@ -6,14 +6,14 @@
 <v-row align="center" justify="center">
     <v-col cols="auto" class="soto">
     <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0" :ripple="false">
-        <TitleDetail :name="post.USER_NAME" :myImg="'../../storage/user/' + post.USER_ID + '/' + post.ICON" :title="post.TITLE" :userId="post.USER_ID"/>
+        <TitleDetail :name="post.USER_NAME" :myImg="'../../storage/user/' + post.USER_ID + '/' + post.ICON" :title="post.TITLE" :userId="post.USER_ID" :postType="post.POST_TYPE"/>
         <v-card-subtitle class="day">
             {{ post.DATES }}
         </v-card-subtitle>
 
         <v-card-title>
         {{ post.TITLE }}
-        <div class="Item-Content-Flg4"></div>
+        <div v-if="post.POST_TYPE === 1" class="Item-Content-Flg4"></div>
         </v-card-title>
         <div class="aaa">
         <v-img max-width="250" min-width="250" max-height="190" min-height="190" :src="'../../storage/post/' + post.id + '/' + post.IMAGES">
