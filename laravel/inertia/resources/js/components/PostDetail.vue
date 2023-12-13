@@ -1,7 +1,5 @@
 <template>
-<v-app-bar color="white" elevation="0" style="border-bottom: inset;">
-    <v-btn class="ma-2" variant="text" icon="$arrowLeft" onclick="window.history.back();"></v-btn>
-</v-app-bar>
+
 
 <v-row align="center" justify="center">
     <v-col cols="auto" class="soto">
