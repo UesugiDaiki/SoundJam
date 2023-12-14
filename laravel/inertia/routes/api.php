@@ -60,11 +60,12 @@ Route::post('/resetPass', [UserController::class, 'reset_pass']);
 Route::post('/question', [AppController::class, 'question']);
 //プロモーション
 Route::post('/application', [AppController::class, 'application']);
+// 運営からのメッセージ取得
+Route::get('/getInquiry', [AppController::class, 'get_inquiry']);
 
 //いいね
 Route::post('/createLike', [LikeController::class, 'createLike']);
 Route::post('/deleteLike', [LikeController::class, 'deleteLike']);
-
 
 // 製品関連
 //製品登録

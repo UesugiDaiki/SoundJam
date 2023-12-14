@@ -76,4 +76,10 @@ class AppController extends Controller
         // 'REPLY_FROM' ここはユーザーIDを引っ張ってくる予定,
         // IDENTIFICATION →問い合わせ１，申請０
     }
+
+    // 運営からのメッセージ取得
+    public function get_inquiry() {
+        $login_user_id = Session::get('soundjam_user');
+        return DB::select('SELECT TITLE, OVERVIEW FROM inquiry_table WHERE REPLY_TO = ?', [$login_user_id]);
+    }
 }
