@@ -17,13 +17,15 @@
 
                 <v-text-field v-model="checkPassword" label="新規パスワード再確認" :type="show3 ? 'text' : 'password'"
                     :rules="[rules.required]" :append-inner-icon="show3 ? '$eye' : '$eyeOff'"
-                    @click:append-inner="show3 = !show3"></v-text-field>
+                    @click:append-inner="show3 = !show3" :error="matchPassWord" :error-messages="matchPassWord ? 'パスワードが一致しません' : null"></v-text-field>
                 <v-card-item class="mt-1  d-flex justify-center ">
-                    <v-btn style="font-size: 16px;" color="black" width="200" height="40">パスワード変更</v-btn>
+                    <v-btn style="font-size: 16px;" color="black" width="200" height="40" :disabled="isEnter" @click="resetPass">パスワード変更</v-btn>
                 </v-card-item>
             </v-container>
         </v-card-text>
     </v-card>
+
+    <v-snackbar v-model="snackbar"> {{ snackbarMessage }} </v-snackbar>
 </template>
 
 <script>
@@ -35,15 +37,63 @@ export default {
             show2: false,
             show3: false,
             beforePassword: '',
-            checkPassword: '',
             newPassword: '',
+            checkPassword: '',
             rules: {
-                required: value => !!value || '必須入力です',
+                required: value => !!value || '必須項目です',
                 min: v => v.length >= 8 || '最低8文字入力してください',
                 max: v => v.length <= 16 || '最大文字数は16文字です',
-                // matchPassWord: checkPassWord => password == checkPassWord || 'パスワードが一致しません' エラー出る,
             },
+            snackbar: false,
+            snackbarMessage: '',
         }
     },
+    computed: {
+        // 再設定フォーム入力済か
+        isEnter() {
+            return !(
+                this.beforePassword?.trim()
+                && this.newPassword?.trim()
+                && this.checkPassword?.trim()
+                && !this.matchPassWord
+            )
+        },
+        // 確認パスワードの一致判定
+        matchPassWord() {
+            return this.newPassword !== '' && this.newPassword !== this.checkPassword
+        },
+    },
+    methods: {
+        async resetPass() {
+            let resetPassData = {
+                beforePass: this.beforePassword,
+                newPass: this.newPassword,
+            }
+            let successMessage = ''
+            await axios.post('/api/resetPass', resetPassData)
+                .then(function(response) {
+                    console.log('成功');
+                    console.log(response)
+                    successMessage = response.data
+                })
+                .catch(function(error) {
+                    console.log('失敗');
+                    successFlg = ''
+                })
+
+            if (successMessage === 'success') {
+                this.snackbarMessage = 'パスワードを変更しました。'
+            } else if (successMessage === 'incorrect') {
+                this.snackbarMessage = 'パスワードが間違っています。'
+            } else {
+                this.snackbarMessage = 'パスワードの変更に失敗しました。'
+            }
+            this.snackbar = true
+            this.registDialog = false
+            this.beforePassword = ''
+            this.newPassword = ''
+            this.checkPassword = ''
+        }
+    }
 }
 </script>

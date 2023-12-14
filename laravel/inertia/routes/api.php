@@ -52,6 +52,8 @@ Route::get('/offFollowNotice', [UserController::class, 'off_follow_notice']);
 Route::get('/onFollowNotice', [UserController::class, 'on_follow_notice']);
 Route::get('/offLikeNotice', [UserController::class, 'off_like_notice']);
 Route::get('/onLikeNotice', [UserController::class, 'on_like_notice']);
+// パスワード変更
+Route::post('/resetPass', [UserController::class, 'reset_pass']);
 
 // 運営に対する申請、申告関連
 //お問い合わせ

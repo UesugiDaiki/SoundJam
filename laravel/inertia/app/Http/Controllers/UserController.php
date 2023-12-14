@@ -106,4 +106,21 @@ class UserController extends Controller
         $login_user_id = Session::get('soundjam_user');
         DB::update('UPDATE user_table set LIKE_NOTICE = 0 WHERE id = ?', [$login_user_id]);
     }
+
+    // パスワード変更
+    public function reset_pass(Request $request)
+    {
+        $before_pass = $request->input('beforePass');
+        $new_pass = $request->input('newPass');
+        $login_user_id = Session::get('soundjam_user');
+        $user = DB::select('SELECT PASSWORDS FROM user_table WHERE id = ?', [$login_user_id]);
+        $user_pass = (array)$user[0];
+        $user_pass = $user_pass['PASSWORDS'];
+        if ($before_pass == $user_pass) {
+            DB::update('UPDATE user_table set PASSWORDS = ? WHERE id = ?', [$new_pass, $login_user_id]);
+            return 'success';
+        } else {
+            return 'incorrect';
+        }
+    }
 }
