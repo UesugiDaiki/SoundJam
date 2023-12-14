@@ -20,7 +20,7 @@
             </v-card-title>
             <v-sheet class="ma-3">
                 <v-card-subtitle><v-icon class="mx-2">$at</v-icon>{{ user.id }}</v-card-subtitle>
-                <v-card-subtitle v-if="user.WEBSITE !== ''"><v-icon class="mx-2">$link</v-icon>{{ user.WEBSITE }}</v-card-subtitle>
+                <v-card-subtitle v-if="user.WEBSITE !== null"><v-icon class="mx-2">$link</v-icon>{{ user.WEBSITE }}</v-card-subtitle>
             </v-sheet>
             <v-card rounded="0" elevation="0">
                 <v-card-text style="color: #666">
