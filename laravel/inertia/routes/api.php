@@ -10,6 +10,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\FollowController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,3 +76,8 @@ Route::post('/searchLike', [SearchController::class, 'search_like']);
 Route::post('/searchNewest', [SearchController::class, 'search_newest']);
 Route::post('/searchProduct', [SearchController::class, 'search_product']);
 Route::post('/searchUser', [SearchController::class, 'search_user']);
+
+// フォロー関連
+Route::post('/getFollow', [FollowController::class, 'get_follow']);
+Route::post('/follow', [FollowController::class, 'follow']);
+Route::post('/unFollow', [FollowController::class, 'un_follow']);

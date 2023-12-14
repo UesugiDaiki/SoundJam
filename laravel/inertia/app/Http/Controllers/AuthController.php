@@ -46,7 +46,6 @@ class AuthController extends Controller
     // ログアウト
     public function logout()
     {
-        Log::debug(Session::get('soundjam_user'));
         Session::forget('soundjam_user');
     }
 
