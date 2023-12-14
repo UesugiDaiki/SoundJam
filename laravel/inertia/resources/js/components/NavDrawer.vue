@@ -75,6 +75,16 @@ export default {
     created() {
         this.path = this.$route.path
         this.getLogin()
+        console.log('this.path : ' + this.path.replace('/user/', ''))
+        console.log('this.session : ' + this.session)
+    },
+    computed: {
+        isLoginUserPage() {
+            return (
+                this.session !== null
+                && this.session.data == this.path.replace('/user/', '')
+            )
+        }
     },
     methods: {
         //ログインページ起動
@@ -106,7 +116,7 @@ export default {
         //ログイン状態か確認
         async getLogin() {
             // user_idを取得
-            this.session = await axios.get('api/getSession')
+            this.session = await axios.get('/api/getSession')
             //　session情報を基にflagを変更
             this.loginFlg = !(this.session['data'] == '');
         },
