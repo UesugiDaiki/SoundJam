@@ -110,6 +110,10 @@
             </v-card>
         </v-dialog>
     </v-row>
+
+    <!-- 申請時のメッセージ -->
+    <v-snackbar v-model="snackbar"> {{ snackbarMessage }} </v-snackbar>
+
 </template>
 
 <script>
@@ -136,6 +140,9 @@ export default {
                 overview: "",
             },
             linkingReview: [],
+
+            snackbar: false,
+            snackbarMessage: '',
         }
     },
     methods: {
@@ -180,7 +187,7 @@ export default {
         },
 
         //　問い合わせ送信処理1
-        question(){
+        async question(){
             console.log(this.inquiry.title);
             console.log(this.inquiry.overview);
             let formData = new FormData();
@@ -197,17 +204,28 @@ export default {
                 }
             };
 
-            axios.post('/api/question', formData, config)
+            let successFlg = false;
+            await axios.post('/api/question', formData, config)
                 .then(function(response) {
-                    console.log('成功')
+                    console.log('成功');
+                    successFlg = true;
                 })
                 .catch(function(error) {
                     console.log('失敗');
                     console.log(error);
+                    successFlg = false;
                 })
+
+            // メッセージ表示
+            if (successFlg) {
+                this.snackbarMessage = 'お問い合わせを送信しました。';
+            } else {
+                this.snackbarMessage = 'お問い合わせの送信に失敗しました。';
+            }
+            this.snackbar = true;
         },
         // 申請処理0
-        application(){
+        async application(){
             console.log(this.review.title);
             console.log(this.review.overview);
             let formData = new FormData();
@@ -225,14 +243,26 @@ export default {
                 }
             };
 
-            axios.post('/api/application', formData, config)
+            //メッセージフラグ
+            let successFlg = false;
+            await axios.post('/api/application', formData, config)
                 .then(function(response) {
-                    console.log('成功プロ')
+                    console.log('成功プロ');
+                    successFlg = true;
                 })
                 .catch(function(error) {
                     console.log('失敗プロ');
                     console.log(error);
+                    successFlg = false;
                 })
+
+            // メッセージ表示
+            if (successFlg) {
+                this.snackbarMessage = '申請を送信しました。';
+            } else {
+                this.snackbarMessage = '申請の送信に失敗しました。';
+            }
+            this.snackbar = true;
         }
     }
 }
