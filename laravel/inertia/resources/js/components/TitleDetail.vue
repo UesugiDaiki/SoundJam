@@ -45,14 +45,14 @@
 
     <delete-post-dialog ref="delete"/>
     <edit-free-dialog ref="editFree"/>
-    <!-- <edit-review-dialog ref="editReview"/> -->
+    <edit-review-dialog ref="editReview"/>
 </template>
 
 <script setup>
 import Like from '@/components/Like.vue'
 import DeletePostDialog from './DeletePostDialog.vue';
 import EditFreeDialog from './EditFreeDialog.vue';
-// import EditReviewDialog from './EditReviewDialog.vue';
+import EditReviewDialog from './EditReviewDialog.vue';
 import axios from 'axios';
 </script>
 

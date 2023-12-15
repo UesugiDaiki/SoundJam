@@ -17,8 +17,7 @@
                                     <!-- タイトル -->
                                     <v-col cols="12" class="pb-0">
                                         <v-text-field v-model="free.title" required :rules="[rules.required]">
-                                            <template v-slot:label>タイトル<span style="color: red"> * </span>
-                                            </template>
+                                            <template v-slot:label>タイトル<span style="color: red"> * </span></template>
                                         </v-text-field>
                                     </v-col>
                                     <!-- 画像 -->
@@ -27,8 +26,7 @@
                                         <v-file-input  prepend-icon="" prepend-inner-icon="$camera"  ref="previewFree"
                                             hint="(5MBまで)" @change="fileSelect2" v-on:change="showFree" accept=".png,.jpg" show-size v-model="free.imageName"
                                             persistent-hint :error="imgRuleFree" required :rules="[rules.required]">
-                                            <template v-slot:label>画像<span style="color: red"> * </span>
-                                            </template>
+                                            <template v-slot:label>画像<span style="color: red"> * </span></template>
                                         </v-file-input>
                                         <!-- 上げた画像表示 -->
                                         <div class="previewFree-box" style="margin-bottom: 22px" v-if="urlFree">
@@ -46,16 +44,14 @@
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
                                             hint="(10MBまで)"  required :rules="[rules.required]" ref="playFree" show-size v-model="free.audioName"
                                             @change="fileSelect1" v-on:change="playFree" persistent-hint :error="audioRuleFree" >
-                                            <template v-slot:label>音声<span style="color: red"> * </span>
-                                            </template>
+                                            <template v-slot:label>音声<span style="color: red"> * </span></template>
                                         </v-file-input>
                                         <!-- 上げた音声表示 -->
                                         <div class="playFree-box" v-if="audioUrlFree" style="margin-bottom: 22px; height: 54px; ">
                                             <!-- 選択前 -->
                                                 <!-- データベースから投稿の現在の音声を表示 -->
                                             <!-- 選択後 -->
-                                            <audio controlslist="nodownload" class="audio-playFree " controls
-                                                v-bind:src="audioUrlFree"></audio>
+                                            <audio controlslist="nodownload" class="audio-playFree " controls v-bind:src="audioUrlFree"></audio>
                                         </div>
                                     </v-col>
                                     <!-- 概要 -->
