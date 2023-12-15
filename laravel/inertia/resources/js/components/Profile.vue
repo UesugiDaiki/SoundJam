@@ -15,7 +15,8 @@
                     height="48" :disabled="creating" @click="follow">フォロー</v-btn>
                 <v-btn class="my-auto mx-1" v-if="!loggedInAccount && followed" elevation="0" rounded
                     height="48" :disabled="creating" @click="unFollow">フォロー解除</v-btn>
-                <v-btn class="my-auto mx-1" v-if="!loggedInAccount" icon="$bellOutline" elevation="0" :disabled="creating"></v-btn>
+                <v-btn class="my-auto mx-1" v-if="!loggedInAccount && !notification" icon="$bellOutline" elevation="0" :disabled="creating" @click="onNotification"></v-btn>
+                <v-btn class="my-auto mx-1" v-if="!loggedInAccount && notification" icon="$bell" elevation="0" :disabled="creating" @click="offNotification"></v-btn>
                 <!-- end -->
             </v-card-title>
             <v-sheet class="ma-3">
@@ -32,6 +33,7 @@
     </v-row>
 
     <edit-profile-dialog ref="editProfile" :user="user"/>
+    <v-snackbar v-model="snackbar"> {{ snackbarMessage }} </v-snackbar>
 </template>
 
 <script setup>
@@ -46,6 +48,9 @@ export default {
         creating: true,
         followed: false,
         userId: null,
+        snackbar: false,
+        snackbarMessage: '',
+        notification: false,
     }),
     computed: {
         loggedInAccount() {
@@ -85,23 +90,28 @@ export default {
         },
         // フォロー
         async follow() {
-            let followData = {
-                loginAccountId: this.session.data,
-                userId: this.userId,
-            }
-            let successFlg = false
-            await axios.post('/api/follow', followData)
-                .then(function(response) {
-                    console.log('フォロー成功')
-                    successFlg = true
-                })
-                .catch(function(error) {
-                    console.log('フォロー失敗')
-                    successFlg = false
-                })
-            
-            if (successFlg) {
-                this.followed = true
+            if (this.session.data !== '') {
+                let followData = {
+                    loginAccountId: this.session.data,
+                    userId: this.userId,
+                }
+                let successFlg = false
+                await axios.post('/api/follow', followData)
+                    .then(function(response) {
+                        console.log('フォロー成功')
+                        successFlg = true
+                    })
+                    .catch(function(error) {
+                        console.log('フォロー失敗')
+                        successFlg = false
+                    })
+                
+                if (successFlg) {
+                    this.followed = true
+                }
+            } else {
+                this.snackbarMessage = 'フォローするにはログインしてください。'
+                this.snackbar = true
             }
         },
         // フォロー解除
@@ -124,7 +134,46 @@ export default {
             if (successFlg) {
                 this.followed = false
             }
-        }
+        },
+        // 通知ON
+        async onNotification() {
+            if (this.session.data !== '') {
+                let successFlg = false
+                await axios.post('/api/onNotice', {userId: this.userId})
+                    .then(function(response) {
+                        console.log('通知ON成功')
+                        successFlg = true
+                    })
+                    .catch(function(error) {
+                        console.log('通知ON失敗')
+                        successFlg = false
+                    })
+
+                if (successFlg) {
+                    this.notification = true
+                }
+            } else {
+                this.snackbarMessage = '通知をONにするにはログインしてください。'
+                this.snackbar = true
+            }
+        },
+        // 通知OFF
+        async offNotification() {
+            let successFlg = false
+            await axios.post('/api/offNotice', {userId: this.userId})
+                .then(function(response) {
+                    console.log('通知OFF成功')
+                    successFlg = true
+                })
+                .catch(function(error) {
+                    console.log('通知OFF失敗')
+                    successFlg = false
+                })
+
+            if (successFlg) {
+                this.notification = false
+            }
+        },
     }
 }
 </script>

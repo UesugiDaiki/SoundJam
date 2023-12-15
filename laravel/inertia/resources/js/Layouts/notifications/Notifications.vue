@@ -20,6 +20,9 @@ import PageTitle from '@/components/PageTitle.vue'
 
 <script>
 export default {
+    created() {
+        axios.get('/api/getNotice')
+    },
     data: () => ({
         notifications: [
             {

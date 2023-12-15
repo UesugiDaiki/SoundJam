@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,3 +85,9 @@ Route::post('/searchUser', [SearchController::class, 'search_user']);
 Route::post('/getFollow', [FollowController::class, 'get_follow']);
 Route::post('/follow', [FollowController::class, 'follow']);
 Route::post('/unFollow', [FollowController::class, 'un_follow']);
+
+// 通知取得
+Route::get('/getNotice', [NotificationController::class, 'get_notifications']);
+// 投稿通知ON, OFF
+Route::post('/onNotice', [NotificationController::class, 'on_notice']);
+Route::post('/offNotice', [NotificationController::class, 'off_notice']);
