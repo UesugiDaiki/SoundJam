@@ -63,6 +63,7 @@ export default {
         },
         async updateUser() {
             let formData = new FormData();
+            formData.append('id', this.user.id);
             formData.append('name', this.user.USER_NAME);
             formData.append('website', this.user.WEBSITE);
             formData.append('profiles', this.user.PROFILES);

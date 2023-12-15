@@ -33,6 +33,7 @@ class UserController extends Controller
         $icon_name = null;
         //アイコン画像変更フラグ
         $icon_change = null;
+        $id = $request->input('id');
 
         // 画像が変更されていない場合は、そのままパスを取得
         if (is_string($request->input('icon'))) {
@@ -44,12 +45,11 @@ class UserController extends Controller
             $icon_change = true;
         }
         //updateを実行
-        if (DB::update('UPDATE user_table SET USER_NAME = ?, PROFILES = ?, WEBSITE = ?, ICON = ?  WHERE id = ?',  [$request->input('name'), $request->input('profiles'), $request->input('website'), 'storage/icon/' . $icon_name, Session::get('soundjam_user')])) {
-
+        if (DB::update('UPDATE user_table SET USER_NAME = ?, PROFILES = ?, WEBSITE = ?, ICON = ?  WHERE id = ?',  [$request->input('name'), $request->input('profiles'), $request->input('website'),$icon_name, Session::get('soundjam_user')])) {
             //アイコンが変更しているか判定
             if ($icon_change) {
                 //変更した画像のデータを保存
-                $request->file('icon')->storeAs('public/icon', $icon_name);
+                $request->file('icon')->storeAs('public/user/'.$id.'/'.$icon_name);
                 return '成功（画像変更あり）';
             } else {
                 return '成功（画像変更なし）';
