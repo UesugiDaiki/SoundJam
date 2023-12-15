@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use DateTime;
 
 // ユーザ関連
 class FollowController extends Controller
@@ -23,9 +24,11 @@ class FollowController extends Controller
     // フォロー
     public function follow(Request $request)
     {
+        date_default_timezone_set('Asia/Tokyo');
+        $date_time = new DateTime();
         $login_account_id = $request->input('loginAccountId');
         $user_id = $request->input('userId');
-        DB::insert('INSERT INTO follow_table (FOLLOWER_ID, FOLLOWEE_ID) VALUES (?, ?)', [$login_account_id, $user_id]);
+        DB::insert('INSERT INTO follow_table (FOLLOWER_ID, FOLLOWEE_ID, DATES) VALUES (?, ?, ?)', [$login_account_id, $user_id, $date_time->format('Y-m-j G:i')]);
     }
 
     // フォロー解除
