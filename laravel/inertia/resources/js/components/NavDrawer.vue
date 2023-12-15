@@ -3,46 +3,46 @@
         <v-navigation-drawer permanent>
             <v-list nav class="justify-end">
                 <!-- SoudJamロゴ -->
-                <v-list-item @click="Home" :ripple="false" :active="false" class="text-h6 font-weight-black text-center ml-auto" width="120px">SoundJam</v-list-item>
+                <v-list-item @click="Home" :ripple="false" :active="false" class="text-h6 font-weight-black text-center ml-auto" width="150px">SoundJam</v-list-item>
                 <!-- ホーム -->
-                <v-list-item @click="Home" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px">
-                    <v-icon class="text-h4 text-right">{{ path === "/home" ? "$home" : "$homeOutline" }}</v-icon>
+                <v-list-item class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="Home" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path === '/home' ? '$home' : '$homeOutline'"></v-btn>
                 </v-list-item>
                 <!-- 検索 -->
-                <v-list-item @click="Search" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px">
-                    <v-icon class="text-h4">$magnify</v-icon>
+                <v-list-item class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="Search" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$magnify"></v-btn>
                 </v-list-item>
                 <!-- 通知 -->
-                <v-list-item @click="Notifications" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px">
-                    <v-icon class="text-h4">{{ path === "/notifications" ? "$bell" : "$bellOutline" }}</v-icon>
+                <v-list-item class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="Notifications" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path === '/notifications' ? '$bell' : '$bellOutline'"></v-btn>
                 </v-list-item>
                 <!-- お問い合わせ -->
-                <v-list-item @click="Inquiry" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px">
-                    <v-icon class="text-h4">{{ path === "/inquiry" ? "$email" : "$emailOutline" }}</v-icon>
+                <v-list-item class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="Inquiry" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path === '/inquiry' ? '$email' : '$emailOutline'"></v-btn>
                 </v-list-item>
                 <!-- ユーザー（プロフィール） -->
-                <v-list-item @click="User" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px">
-                    <v-icon class="text-h4">{{ path.includes('/user') ? "$account" : "$accountOutline" }}</v-icon>
+                <v-list-item class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="User" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path.includes('/user') ? '$account' : '$accountOutline'"></v-btn>
                 </v-list-item>
                 <!-- 設定詳細 -->
-                <v-list-item @click="Settings" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px">
-                    <v-icon class="text-h4">{{ path.indexOf('/settings') === 0 ? "$cog" : "$cogOutline" }}</v-icon>
+                <v-list-item class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="Settings" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path.indexOf('/settings') === 0 ? '$cog' : '$cogOutline'"></v-btn>
                 </v-list-item>
                 <!-- 投稿ダイアログ表示 -->
-                <v-list-item @click="onPost" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px" value="post">
-                    <v-icon class="text-h4">$guitarPickOutline</v-icon>
+                <v-list-item class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="onPost" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$guitarPickOutline"></v-btn>
                 </v-list-item>
                 <!-- 製品登録ダイアログ表示 -->
-                <v-list-item @click="onRegistProduct" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px" value="post">
-                    <v-icon class="text-h4">$guitarPick</v-icon>
+                <v-list-item class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="onRegistProduct" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$guitarPick"></v-btn>
                 </v-list-item>
                 <!-- ログイン時のボタン表示 -->
-                <v-list-item v-if="loginFlg === true" @click="onLogout" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px">
-                    <v-icon class="text-h4">$logout</v-icon>
+                <v-list-item v-if="loginFlg" class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="onLogout" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$logout"></v-btn>
                 </v-list-item>
                 <!-- ログアウト時のボタン表示 -->
-                <v-list-item v-if="loginFlg === false" @click="onLogin" :ripple="false" :active="false" class="text-center pa-2 ml-auto" width="50px" height="50px">
-                    <v-icon class="text-h4">$login</v-icon>
+                <v-list-item v-if="!loginFlg" class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="onLogin" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$login"></v-btn>
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
