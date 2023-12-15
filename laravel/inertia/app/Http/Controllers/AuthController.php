@@ -57,7 +57,7 @@ class AuthController extends Controller
             'USER_NAME' => $request->input("registName"),
             'PROFILES' => null,
             'WEBSITE' => null,
-            'ICON' => 'storage/user/default_icon.jpg',
+            'ICON' => 'default_icon.jpg',
             'EMAIL_ADDRESS' => $request->input("registMail"),
             'PASSWORDS' => $request->input("registPass"),
             'FOLLOW_NOTICE' => 1,
@@ -68,5 +68,6 @@ class AuthController extends Controller
 
         // ユーザーディレクトリ作成
         Storage::makeDirectory('public/user/' . $user_id);
+        Storage::copy('public/user/default_icon.jpg', 'public/user/' . $user_id . '/default_icon.jpg');
     }
 }
