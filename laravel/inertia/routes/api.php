@@ -91,3 +91,4 @@ Route::get('/getNotice', [NotificationController::class, 'get_notifications']);
 // 投稿通知ON, OFF
 Route::post('/onNotice', [NotificationController::class, 'on_notice']);
 Route::post('/offNotice', [NotificationController::class, 'off_notice']);
+Route::post('/getPostNotice', [NotificationController::class, 'get_post_notice']);

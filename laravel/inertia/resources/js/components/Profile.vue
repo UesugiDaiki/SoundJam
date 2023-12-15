@@ -65,13 +65,14 @@ export default {
         this.userId = Number(this.$route.path.replace('/user/', ''))
         this.session = await axios.get('/api/getSession')
         if (!this.loggedInAccount) {
-            // フォローしているか判定
-            let getFollowData = {
+            let createdData = {
                 loginAccountId: this.session.data,
                 userId: this.userId,
             }
-            let _followed;
-            await axios.post('/api/getFollow', getFollowData)
+            let _followed
+            let _notification
+            // フォローしているか判定
+            await axios.post('/api/getFollow', createdData)
                 .then(function(response){
                     console.log('フォロー情報取得成功')
                     _followed = response.data
@@ -79,7 +80,18 @@ export default {
                 .catch(function(error){
                     console.log('フォロー情報取得失敗')
                 })
+            // 通知をONにしているか判定
+            await axios.post('/api/getPostNotice', createdData)
+                .then(function(response) {
+                    console.log('通知情報取得成功')
+                    _notification = response.data
+                })
+                .catch(function(error) {
+                    console.log('通知情報取得失敗')
+                })
+            
             this.followed = _followed
+            this.notification = _notification
         }
         this.creating = false
     },
