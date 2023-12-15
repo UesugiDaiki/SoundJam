@@ -13,7 +13,7 @@ class LikeController extends Controller
     public function createLike(Request $request)
     {
         Log::debug($request['postId']);
-        DB::table('nice_table')->insert([
+        DB::table('like_table')->insert([
             //ログインユーザ
             'LIKER_ID' => Session::get('soundjam_user'),
             //投稿ID
@@ -25,6 +25,6 @@ class LikeController extends Controller
     public function deleteLike(Request $request)
     {
         Log::debug($request['postId']);
-        DB::delete('DELETE FROM nice_table WHERE LIKER_ID =' . Session::get('soundjam_user') . ' AND POST_ID = ' . $request['postId']);
+        DB::delete('DELETE FROM like_table WHERE LIKER_ID =' . Session::get('soundjam_user') . ' AND POST_ID = ' . $request['postId']);
     }
 }

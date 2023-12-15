@@ -35,7 +35,7 @@ class PostController extends Controller
             //ログインしている場合
             if ($sessions = Session::get('soundjam_user', 'default') !== 'default') {
                 // 自分が良いねしている投稿の場合
-                if (DB::select('SELECT * FROM nice_table WHERE POST_ID=' . $post['id'] . ' AND LIKER_ID=' . $sessions)) {
+                if (DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'] . ' AND LIKER_ID=' . $sessions)) {
                     //いいねフラグをtrueで送信
                     $post_key[] = 'LIKE_FLG';
                     $post_value[] = true;
@@ -49,7 +49,7 @@ class PostController extends Controller
             //投稿のいいね数を計測
             // $like_list = null;
             $like_counter = 0;
-            if ($like_list = DB::select('SELECT * FROM nice_table WHERE POST_ID=' . $post['id'])) {
+            if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'])) {
                 foreach ($like_list as $value) {
                     //いいね数追加
                     $like_counter++;
