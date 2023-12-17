@@ -14,8 +14,6 @@
                     <div class="audio">
                         <audio controlslist="nodownload" class="audio-position" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
-                        <audio controlslist="nodownload" class="audio-position" controls
-                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO2"></audio>
                     </div>
                 </div>
                 <v-card-actions>

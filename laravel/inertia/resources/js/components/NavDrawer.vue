@@ -32,10 +32,6 @@
                 <v-list-item class="d-flex justify-end pa-0">
                     <v-btn elevation="0" @click="onPost" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$guitarPickOutline"></v-btn>
                 </v-list-item>
-                <!-- 製品登録ダイアログ表示 -->
-                <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="onRegistProduct" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$guitarPick"></v-btn>
-                </v-list-item>
                 <!-- ログイン時のボタン表示 -->
                 <v-list-item v-if="loginFlg" class="d-flex justify-end pa-0">
                     <v-btn elevation="0" @click="onLogout" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$logout"></v-btn>
@@ -51,7 +47,6 @@
         <logout-dialog ref="logout"/>
         <login-dialog ref="login"/>
         <post-dialog ref="post"/>
-        <regist-product-dialog ref="registProduct"/>
     </v-container>
 </template>
 
@@ -59,7 +54,6 @@
 import LogoutDialog from './LogoutDialog.vue'
 import LoginDialog from './LoginDialog.vue'
 import PostDialog from './PostDialog.vue'
-import RegistProductDialog from './RegistProductDialog.vue'
 </script>
 
 <script>
@@ -102,15 +96,6 @@ export default {
             } else {
                 // 投稿ダイアログを表示
                 this.$refs.post.openPost()
-            }
-        },
-        //製品登録ダイアログを表示
-        onRegistProduct() {
-            if (this.loginFlg === false) {
-                this.onLogin()
-            } else {
-                // 製品登録ダイアログを表示
-                this.$refs.registProduct.openRegistProduct()
             }
         },
         //ログイン状態か確認

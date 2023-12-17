@@ -62,7 +62,6 @@ class AuthController extends Controller
             'PASSWORDS' => $request->input("registPass"),
             'FOLLOW_NOTICE' => 1,
             'LIKE_NOTICE' => 1,
-            'FROZEN' => 0
         ];
         $user_id = DB::table('user_table')->insertGetId($regist_data);
 

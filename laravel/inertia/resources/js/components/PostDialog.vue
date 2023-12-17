@@ -122,10 +122,10 @@
                         <v-window-item value="review">
                             <form @submit.prevent="submit">
                                 <v-row>
-                                    <!-- 製品名 -->
+                                    <!-- タイトル -->
                                     <v-col cols="12" class="pb-0">
                                         <v-text-field v-model="review.product"  required :rules="[rules.required]">
-                                            <template v-slot:label>製品名<span style="color: red"> * </span>
+                                            <template v-slot:label>タイトル<span style="color: red"> * </span>
                                             </template>
                                         </v-text-field>
                                     </v-col>
@@ -159,19 +159,6 @@
                                             <audio controlslist="nodownload" class="audio-playReview1  " controls
                                                 v-bind:src="audioUrlReview1"></audio>
                                         </div>
-                                        <!-- 音声ファイル２ -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*" v-model="review.audio2Name"
-                                            persistent-hint hint="(10MBまで)" label="音声（エフェクターON）" required :rules="[rules.required]" ref="playReview2"
-                                            show-size @change="fileSelect1_2" v-on:change="playReview2" :error="audioRuleReview2">
-                                            <template v-slot:label>音声（エフェクターON）<span style="color: red"> * </span>
-                                            </template>
-                                        </v-file-input>
-                                        <!-- 上げた音声表示２ -->
-                                        <div class="playReview2-box" v-if="audioUrlReview2"
-                                            style="margin-bottom: 22px; height: 54px;">
-                                            <audio controlslist="nodownload" class="audio-playReview2 " controls
-                                                v-bind:src="audioUrlReview2"></audio>
-                                        </div>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -192,7 +179,7 @@
                                         <v-text-field v-for="equip in review.equips"
                                         v-model="review.equips[equip.index].equip"
                                             :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'"  required :rules="[rules.required]">
-                                            <template v-slot:label>機材 {{ equip.index + 1 }}<span style="color: red"> * </span>
+                                            <template v-slot:label>機材{{ equip.index + 1 }}<span style="color: red"> * </span>
                                             </template>
                                         </v-text-field>
                                         <v-btn variant="flat" icon="$plus" @click="addEquip(tab)"></v-btn>
@@ -304,8 +291,6 @@ export default {
                 // 音声情報
                 audio1: null,
                 audio1Name: [],
-                audio2: null,
-                audio2Name: [],
                 // 画像
                 image: null,
                 imageName: [],
@@ -356,7 +341,6 @@ export default {
                 && this.review.overview?.trim()
                 && this.review.recordingMethod?.trim()
                 && this.review.audio1Name.length
-                && this.review.audio2Name.length
                 && this.review.imageName.length
                 && existEquip
             ) {
@@ -437,11 +421,6 @@ export default {
         fileSelect1_1: function(e) {
             //選択したファイルの情報を取得しプロパティにいれる
             this.review.audio1 = e.target.files[0];
-        },
-        //音声ファイル2選択時の処理
-        fileSelect1_2: function(e) {
-            //選択したファイルの情報を取得しプロパティにいれる
-            this.review.audio2 = e.target.files[0];
         },
 
 
@@ -547,7 +526,6 @@ export default {
             formData.append('overview', this.review.overview);
             formData.append('recordingMethod', this.review.recordingMethod);
             formData.append('mp3_1', this.review.audio1);
-            formData.append('mp3_2', this.review.audio2);
             formData.append('img', this.review.image);
             let i = 0;
             for (i = 0; i < this.review.equips.length; i++) {
@@ -715,7 +693,6 @@ export default {
                 recordingMethod: "",
                 // 音声情報
                 audio1: null,
-                audio2: null,
                 // 画像
                 image: null,
                 equips: [

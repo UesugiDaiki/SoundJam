@@ -1,11 +1,9 @@
 <template>
-    <product v-for="product in products" :product="product" />
     <an-user v-for="user in users" :user="user" />
     <post v-for="post in posts" :post="post"/>
 </template>
 
 <script setup>
-import Product from '@/components/Product.vue'
 import AnUser from '@/components/AnUser.vue'
 import Post from '@/components/Post.vue'
 
@@ -16,7 +14,6 @@ export default {
     props: {
         posts: Object,
         users: Object,
-        products: Object,
     },
 }
 </script>

@@ -19,14 +19,12 @@ class AppController extends Controller
 
 
         if (DB::table('inquiry_table')->insert([
-            'PRODUCT_ID' => null,
             'REPLY_FROM' => 1,
             'REPLY_TO' => null,
             'TITLE' => $title,
             'OVERVIEW' => $overview,
             'RECORDING_METHOD' => null,
             'AUDIO1' => null,
-            'AUDIO2' => null,
             'IMAGES' => null,
             'IDENTIFICATION' => 1,
         ])) {
@@ -58,14 +56,12 @@ class AppController extends Controller
         $overview = $request->input('overview');
         $recordingMethod = $request->input('recordingMethod');
         if (DB::table('inquiry_table')->insert([
-            'PRODUCT_ID' => 1,
             'REPLY_FROM' => 1,
             'REPLY_TO' => null,
             'TITLE' => $title,
             'OVERVIEW' => $overview,
             'RECORDING_METHOD' => $recordingMethod,
             'AUDIO1' => 'storage/music/' . $music_OFF_name,
-            'AUDIO2' => 'storage/music/' . $music_ON_name,
             'IMAGES' => 'storage/product/' . $img_name,
             'IDENTIFICATION' => 0,
         ])) {

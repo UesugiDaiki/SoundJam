@@ -70,15 +70,6 @@ class PostController extends Controller
                 $post_value[] = $value["USER_NAME"];
                 $post_value[] = $value["ICON"];
             }
-            if ($post["POST_TYPE"] == 1) {
-                // 製品名
-                $product_name = DB::select('SELECT NAME FROM product_table WHERE id=' . $post["PRODUCT_ID"]);
-                foreach ($product_name as $value) {
-                    $post_key[] = 'PRODUCT_NAME';
-                    $value = (array)$value;
-                    $post_value[] = $value["NAME"];
-                }
-            }
             // 使用機材
             $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
             foreach ($tmp_items as $item) {
@@ -129,14 +120,12 @@ class PostController extends Controller
         if ($connect_post_id = DB::table('post_table')->insertGetId([
             //ログインしているユーザーのidを取得して格納
             'USER_ID' => $login_user_id,
-            'PRODUCT_ID' => null,
             'TITLE' => $title,
             'OVERVIEW' => $overview,
             'RECORDING_METHOD' => $recording_method,
             'DATES' => $date_time->format('Y-m-j G:i'),
             'LIKES' => 0,
             'AUDIO1' => $mp3_name,
-            'AUDIO2' => null,
             'IMAGES' => $img_name,
             'POST_TYPE' => 0,
         ])) {
@@ -207,7 +196,6 @@ class PostController extends Controller
     {
         //　ファイル名取得
         $mp3_name1 = $request->file('mp3_1')->getClientOriginalName();
-        $mp3_name2 = $request->file('mp3_2')->getClientOriginalName();
         $img_name = $request->file('img')->getClientOriginalName();
 
         $title = $request->input('product');
@@ -228,20 +216,17 @@ class PostController extends Controller
         if ($connect_post_id = DB::table('post_table')->insertGetId([
             //ログインしているユーザーのidを取得して格納
             'USER_ID' => $login_user_id,
-            'PRODUCT_ID' => null,
             'TITLE' => $title,
             'OVERVIEW' => $overview,
             'RECORDING_METHOD' => $recording_method,
             'DATES' => $date_time->format('Y-m-j G:i'),
             'LIKES' => 0,
             'AUDIO1' => $mp3_name1,
-            'AUDIO2' => $mp3_name2,
             'IMAGES' => $img_name,
             'POST_TYPE' => 1,
         ])) {
             // storage/app/public/post/投稿IDに、ファイルを保存
             $request->file('mp3_1')->storeAs('public/post/' . $connect_post_id, $mp3_name1);
-            $request->file('mp3_2')->storeAs('public/post/' . $connect_post_id, $mp3_name2);
             $request->file('img')->storeAs('public/post/' . $connect_post_id, $img_name);
 
             $i = 0;
@@ -326,7 +311,7 @@ class PostController extends Controller
             }
 
             //　ユーザーの情報を取得　id,
-            $user = DB::select('SELECT USER_NAME, ICON, FOLLOW_NOTICE, LIKE_NOTICE, FROZEN FROM user_table WHERE id=' . $request["userId"]);
+            $user = DB::select('SELECT USER_NAME, ICON, FOLLOW_NOTICE, LIKE_NOTICE FROM user_table WHERE id=' . $request["userId"]);
             foreach ($user as $value) {
                 // $post_key[] = 'id';
                 $post_key[] = 'USER_NAME';
@@ -335,7 +320,6 @@ class PostController extends Controller
                 $post_key[] = 'ICON';
                 $post_key[] = 'FOLLOW_NOTICE';
                 $post_key[] = 'LIKE_NOTICE';
-                $post_key[] = 'FROZEN';
                 $value = (array)$value;
                 // $post_value[] = $value['id'];
                 $post_value[] = $value['USER_NAME'];
@@ -344,18 +328,6 @@ class PostController extends Controller
                 $post_value[] = $value['ICON'];
                 $post_value[] = $value['FOLLOW_NOTICE'];
                 $post_value[] = $value['LIKE_NOTICE'];
-                $post_value[] = $value['FROZEN'];
-            }
-
-            //レビュー投稿の場合
-            if ($post["POST_TYPE"] == 1) {
-                // 製品名を取得
-                $product_name = DB::select('SELECT NAME FROM product_table WHERE id=' . $post["PRODUCT_ID"]);
-                foreach ($product_name as $value) {
-                    $post_key[] = 'PRODUCT_NAME';
-                    $value = (array)$value;
-                    $post_value[] = $value["NAME"];
-                }
             }
 
             // 取得した投稿IDに関連する使用機材を取得

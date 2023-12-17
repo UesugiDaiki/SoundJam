@@ -17,7 +17,7 @@
                                     <!-- 製品名 -->
                                     <v-col cols="12" class="pb-0">
                                         <v-text-field v-model="review.title" required :rules="[rules.required]">
-                                            <template v-slot:label>製品名<span style="color: red"> * </span></template>
+                                            <template v-slot:label>タイトル<span style="color: red"> * </span></template>
                                         </v-text-field>
                                     </v-col>
                                     <!-- 画像 -->
@@ -53,20 +53,6 @@
                                                 <!-- データベースから投稿の現在の音声を表示 -->
                                             <!-- 選択後 -->
                                             <audio controlslist="nodownload" class="audio-playReview1  " controls v-bind:src="audioUrlReview1"></audio>
-                                        </div>
-
-                                        <!-- 音声ファイル２ -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*" v-model="audio2Name"
-                                        persistent-hint hint="(10MBまで)" label="音声（エフェクターON）" required :rules="[rules.required]" ref="playReview2"
-                                        show-size @change="fileSelect1_2" v-on:change="playReview2" :error="audioRuleReview2">
-                                            <template v-slot:label>音声（エフェクターON）<span style="color: red"> * </span></template>
-                                        </v-file-input>
-                                        <!-- 上げた音声表示２ -->
-                                        <!-- 選択前 -->
-                                            <!-- データベースから投稿の現在の音声を表示 -->
-                                        <!-- 選択後 -->
-                                        <div class="playReview2-box" v-if="audioUrlReview2" style="margin-bottom: 22px; height: 54px;">
-                                            <audio controlslist="nodownload" class="audio-playReview2 " controls v-bind:src="audioUrlReview2"></audio>
                                         </div>
                                     </v-col>
                                     <!-- 概要 -->
@@ -145,8 +131,6 @@ export default {
                 // 音声情報
                 audio1: null,
                 audio1Name: [],
-                audio2: null,
-                audio2Name: [],
                 // 画像
                 image: null,
                 imageName: [

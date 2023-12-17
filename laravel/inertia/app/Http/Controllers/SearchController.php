@@ -100,40 +100,6 @@ class SearchController extends Controller
         return $newest_results;
     }
 
-    // 「製品」検索
-    public function search_product(Request $request)
-    {
-        $search_words = $request->input("searchWords");
-        $product_offset = $request->input("product") * 10;
-
-        $sql = "SELECT * FROM product_table WHERE ";
-        // NAME列から部分一致
-        $i = 0;
-        foreach ($search_words as $word) {
-            if ($i == 0) {
-                $sql .= "( NAME LIKE '%" . $word;
-            } else {
-                $sql .= "%' AND NAME LIKE '%" . $word;
-            }
-            $i++;
-        }
-        $sql .= "%' ) OR ";
-        // OVERVIEW列から部分一致
-        $j = 0;
-        foreach ($search_words as $word) {
-            if ($j == 0) {
-                $sql .= "( OVERVIEW LIKE '%" . $word;
-            } else {
-                $sql .= "%' AND OVERVIEW LIKE '%" . $word;
-            }
-            $j++;
-        }
-        $sql .= "%' ) LIMIT 10 OFFSET " . $product_offset;
-        $product_results = DB::select($sql);
-
-        return $product_results;
-    }
-
     // 「アカウント」検索
     public function search_user(Request $request)
     {

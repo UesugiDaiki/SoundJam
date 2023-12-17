@@ -49,11 +49,6 @@ const routes = [
     component: () => import('@/layouts/postDetail/PostDetail.vue'),
     props: true,
 },
-{
-    path: '/detail',
-    name: 'detail',
-    component: () => import('@/layouts/ProductDetail/ProductDetail.vue'),
-},
 ]
 
 const router = createRouter({

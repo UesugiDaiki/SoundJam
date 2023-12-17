@@ -39,7 +39,7 @@
                             <form @submit.prevent="submit">
                                 <v-row>
                                     <v-col cols="6" class="pb-0">
-                                        <v-text-field v-model="review.title" label="製品名" required></v-text-field>
+                                        <v-text-field v-model="review.title" label="タイトル" required></v-text-field>
                                     </v-col>
                                     <v-col cols="6" class="pb-0">
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth"
@@ -62,14 +62,14 @@
                                         <v-textarea v-model="review.recordingMethod" rows="2" label="録音方法"></v-textarea>
                                     </v-col>
                                     <v-col cols="6" class="pt-0">
-                                        <v-text-field v-for="product in review.products"
-                                            :hint="'楽器から' + String(product.index + 1) + 'つ目につなげた機材名'"
-                                            :label="'機材' + String(product.index + 1)"></v-text-field>
-                                        <v-btn variant="flat" icon="$plus" @click="addProduct(tab)"></v-btn>
+                                        <v-text-field v-for="equip in review.equips"
+                                            :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'"
+                                            :label="'機材' + String(equip.index + 1)"></v-text-field>
+                                        <v-btn variant="flat" icon="$plus" @click="addEquip(tab)"></v-btn>
                                     </v-col>
                                     <v-col cols="6" class="pt-0 d-flex align-end" style="padding-bottom: 86px;">
-                                        <v-btn v-if="review.products.length > 1" variant="flat" icon="$minus"
-                                            @click="removeProduct(tab)"></v-btn>
+                                        <v-btn v-if="review.equips.length > 1" variant="flat" icon="$minus"
+                                            @click="removeEquip(tab)"></v-btn>
                                     </v-col>
                                 </v-row>
 
@@ -130,8 +130,8 @@ export default {
                 fileSelectimg: null,
                 fileSelectOFF: null,
                 fileSelectON: null,
-                products: [
-                    { index: 0, product: "" },
+                equips: [
+                    { index: 0, equip: "" },
                 ],
             },
             // お問合せ用
@@ -150,18 +150,18 @@ export default {
             this.dialog = true
         },
         // 使用機材追加
-        addProduct() {
-            let newIndex = this.review.products.length
-            let newProduct = { index: newIndex, product: '' }
-            this.review.products.push(newProduct)
+        addEquip() {
+            let newIndex = this.review.equips.length
+            let newEquip = { index: newIndex, equip: '' }
+            this.review.equips.push(newEquip)
         },
         // 使用機材削除
-        removeProduct() {
-            this.review.products.pop()
+        removeEquip() {
+            this.review.equips.pop()
         },
         // 連結投稿追加
         addLinkingPost() {
-            let newLinkingPost = { product: "", overview: "" }
+            let newLinkingPost = { equip: "", overview: "" }
             this.linkingReview.push(newLinkingPost)
         },
         // 連結投稿削除

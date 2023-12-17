@@ -15,7 +15,6 @@
                     <v-tab :key="1" :value="1" class="px-8" @click="firstSearch">すべて </v-tab>
                     <v-tab :key="2" :value="2" class="px-8" @click="firstSearch">いいね</v-tab>
                     <v-tab :key="3" :value="3" class="px-8" @click="firstSearch">最新</v-tab>
-                    <v-tab :key="4" :value="4" class="px-8" @click="firstSearch">製品 </v-tab>
                     <v-tab :key="5" :value="5" class="px-8" @click="firstSearch">アカウント </v-tab>
                 </v-tabs>
             </v-card>
@@ -32,10 +31,10 @@
 
                 <!-- 検索結果(すべて) -->
                 <v-window-item :value="1">
-                    <v-card v-if="likePosts.length + users.length + products.length == 0 && !firstSearching" elevation="0" class="my-10 text-center text-h5">
+                    <v-card v-if="likePosts.length + users.length == 0 && !firstSearching" elevation="0" class="my-10 text-center text-h5">
                         検索結果は見つかりませんでした
                     </v-card>
-                    <SearchResults :posts="likePosts" :users="users" :products="products" />
+                    <SearchResults :posts="likePosts" :users="users" />
                 </v-window-item>
 
                 <!-- 検索結果(いいね順) -->
@@ -52,14 +51,6 @@
                         検索結果は見つかりませんでした
                     </v-card>
                     <search-results-new :posts="newestPosts" />
-                </v-window-item>
-
-                <!-- 検索結果(製品) -->
-                <v-window-item :value="4">
-                    <v-card v-if="products.length == 0 && !firstSearching" elevation="0" class="my-10 text-center text-h5">
-                        検索結果は見つかりませんでした
-                    </v-card>
-                    <search-results-product :products="products" />
                 </v-window-item>
 
                 <!-- 検索結果(アカウント) -->
@@ -85,7 +76,6 @@ import NavDrawer from '@/components/NavDrawer.vue'
 import SearchResults from '@/components/SearchResults.vue'
 import SearchResultsLike from '@/components/SearchResultsLike.vue'
 import SearchResultsNew from '@/components/SearchResultsNew.vue'
-import SearchResultsProduct from '@/components/SearchResultsProduct.vue'
 import SearchResultsAccount from '@/components/SearchResultsAccount.vue'
 </script>
 
@@ -107,19 +97,16 @@ export default {
             this.firstSearching = true
             this.likePosts = [],
             this.newestPosts = [],
-            this.products = [],
             this.users = [],
             this.all = 0
             this.like = 0
             this.newest = 0
-            this.product = 0
             this.user = 0
             let searchData = {
                 searchWords: this.searchWords,
                 all: this.all,
                 like: this.like,
                 newest: this.newest,
-                product: this.product,
                 user: this.user,
             }
 
@@ -127,7 +114,6 @@ export default {
                 // 「すべて」検索
                 case 1:
                     let __likePosts
-                    let __products
                     let __users
                     await axios.post('/api/searchLike', searchData)
                         .then(function(response) {
@@ -137,16 +123,6 @@ export default {
                         })
                         .catch(function() {
                             console.log('失敗')
-                        })
-                    await axios.post('/api/searchProduct', searchData)
-                        .then(function(response) {
-                            console.log('成功')
-                            console.log(response)
-                            __products = response.data
-                        })
-                        .catch(function(error) {
-                            console.log('失敗')
-                            console.log(error)
                         })
                     await axios.post('/api/searchUser', searchData)
                         .then(function(response) {
@@ -160,7 +136,6 @@ export default {
                         })
                     this.firstSearching = false
                     this.likePosts = __likePosts
-                    this.products = __products
                     this.users = __users
                     break;
 
@@ -201,24 +176,6 @@ export default {
                     this.newest++
                     break;
 
-                // 「製品」検索
-                case 4:
-                    let _products
-                    await axios.post('/api/searchProduct', searchData)
-                        .then(function(response) {
-                            console.log('成功')
-                            console.log(response)
-                            _products = response.data
-                        })
-                        .catch(function(error) {
-                            console.log('失敗')
-                            console.log(error)
-                        })
-                        this.firstSearching = false
-                        this.products = _products
-                        this.product++
-                    break;
-
                 // 「アカウント」検索
                 case 5:
                     let _users
@@ -247,7 +204,6 @@ export default {
                 all: this.all,
                 like: this.like,
                 newest: this.newest,
-                product: this.product,
                 user: this.user,
             }
 
@@ -304,17 +260,6 @@ export default {
                     this.newest++
                     break;
 
-                // 「製品」検索
-                case 4:
-                    axios.post('/api/searchProduct', searchData)
-                        .then(function() {
-
-                        })
-                        .catch(function() {
-
-                        })
-                    break;
-
                 // 「アカウント」検索
                 case 5:
                     axios.post('/api/searchUser', searchData)
@@ -339,11 +284,9 @@ export default {
         all: 0,
         like: 0,
         newest: 0,
-        product: 0,
         user: 0,
         // 検索結果
         users: [],
-        products: [],
         likePosts: [],
         newestPosts: [],
     }),
