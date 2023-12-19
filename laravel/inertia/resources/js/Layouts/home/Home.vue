@@ -8,6 +8,10 @@
                 <v-progress-circular :indeterminate="reloadCircular"></v-progress-circular>
             </div>
             <post v-for="post in posts" :post="post"/>
+            <v-card v-if="posts.length === 0" elevation="0" class="my-10 pa-4">
+                <v-card-text class="text-center text-h5 pa-0">投稿がありません</v-card-text>
+                <v-card-text class="text-center text-caption pa-0">まずは気になるキーワードを検索してみましょう</v-card-text>
+            </v-card>
         </v-main>
     </v-app>
 </template>
