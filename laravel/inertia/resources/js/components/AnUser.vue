@@ -1,10 +1,10 @@
 <template>
     <v-row class="pl-3" justify="center">
         <v-sheet>
-            <v-card justify="center" class="mx-auto px-4 py-2" width="570px" rounded="0" elevation="0" link to="/profile">
+            <v-card justify="center" class="mx-auto px-4 py-2" width="570px" rounded="0" elevation="0" link :to="{name: 'user', params: {userId: user.id}}">
                 <v-card-title class="d-flex pa-0">
                     <!-- ?A?C?R?? -->
-                    <v-avatar :image="user.ICON" size="47" style="font-size: "></v-avatar>
+                    <v-avatar :image="'../../storage/user/' + user.id + '/' + user.ICON" size="47"></v-avatar>
                     <!-- ?A?J?E???g?? -->
                     <v-card-text style="font-size: 20px; " class="px-2 py-0 ">
                         <v-card-title class="pa-0" style="height: 28px;">{{ user.USER_NAME }}</v-card-title>

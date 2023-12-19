@@ -62,7 +62,7 @@ class UserController extends Controller
     // ユーザー情報取得
     public function get_user(Request $request)
     {
-        $post = DB::select('SELECT * FROM user_table WHERE id=' . $request['userId']);
+        $post = DB::select('SELECT * FROM user_table WHERE id=' . $request->input('userId'));
         // オブジェクト -> 連想配列
         $post = (array)$post;
         //配列の中のオブジェクト　-> 連想配列
