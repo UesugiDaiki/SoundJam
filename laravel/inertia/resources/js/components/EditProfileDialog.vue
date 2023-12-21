@@ -13,16 +13,16 @@
                     <form @submit.prevent="submit">
                         <v-row>
                             <v-col cols="12" class="pb-0">
-                                <v-text-field label="ユーザー名" v-model="user.USER_NAME" required></v-text-field>
+                                <v-text-field label="ユーザー名" v-model="_user.name" required></v-text-field>
                             </v-col>
                             <v-col cols="6" class="py-0">
                                 <v-file-input prepend-icon="" prepend-inner-icon="$camera" @change="fileSelect"></v-file-input>
                             </v-col>
                             <v-col cols="6" class="py-0">
-                                <v-text-field prepend-inner-icon="$link" v-model="user.WEBSITE" required></v-text-field>
+                                <v-text-field prepend-inner-icon="$link" v-model="_user.website" required></v-text-field>
                             </v-col>
                             <v-col cols="12" class="py-0">
-                                <v-textarea label="プロフィール" rows="3" v-model="user.PROFILES" required></v-textarea>
+                                <v-textarea label="プロフィール" rows="3" v-model="_user.profile" required></v-textarea>
                             </v-col>
                         </v-row>
 
@@ -50,24 +50,35 @@ export default {
             snackbar: false,
             snackbarMessage: '',
             dialog: false,
+            setDialog: false,
+            _user: {},
         }
     },
     methods: {
         //ファイル選択時の処理
         fileSelect: function(e) {
             //選択したファイルの情報を取得しプロパティにいれる
-            this.user.ICON = e.target.files[0];
+            this._user.icon = e.target.files[0];
         },
         openEditProfile() {
+            if (!this.setDialog) {
+                this._user = {
+                    name: this.user.USER_NAME,
+                    website: this.user.WEBSITE,
+                    profiles: this.user.PROFILES,
+                    icon: this.user.ICON,
+                }
+                this.setDialog = true
+            }
             this.dialog = true
         },
         async updateUser() {
             let formData = new FormData();
             formData.append('id', this.user.id);
-            formData.append('name', this.user.USER_NAME);
-            formData.append('website', this.user.WEBSITE);
-            formData.append('profiles', this.user.PROFILES);
-            formData.append('icon', this.user.ICON);
+            formData.append('name', this._user.name);
+            formData.append('website', this._user.website);
+            formData.append('profiles', this._user.profile);
+            formData.append('icon', this._user.icon);
 
             let successFlg = false
             await axios.post('/api/updateUser', formData)
@@ -80,8 +91,6 @@ export default {
                     })
                     .catch(function(error) {
                         console.log('失敗');
-                        //ページリロード
-                        // location.reload();
                         console.log(error);
                         successFlg = false
                     })
