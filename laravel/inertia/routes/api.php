@@ -38,6 +38,7 @@ Route::post('/postFree', [PostController::class, 'post_free']);
 Route::post('/postReview', [PostController::class, 'post_review']);
 Route::get('/getPosts', [PostController::class, 'get_posts']);
 Route::post('/getUserPostData', [PostController::class, 'get_user_post_data']);
+Route::post('/deletePost', [PostController::class, 'delete_post']);
 
 //ユーザー関連
 Route::post('/updateUser', [UserController::class, 'update_user']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
 use DateTime;
@@ -457,5 +458,13 @@ class PostController extends Controller
         };
 
         return $posts;
+    }
+
+    // 投稿削除
+    public function delete_post(Request $request)
+    {
+        $post_id = $request->input('postId');
+        Storage::deleteDirectory('public/post/' . $post_id);
+        DB::delete('DELETE FROM post_table WHERE id = ?', [$post_id]);
     }
 }

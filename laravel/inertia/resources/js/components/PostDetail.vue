@@ -4,7 +4,7 @@
 <v-row align="center" justify="center">
     <v-col cols="auto" class="soto">
     <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0" :ripple="false">
-        <TitleDetail :name="post.USER_NAME" :myImg="'../../storage/user/' + post.USER_ID + '/' + post.ICON" :title="post.TITLE" :userId="post.USER_ID" :postType="post.POST_TYPE"/>
+        <TitleDetail :post="post"/>
         <v-card-subtitle class="day">
             {{ post.DATES }}
         </v-card-subtitle>
@@ -30,7 +30,6 @@
         <v-divider></v-divider>
         <v-expand-transition class="mb-5">
         <div v-show="show">
-            <v-text>
             <v-row no-gutters>
                 <div class="add1">
                 <h2>
@@ -45,12 +44,9 @@
                 <h2>
                     録音方法
                 </h2>
-                <v-text>
                     {{ post.RECORDING_METHOD }}
-                </v-text>
                 </div>
             </v-row>
-            </v-text>
         </div>
         </v-expand-transition>
         <LinkingPost v-for="renPost in post.CONNECT" :key="renPost" :title="renPost[0]" :img="'../../'+renPost[3]"

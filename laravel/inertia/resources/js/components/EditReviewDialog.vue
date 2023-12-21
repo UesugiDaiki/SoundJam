@@ -14,71 +14,71 @@
                 <v-card-text>
                     <form @submit.prevent="submit">
                         <v-row>
-                                    <!-- 製品名 -->
-                                    <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="review.title" required :rules="[rules.required]">
-                                            <template v-slot:label>タイトル<span style="color: red"> * </span></template>
-                                        </v-text-field>
-                                    </v-col>
-                                    <!-- 画像 -->
-                                    <v-col cols="6" class="py-0" width="300">
-                                        <!-- 画像選択 -->
-                                        <v-file-input  prepend-icon="" prepend-inner-icon="$camera"  ref="previewReview"
-                                            hint="(5MBまで)" @change="fileSelect2" v-on:change="showReview" accept=".png,.jpg" show-size v-model="review.imageName"
-                                            persistent-hint :error="imgRuleReview" required :rules="[rules.required]">
-                                            <template v-slot:label>画像<span style="color: red"> * </span></template>
-                                        </v-file-input>
-                                        <!-- 上げた画像表示 -->
-                                        <div class="previewReview-box" style="margin-bottom: 22px" v-if="urlReview">
-                                            <!-- || 初期値はデータベースから持ってきた画像を表示してファイル選択されたらifで切り替える || -->
-                                            <!-- 選択前 -->
-                                                <!-- データベースから投稿の現在の画像を表示 -->
-                                            <!-- 選択後 -->
-                                            <v-img class="image-previewReview mx-auto" v-bind:src="urlReview" max-width="300"
-                                                min-width="300" max-height="220" min-height="220"></v-img>
-                                        </div>
-                                    </v-col>
-                                    <!-- 音声 -->
-                                    <v-col cols="6" class="py-0" width="300">
-                                        <!-- 音声ファイル１ -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*" v-model="audio1Name"
-                                        persistent-hint hint="(10MBまで)"  required :rules="[rules.required]" ref="playReview1"
-                                        show-size @change="fileSelect1_1" v-on:change="playReview1" :error="audioRuleReview1">
-                                            <template v-slot:label>音声（エフェクターOFF）<span style="color: red"> * </span></template>
-                                        </v-file-input>
-                                        
-                                        <!-- 上げた音声表示１ -->
-                                        <div class="playReview1-box" v-if="audioUrlReview1" style="margin-bottom: 22px; height: 54px; ">
-                                            <!-- 選択前 -->
-                                                <!-- データベースから投稿の現在の音声を表示 -->
-                                            <!-- 選択後 -->
-                                            <audio controlslist="nodownload" class="audio-playReview1  " controls v-bind:src="audioUrlReview1"></audio>
-                                        </div>
-                                    </v-col>
-                                    <!-- 概要 -->
-                                    <v-col cols="6" class="py-0">
-                                        <v-textarea auto-grow v-model="review.overview" rows="2" label="概要" required :rules="[rules.required]">
-                                            <template v-slot:label>概要<span style="color: red"> * </span></template>
-                                        </v-textarea>
-                                    </v-col>
-                                    <!-- 録音方法 --> 
-                                    <v-col cols="6" class="py-0">
-                                        <v-textarea auto-grow v-model="review.recordingMethod" rows="2" label="録音方法" required :rules="[rules.required]">
-                                            <template v-slot:label>音声（エフェクターON）<span style="color: red"> * </span></template>
-                                        </v-textarea>
-                                    </v-col>
-                                    <!-- 機材 -->
-                                    <v-col cols="6" class="pt-0">
-                                        <v-text-field v-for="equip in review.equips" v-model="review.equips[equip.index].equip" required :rules="[rules.required]"
-                                        :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'" :label="'機材' + String(equip.index + 1)">
-                                            <template v-slot:label>音声（エフェクターON）<span style="color: red"> * </span></template>
-                                        </v-text-field>
-                                        <v-btn variant="flat" icon="$plus" @click="addEquip(tab)"></v-btn>
-                                    </v-col>
-                                    <v-col cols="6" class="pt-0 d-flex align-end" style="padding-bottom: 86px;">
-                                        <v-btn v-if="review.equips.length > 1" variant="flat" icon="$minus" @click="removeEquip(tab)"></v-btn>
-                                    </v-col>
-                                </v-row>
+                            <!-- 製品名 -->
+                            <v-col cols="12" class="pb-0">
+                                <v-text-field v-model="review.title" required :rules="[rules.required]">
+                                    <template v-slot:label>タイトル<span style="color: red"> * </span></template>
+                                </v-text-field>
+                            </v-col>
+                            <!-- 画像 -->
+                            <v-col cols="6" class="py-0" width="300">
+                                <!-- 画像選択 -->
+                                <v-file-input  prepend-icon="" prepend-inner-icon="$camera"  ref="previewReview"
+                                    hint="(5MBまで)" @change="fileSelect2" v-on:change="showReview" accept=".png,.jpg" show-size v-model="review.imageName"
+                                    persistent-hint :error="imgRuleReview" required :rules="[rules.required]">
+                                    <template v-slot:label>画像<span style="color: red"> * </span></template>
+                                </v-file-input>
+                                <!-- 上げた画像表示 -->
+                                <div class="previewReview-box" style="margin-bottom: 22px" v-if="urlReview">
+                                    <!-- || 初期値はデータベースから持ってきた画像を表示してファイル選択されたらifで切り替える || -->
+                                    <!-- 選択前 -->
+                                        <!-- データベースから投稿の現在の画像を表示 -->
+                                    <!-- 選択後 -->
+                                    <v-img class="image-previewReview mx-auto" v-bind:src="urlReview" max-width="300"
+                                        min-width="300" max-height="220" min-height="220"></v-img>
+                                </div>
+                            </v-col>
+                            <!-- 音声 -->
+                            <v-col cols="6" class="py-0" width="300">
+                                <!-- 音声ファイル１ -->
+                                <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*" v-model="audio1Name"
+                                persistent-hint hint="(10MBまで)"  required :rules="[rules.required]" ref="playReview1"
+                                show-size @change="fileSelect1_1" v-on:change="playReview1" :error="audioRuleReview1">
+                                    <template v-slot:label>音声（エフェクターOFF）<span style="color: red"> * </span></template>
+                                </v-file-input>
+                                
+                                <!-- 上げた音声表示１ -->
+                                <div class="playReview1-box" v-if="audioUrlReview1" style="margin-bottom: 22px; height: 54px; ">
+                                    <!-- 選択前 -->
+                                        <!-- データベースから投稿の現在の音声を表示 -->
+                                    <!-- 選択後 -->
+                                    <audio controlslist="nodownload" class="audio-playReview1  " controls v-bind:src="audioUrlReview1"></audio>
+                                </div>
+                            </v-col>
+                            <!-- 概要 -->
+                            <v-col cols="6" class="py-0">
+                                <v-textarea auto-grow v-model="review.overview" rows="2" label="概要" required :rules="[rules.required]">
+                                    <template v-slot:label>概要<span style="color: red"> * </span></template>
+                                </v-textarea>
+                            </v-col>
+                            <!-- 録音方法 --> 
+                            <v-col cols="6" class="py-0">
+                                <v-textarea auto-grow v-model="review.recordingMethod" rows="2" label="録音方法" required :rules="[rules.required]">
+                                    <template v-slot:label>音声（エフェクターON）<span style="color: red"> * </span></template>
+                                </v-textarea>
+                            </v-col>
+                            <!-- 機材 -->
+                            <v-col cols="6" class="pt-0">
+                                <v-text-field v-for="equip in review.equips" v-model="review.equips[equip.index].equip" required :rules="[rules.required]"
+                                :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'" :label="'機材' + String(equip.index + 1)">
+                                    <template v-slot:label>音声（エフェクターON）<span style="color: red"> * </span></template>
+                                </v-text-field>
+                                <v-btn variant="flat" icon="$plus" @click="addEquip(tab)"></v-btn>
+                            </v-col>
+                            <v-col cols="6" class="pt-0 d-flex align-end" style="padding-bottom: 86px;">
+                                <v-btn v-if="review.equips.length > 1" variant="flat" icon="$minus" @click="removeEquip(tab)"></v-btn>
+                            </v-col>
+                        </v-row>
 
                         <v-card-actions>
                             <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="editPost">
@@ -145,6 +145,9 @@ export default {
             //機材追加数計測カウンター
             equipsReviewCounter: 0,
         }
+    },
+    props: {
+        post: Object,
     },
     computed: {
         // レビュー投稿の必須項目入力済か

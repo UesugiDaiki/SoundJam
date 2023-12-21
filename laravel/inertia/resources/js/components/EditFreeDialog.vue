@@ -14,64 +14,48 @@
                 <v-card-text>
                     <form @submit.prevent="submit">
                         <v-row>
-                                    <!-- タイトル -->
-                                    <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="free.title" required :rules="[rules.required]">
-                                            <template v-slot:label>タイトル<span style="color: red"> * </span></template>
-                                        </v-text-field>
-                                    </v-col>
-                                    <!-- 画像 -->
-                                    <v-col cols="6" class="py-0" width="300">
-                                        <!-- 画像選択 -->
-                                        <v-file-input  prepend-icon="" prepend-inner-icon="$camera"  ref="previewFree"
-                                            hint="(5MBまで)" @change="fileSelect2" v-on:change="showFree" accept=".png,.jpg" show-size v-model="free.imageName"
-                                            persistent-hint :error="imgRuleFree" required :rules="[rules.required]">
-                                            <template v-slot:label>画像<span style="color: red"> * </span></template>
-                                        </v-file-input>
-                                        <!-- 上げた画像表示 -->
-                                        <div class="previewFree-box" style="margin-bottom: 22px" v-if="urlFree">
-                                            <!-- || 初期値はデータベースから持ってきた画像を表示してファイル選択されたらifで切り替える || -->
-                                            <!-- 選択前 -->
-                                                <!-- データベースから投稿の現在の画像を表示 -->
-                                            <!-- 選択後 -->
-                                            <v-img class="image-previewFree mx-auto" v-bind:src="urlFree" max-width="300"
-                                                min-width="300" max-height="220" min-height="220"></v-img>
-                                        </div>
-                                    </v-col>
-                                    <!-- 音声 -->
-                                    <v-col cols="6" class="py-0" width="300">
-                                        <!--　音声ファイル選択 -->
-                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            hint="(10MBまで)"  required :rules="[rules.required]" ref="playFree" show-size v-model="free.audioName"
-                                            @change="fileSelect1" v-on:change="playFree" persistent-hint :error="audioRuleFree" >
-                                            <template v-slot:label>音声<span style="color: red"> * </span></template>
-                                        </v-file-input>
-                                        <!-- 上げた音声表示 -->
-                                        <div class="playFree-box" v-if="audioUrlFree" style="margin-bottom: 22px; height: 54px; ">
-                                            <!-- 選択前 -->
-                                                <!-- データベースから投稿の現在の音声を表示 -->
-                                            <!-- 選択後 -->
-                                            <audio controlslist="nodownload" class="audio-playFree " controls v-bind:src="audioUrlFree"></audio>
-                                        </div>
-                                    </v-col>
-                                    <!-- 概要 -->
-                                    <v-col cols="6" class="py-0">
-                                        <v-textarea auto-grow v-model="free.overview" rows="2" label="概要"></v-textarea>
-                                    </v-col>
-                                    <!-- 録音方法 -->
-                                    <v-col cols="6" class="py-0">
-                                        <v-textarea auto-grow v-model="free.recordingMethod" rows="2" label="録音方法"></v-textarea>
-                                    </v-col>
-                                    <!-- 機材 -->
-                                    <v-col cols="6" class="pt-0">
-                                        <v-text-field v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
-                                            :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'" :label="'機材' + String(equip.index + 1)"></v-text-field>
-                                        <v-btn variant="flat" icon="$plus" @click="addEquip(tab)"></v-btn>
-                                    </v-col>
-                                    <v-col cols="6" class="pt-0 d-flex align-end" style="padding-bottom: 86px;">
-                                        <v-btn v-if="free.equips.length > 1" variant="flat" icon="$minus" @click="removeEquip(tab)"></v-btn>
-                                    </v-col>
-                                </v-row>
+                            <!-- タイトル -->
+                            <v-col cols="12" class="pb-0">
+                                <v-text-field v-model="_post.title" required :rules="[rules.required]">
+                                    <template v-slot:label>タイトル<span style="color: red"> * </span></template>
+                                </v-text-field>
+                            </v-col>
+                            <!-- 画像 -->
+                            <v-col cols="6" class="py-0" width="300">
+                                <!-- 画像選択 -->
+                                <v-file-input  prepend-icon="" prepend-inner-icon="$camera"  ref="previewFree"
+                                    hint="(5MBまで)" v-on:change="showFree" accept=".png,.jpg" show-size v-model="_post.image"
+                                    persistent-hint :error="imgRuleFree" required :rules="[rules.required]">
+                                    <template v-slot:label>画像<span style="color: red"> * </span></template>
+                                </v-file-input>
+                            </v-col>
+                            <!-- 音声 -->
+                            <v-col cols="6" class="py-0" width="300">
+                                <!--　音声ファイル選択 -->
+                                <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
+                                    hint="(10MBまで)"  required :rules="[rules.required]" ref="playFree" show-size v-model="_post.audio"
+                                    v-on:change="playFree" persistent-hint :error="audioRuleFree" >
+                                    <template v-slot:label>音声<span style="color: red"> * </span></template>
+                                </v-file-input>
+                            </v-col>
+                            <!-- 概要 -->
+                            <v-col cols="6" class="py-0">
+                                <v-textarea auto-grow v-model="_post.overview" rows="2" label="概要"></v-textarea>
+                            </v-col>
+                            <!-- 録音方法 -->
+                            <v-col cols="6" class="py-0">
+                                <v-textarea auto-grow v-model="_post.recordingMethod" rows="2" label="録音方法"></v-textarea>
+                            </v-col>
+                            <!-- 機材 -->
+                            <v-col cols="6" class="pt-0">
+                                <v-text-field v-for="equip in _post.equips" v-model="_post.equips[equip.index].equip"
+                                    :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'" :label="'機材' + String(equip.index + 1)"></v-text-field>
+                                <v-btn variant="flat" icon="$plus" @click="addEquip(tab)"></v-btn>
+                            </v-col>
+                            <v-col cols="6" class="pt-0 d-flex align-end" style="padding-bottom: 86px;">
+                                <v-btn v-if="_post.equips.length > 1" variant="flat" icon="$minus" @click="removeEquip(tab)"></v-btn>
+                            </v-col>
+                        </v-row>
 
                         <v-card-actions>
                             <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="editPost">
@@ -85,6 +69,11 @@
     </v-row>
 
     <v-snackbar v-model="snackbar"> {{ snackbarMessage }} </v-snackbar>
+    <div v-for="item, key in post">
+        {{ key }}
+        {{ item }}
+        <br>
+    </div>
 </template>
 
 <script>
@@ -111,32 +100,32 @@ export default {
             snackbarMessage: '',
             dialog: false,
             tab: null,
-            free: {
+            setDialog: false,
+            //機材追加数計測カウンター
+            equipsFreeCounter: 0,
+            _post: {
                 // タイトル
-                title: "ZOOM/ MS-50G マルチストンプ マルチエフェクター",
+                title: "",
                 // 概要
-                overview: "今回はBOSSのMS-50gのレビューをしてみました。１００種のエフェクトから最大６種類組み合わせることができるのですが、今回私はファズを使ってみました。今回使用したファズは、「TB MK1.5」というファズです。追加エフェクトなのでPCとつないで追加する必要があります。「ZNR」というノイズリダクションも追加します。",
+                overview: "",
                 // 録音情報
-                recordingMethod: "PRESONUS Studio 24cからPCに取り込みました。DTMのソフトはStudio one5のArtistを使用しました。",
+                recordingMethod: "",
                 // 音声情報
                 audio: null,
                 audioName: [ 
-                    {name: "maou_bgm_piano40.mp3"},
+                    {name: ""},
                 ],
                 // 画像
                 image: null,
                 imageName: [
-                    {name: "ms50g.png"}
+                    {name: ""}
                 ],
-                equips: [
-                    {index: 0, equip: "YAMAHA REVSTAR420"},
-                    {index: 1, equip: "CANARE シールド"},
-                    {index: 2, equip: "BOSS MS-50g"},
-                ],
+                equips: [],
             },
-            //機材追加数計測カウンター
-            equipsFreeCounter: 0,
         }
+    },
+    props: {
+        post: Object,
     },
     computed: {
         // 自由投稿の必須項目入力済か
@@ -157,18 +146,30 @@ export default {
     },
     methods: {
         openDialog(){
+            if (!this.setDialog) {
+                this._post.title = this.post.TITLE
+                this._post.overview = this.post.OVERVIEW
+                this._post.recordingMethod = this.post.RECORDING_METHOD
+                this._post.audioName = this.post.AUDIO1
+                this._post.imageName = this.post.IMAGES
+                for (let i = 0; i < this.post.ITEMS.length; i++) {
+                    let equip = {index: i, equip: this.post.ITEMS[i]}
+                    this._post.equips.push(equip)
+                }
+                this.setDialog = true
+            }
             this.dialog = true
         },
 
         // 使用機材追加
         addEquip(type) {
-                let newIndex = this.free.equips.length
+                let newIndex = this._post.equips.length
                 let newequip = {index: newIndex, equip: ''}
-                this.free.equips.push(newequip)
+                this._post.equips.push(newequip)
         },
         // 使用機材削除
         removeEquip(type) {
-                this.free.equips.pop()
+                this._post.equips.pop()
         },
 
         // === 画像ファイルプレビュー === //

@@ -1,11 +1,11 @@
 <template>
     <v-card-title class="masaya">
-        <router-link :to="{ name: 'user', params: { userId: this.userId } }">
-            <v-img :width="47" :height="47" margin="auto" cover :src="myImg" class="title rounded-circle"></v-img>
+        <router-link :to="{ name: 'user', params: { userId: post.USER_ID } }">
+            <v-img :width="47" :height="47" margin="auto" cover :src="'../../storage/user/' + post.USER_ID + '/' + post.ICON" class="title rounded-circle"></v-img>
         </router-link>
 
         <v-card-title class="title name">
-            {{ name }}
+            {{ post.USER_NAME }}
         </v-card-title>
         <like class="title iine" />
         <div class="text-center">
@@ -43,9 +43,9 @@
         </div>
     </v-card-title>
 
-    <delete-post-dialog ref="delete"/>
-    <edit-free-dialog ref="editFree"/>
-    <edit-review-dialog ref="editReview"/>
+    <delete-post-dialog ref="delete" :title="post.TITLE" :postId="post.id"/>
+    <edit-free-dialog ref="editFree" :post="post"/>
+    <edit-review-dialog ref="editReview" :post="post"/>
 </template>
 
 <script setup>
@@ -66,18 +66,15 @@ export default {
         session: {data: null},
     }),
     props: {
-        name: String,
-        myImg: String,
-        userId: Number,
-        postType: Number,
+        post: Object,
     },
     computed: {
         loggedInAccount() {
-            return this.userId === this.session.data
+            return this.post.USER_ID === this.session.data
         }
     },
-    created() {
-        this.getSession()
+    async created() {
+        this.session = await axios.get('/api/getSession')
     },
     methods: {
         // 投稿削除ダイアログ表示
@@ -85,19 +82,15 @@ export default {
             // console.log('onDeletePost')
             this.$refs.delete.openDialog()
         },
-        async getSession() {
-            this.session = await axios.get('/api/getSession')
-        },
         // 投稿編集ダイアログ表示
         onEditPostDialog(){
             // レビューか自由か
-            console.log(this.postType)
-            if(this.postType){
+            console.log(this.post.POST_TYPE)
+            if(this.post.POST_TYPE){
                 // レビュー投稿の場合
                 console.log('onEditReviewPost')
                 this.$refs.editReview.openDialog()
-            }
-            else{
+            }else{
                 // 自由投稿の場合
                 console.log('onEditFreePost')
                 this.$refs.editFree.openDialog()
