@@ -100,99 +100,91 @@ class PostController extends Controller
             };
         } else {
             // ログインしている場合（フォローしているユーザーの投稿のみ表示）
-            $followees = [];
-            $get_post_sql = 'SELECT * FROM post_table WHERE USER_ID in (';
+            $followees = [$login_user_id];
+            $get_post_sql = 'SELECT * FROM post_table WHERE USER_ID in (?';
             $tmp_followees = DB::select('SELECT FOLLOWEE_ID FROM follow_table WHERE FOLLOWER_ID = ?', [$login_user_id]);
-            if (!empty($tmp_followees)) {
-                // １人以上フォローしている場合
-                $i = 0;
-                foreach($tmp_followees as $followee) {
-                    $followee = (array)$followee;
-                    array_push($followees, $followee['FOLLOWEE_ID']);
-                    if ($i == 0) {
-                        $get_post_sql .= '?';
-                    } else {
-                        $get_post_sql .= ', ?';
-                    }
-                    $i++;
-                }
-                $get_post_sql .= ')';
-
-                $tmp_posts = DB::select($get_post_sql, $followees);
-                foreach ($tmp_posts as $post) {
-                    $items = [];
-
-                    $items2 = [];
-                    // 1投稿ずつのJSON整形
-
-                    // オブジェクト -> 連想配列
-                    $post = (array)$post;
-                    foreach ($post as $key => $value) {
-                        $post_key[] = $key;
-                        $post_value[] = $value;
-                    }
-
-                    //ログインしている場合
-                    if ($sessions = Session::get('soundjam_user', 'default') !== 'default') {
-                        // 自分が良いねしている投稿の場合
-                        if (DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'] . ' AND LIKER_ID=' . $sessions)) {
-                            //いいねフラグをtrueで送信
-                            $post_key[] = 'LIKE_FLG';
-                            $post_value[] = true;
-                        } else {
-                            //いいねフラグをfalseで送信
-                            $post_key[] = 'LIKE_FLG';
-                            $post_value[] = false;
-                        };
-                    }
-
-                    //投稿のいいね数を計測
-                    // $like_list = null;
-                    $like_counter = 0;
-                    if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'])) {
-                        foreach ($like_list as $value) {
-                            //いいね数追加
-                            $like_counter++;
-                        }
-                        $post_key[] = 'LIKE_COUNT';
-                        $post_value[] = $like_counter;
-                    } else {
-                        $post_key[] = 'LIKE_COUNT';
-                        $post_value[] = $like_counter;
-                    }
-
-                    // ユーザー名
-                    $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id=' . $post["USER_ID"]);
-                    foreach ($user as $value) {
-                        $post_key[] = 'USER_NAME';
-                        $post_key[] = 'ICON';
-                        $value = (array)$value;
-                        $post_value[] = $value["USER_NAME"];
-                        $post_value[] = $value["ICON"];
-                    }
-                    // 使用機材
-                    $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
-                    foreach ($tmp_items as $item) {
-                        $item = (array)$item;
-                        $items[] = $item["EQUIP_NAME"];
-                    }
-                    $post_key[] = 'ITEMS';
-                    $post_value[] = $items;
-
-                    // 連結投稿データ取得
-                    $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID=' . $post["id"]);
-                    foreach ($test as $item) {
-                        $item = (array)$item;
-                        $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
-                    }
-                    $post_key[] = 'CONNECT';
-                    $post_value[] = $items2;
-
-                    $post = array_combine($post_key, $post_value);
-
-                    array_push($posts, $post);
-                };
+            // １人以上フォローしている場合
+            foreach($tmp_followees as $followee) {
+                $followee = (array)$followee;
+                array_push($followees, $followee['FOLLOWEE_ID']);
+                $get_post_sql .= ', ?';
             }
+            $get_post_sql .= ')';
+
+            $tmp_posts = DB::select($get_post_sql, $followees);
+            foreach ($tmp_posts as $post) {
+                $items = [];
+
+                $items2 = [];
+                // 1投稿ずつのJSON整形
+
+                // オブジェクト -> 連想配列
+                $post = (array)$post;
+                foreach ($post as $key => $value) {
+                    $post_key[] = $key;
+                    $post_value[] = $value;
+                }
+
+                //ログインしている場合
+                if ($sessions = Session::get('soundjam_user', 'default') !== 'default') {
+                    // 自分が良いねしている投稿の場合
+                    if (DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'] . ' AND LIKER_ID=' . $sessions)) {
+                        //いいねフラグをtrueで送信
+                        $post_key[] = 'LIKE_FLG';
+                        $post_value[] = true;
+                    } else {
+                        //いいねフラグをfalseで送信
+                        $post_key[] = 'LIKE_FLG';
+                        $post_value[] = false;
+                    };
+                }
+
+                //投稿のいいね数を計測
+                // $like_list = null;
+                $like_counter = 0;
+                if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'])) {
+                    foreach ($like_list as $value) {
+                        //いいね数追加
+                        $like_counter++;
+                    }
+                    $post_key[] = 'LIKE_COUNT';
+                    $post_value[] = $like_counter;
+                } else {
+                    $post_key[] = 'LIKE_COUNT';
+                    $post_value[] = $like_counter;
+                }
+
+                // ユーザー名
+                $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id=' . $post["USER_ID"]);
+                foreach ($user as $value) {
+                    $post_key[] = 'USER_NAME';
+                    $post_key[] = 'ICON';
+                    $value = (array)$value;
+                    $post_value[] = $value["USER_NAME"];
+                    $post_value[] = $value["ICON"];
+                }
+                // 使用機材
+                $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
+                foreach ($tmp_items as $item) {
+                    $item = (array)$item;
+                    $items[] = $item["EQUIP_NAME"];
+                }
+                $post_key[] = 'ITEMS';
+                $post_value[] = $items;
+
+                // 連結投稿データ取得
+                $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID=' . $post["id"]);
+                foreach ($test as $item) {
+                    $item = (array)$item;
+                    $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
+                }
+                $post_key[] = 'CONNECT';
+                $post_value[] = $items2;
+
+                $post = array_combine($post_key, $post_value);
+
+                array_push($posts, $post);
+            };
         }
 
         return $posts;
