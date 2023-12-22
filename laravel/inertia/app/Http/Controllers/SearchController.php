@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 // 検索関連
 class SearchController extends Controller
@@ -14,6 +15,7 @@ class SearchController extends Controller
     {
         $search_words = $request->input("searchWords");
         $like_offset = $request->input("like") * 10;
+        $like_results = [];
 
         $sql = "SELECT * FROM post_table WHERE ";
         // TITLE列から部分一致
@@ -49,17 +51,92 @@ class SearchController extends Controller
             $k++;
         }
         $sql .= "%' ) ORDER BY LIKES DESC, DATES DESC LIMIT 10 OFFSET " . $like_offset;
-        $like_results = DB::select($sql);
+        $tmp_like_results = DB::select($sql);
+
+        // 投稿ごとにユーザー、いいね、使用機材、連結投稿の情報を追加して整形
+        foreach ($tmp_like_results as $post) {
+            $items = [];
+
+            $items2 = [];
+            // 1投稿ずつのJSON整形
+
+            // オブジェクト -> 連想配列
+            $post = (array)$post;
+            foreach ($post as $key => $value) {
+                $post_key[] = $key;
+                $post_value[] = $value;
+            }
+
+            //ログインしている場合
+            if ($sessions = Session::get('soundjam_user', 'default') !== 'default') {
+                // 自分が良いねしている投稿の場合
+                if (DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'] . ' AND LIKER_ID=' . $sessions)) {
+                    //いいねフラグをtrueで送信
+                    $post_key[] = 'LIKE_FLG';
+                    $post_value[] = true;
+                } else {
+                    //いいねフラグをfalseで送信
+                    $post_key[] = 'LIKE_FLG';
+                    $post_value[] = false;
+                };
+            }
+
+            //投稿のいいね数を計測
+            // $like_list = null;
+            $like_counter = 0;
+            if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'])) {
+                foreach ($like_list as $value) {
+                    //いいね数追加
+                    $like_counter++;
+                }
+                $post_key[] = 'LIKE_COUNT';
+                $post_value[] = $like_counter;
+            } else {
+                $post_key[] = 'LIKE_COUNT';
+                $post_value[] = $like_counter;
+            }
+
+            // ユーザー名
+            $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id=' . $post["USER_ID"]);
+            foreach ($user as $value) {
+                $post_key[] = 'USER_NAME';
+                $post_key[] = 'ICON';
+                $value = (array)$value;
+                $post_value[] = $value["USER_NAME"];
+                $post_value[] = $value["ICON"];
+            }
+            // 使用機材
+            $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
+            foreach ($tmp_items as $item) {
+                $item = (array)$item;
+                $items[] = $item["EQUIP_NAME"];
+            }
+            $post_key[] = 'ITEMS';
+            $post_value[] = $items;
+
+            // 連結投稿データ取得
+            $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID=' . $post["id"]);
+            foreach ($test as $item) {
+                $item = (array)$item;
+                $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
+            }
+            $post_key[] = 'CONNECT';
+            $post_value[] = $items2;
+
+            $post = array_combine($post_key, $post_value);
+
+            array_push($like_results, $post);
+        };
 
         return $like_results;
     }
     
-
     // 「最新」検索
     public function search_newest(Request $request)
     {
         $search_words = $request->input("searchWords");
         $newest_offset = $request->input("newest") * 10;
+        $newest_results = [];
 
         $sql = "SELECT * FROM post_table WHERE ";
         // TITLE列から部分一致
@@ -95,7 +172,82 @@ class SearchController extends Controller
             $k++;
         }
         $sql .= "%' ) ORDER BY DATES DESC LIMIT 10 OFFSET " . $newest_offset;
-        $newest_results = DB::select($sql);
+        $tmp_newest_results = DB::select($sql);
+
+        // 投稿ごとにユーザー、いいね、使用機材、連結投稿の情報を追加して整形
+        foreach ($tmp_newest_results as $post) {
+            $items = [];
+
+            $items2 = [];
+            // 1投稿ずつのJSON整形
+
+            // オブジェクト -> 連想配列
+            $post = (array)$post;
+            foreach ($post as $key => $value) {
+                $post_key[] = $key;
+                $post_value[] = $value;
+            }
+
+            //ログインしている場合
+            if ($sessions = Session::get('soundjam_user', 'default') !== 'default') {
+                // 自分が良いねしている投稿の場合
+                if (DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'] . ' AND LIKER_ID=' . $sessions)) {
+                    //いいねフラグをtrueで送信
+                    $post_key[] = 'LIKE_FLG';
+                    $post_value[] = true;
+                } else {
+                    //いいねフラグをfalseで送信
+                    $post_key[] = 'LIKE_FLG';
+                    $post_value[] = false;
+                };
+            }
+
+            //投稿のいいね数を計測
+            // $like_list = null;
+            $like_counter = 0;
+            if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'])) {
+                foreach ($like_list as $value) {
+                    //いいね数追加
+                    $like_counter++;
+                }
+                $post_key[] = 'LIKE_COUNT';
+                $post_value[] = $like_counter;
+            } else {
+                $post_key[] = 'LIKE_COUNT';
+                $post_value[] = $like_counter;
+            }
+
+            // ユーザー名
+            $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id=' . $post["USER_ID"]);
+            foreach ($user as $value) {
+                $post_key[] = 'USER_NAME';
+                $post_key[] = 'ICON';
+                $value = (array)$value;
+                $post_value[] = $value["USER_NAME"];
+                $post_value[] = $value["ICON"];
+            }
+            // 使用機材
+            $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
+            foreach ($tmp_items as $item) {
+                $item = (array)$item;
+                $items[] = $item["EQUIP_NAME"];
+            }
+            $post_key[] = 'ITEMS';
+            $post_value[] = $items;
+
+            // 連結投稿データ取得
+            $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID=' . $post["id"]);
+            foreach ($test as $item) {
+                $item = (array)$item;
+                $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
+            }
+            $post_key[] = 'CONNECT';
+            $post_value[] = $items2;
+
+            $post = array_combine($post_key, $post_value);
+
+            array_push($newest_results, $post);
+        };
 
         return $newest_results;
     }
