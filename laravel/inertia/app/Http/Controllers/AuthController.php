@@ -26,7 +26,7 @@ class AuthController extends Controller
         //　strpos:指定した文字列が見つかる位置を返す
         if (strpos($request["loginID"], '@')) {
             // メールアドレスでログイン
-            $user = DB::select("SELECT * FROM user_table WHERE EMAIL_ADDRESS='" . $request["loginID"] . "'");
+            $user = DB::select('SELECT * FROM user_table WHERE EMAIL_ADDRESS = ?', [$request->input("loginID")]);
             //デバッグ
             $user = (array)$user[0];
             if ($user["PASSWORDS"] == $request["loginPass"]) {
@@ -34,7 +34,7 @@ class AuthController extends Controller
             }
         } else {
             // ログインIDでログイン
-            $user = DB::select('SELECT * FROM user_table WHERE ID=' . $request["loginID"]);
+            $user = DB::select('SELECT * FROM user_table WHERE ID = ?', [$request->input("loginID")]);
             $user = (array)$user[0];
             if ($user["PASSWORDS"] == $request["loginPass"]) {
                 Session::put('soundjam_user', $user["id"]);

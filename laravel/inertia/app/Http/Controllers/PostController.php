@@ -41,7 +41,7 @@ class PostController extends Controller
                 //ログインしている場合
                 if ($sessions = Session::get('soundjam_user', 'default') !== 'default') {
                     // 自分が良いねしている投稿の場合
-                    if (DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'] . ' AND LIKER_ID=' . $sessions)) {
+                    if (DB::select('SELECT * FROM like_table WHERE POST_ID = ? AND LIKER_ID = ?', [$post['id'], $sessions])) {
                         //いいねフラグをtrueで送信
                         $post_key[] = 'LIKE_FLG';
                         $post_value[] = true;
@@ -55,7 +55,7 @@ class PostController extends Controller
                 //投稿のいいね数を計測
                 // $like_list = null;
                 $like_counter = 0;
-                if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'])) {
+                if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID = ?', [$post['id']])) {
                     foreach ($like_list as $value) {
                         //いいね数追加
                         $like_counter++;
@@ -68,7 +68,7 @@ class PostController extends Controller
                 }
 
                 // ユーザー名
-                $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id=' . $post["USER_ID"]);
+                $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id = ?', [$post["USER_ID"]]);
                 foreach ($user as $value) {
                     $post_key[] = 'USER_NAME';
                     $post_key[] = 'ICON';
@@ -77,7 +77,7 @@ class PostController extends Controller
                     $post_value[] = $value["ICON"];
                 }
                 // 使用機材
-                $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
+                $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id = ?', [$post["id"]]);
                 foreach ($tmp_items as $item) {
                     $item = (array)$item;
                     $items[] = $item["EQUIP_NAME"];
@@ -86,7 +86,7 @@ class PostController extends Controller
                 $post_value[] = $items;
 
                 // 連結投稿データ取得
-                $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID=' . $post["id"]);
+                $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID = ?', [$post["id"]]);
                 foreach ($test as $item) {
                     $item = (array)$item;
                     $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
@@ -128,7 +128,7 @@ class PostController extends Controller
                 //ログインしている場合
                 if ($sessions = Session::get('soundjam_user', 'default') !== 'default') {
                     // 自分が良いねしている投稿の場合
-                    if (DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'] . ' AND LIKER_ID=' . $sessions)) {
+                    if (DB::select('SELECT * FROM like_table WHERE POST_ID = ? AND LIKER_ID = ?', [$post['id'], $sessions])) {
                         //いいねフラグをtrueで送信
                         $post_key[] = 'LIKE_FLG';
                         $post_value[] = true;
@@ -142,7 +142,7 @@ class PostController extends Controller
                 //投稿のいいね数を計測
                 // $like_list = null;
                 $like_counter = 0;
-                if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID=' . $post['id'])) {
+                if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID = ?', [$post['id']])) {
                     foreach ($like_list as $value) {
                         //いいね数追加
                         $like_counter++;
@@ -155,7 +155,7 @@ class PostController extends Controller
                 }
 
                 // ユーザー名
-                $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id=' . $post["USER_ID"]);
+                $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id = ?', [$post["USER_ID"]]);
                 foreach ($user as $value) {
                     $post_key[] = 'USER_NAME';
                     $post_key[] = 'ICON';
@@ -164,7 +164,7 @@ class PostController extends Controller
                     $post_value[] = $value["ICON"];
                 }
                 // 使用機材
-                $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
+                $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id = ?', [$post["id"]]);
                 foreach ($tmp_items as $item) {
                     $item = (array)$item;
                     $items[] = $item["EQUIP_NAME"];
@@ -173,7 +173,7 @@ class PostController extends Controller
                 $post_value[] = $items;
 
                 // 連結投稿データ取得
-                $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID=' . $post["id"]);
+                $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID = ?', [$post["id"]]);
                 foreach ($test as $item) {
                     $item = (array)$item;
                     $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
@@ -388,7 +388,7 @@ class PostController extends Controller
         $posts = [];
 
         // 投稿データ取得 (id列の値を基準に昇順)
-        $tmp_posts = DB::select('SELECT * FROM post_table WHERE USER_ID=' . $request["userId"]);
+        $tmp_posts = DB::select('SELECT * FROM post_table WHERE USER_ID = ?', [$request->input("userId")]);
 
         //取得した投稿データを一列ずつ取り出す
         foreach ($tmp_posts as $post) {
@@ -405,7 +405,7 @@ class PostController extends Controller
             }
 
             //　ユーザーの情報を取得　id,
-            $user = DB::select('SELECT USER_NAME, ICON, FOLLOW_NOTICE, LIKE_NOTICE FROM user_table WHERE id=' . $request["userId"]);
+            $user = DB::select('SELECT USER_NAME, ICON, FOLLOW_NOTICE, LIKE_NOTICE FROM user_table WHERE id = ?', [$request->input("userId")]);
             foreach ($user as $value) {
                 // $post_key[] = 'id';
                 $post_key[] = 'USER_NAME';
@@ -425,7 +425,7 @@ class PostController extends Controller
             }
 
             // 取得した投稿IDに関連する使用機材を取得
-            $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id=' . $post["id"]);
+            $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id = ?', [$post["id"]]);
             foreach ($tmp_items as $item) {
                 $item = (array)$item;
                 $items[] = $item["EQUIP_NAME"];
@@ -434,7 +434,7 @@ class PostController extends Controller
             $post_value[] = $items;
 
             // 取得した投稿データに関連する連結投稿データ取得
-            $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID=' . $post["id"]);
+            $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID = ?', [$post["id"]]);
             foreach ($test as $item) {
                 $item = (array)$item;
                 $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
