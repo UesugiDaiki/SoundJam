@@ -74,26 +74,6 @@ create table post_table (
     FOREIGN KEY (USER_ID) REFERENCES user_table(id) ON DELETE CASCADE
 );
 
--- 連結投稿テーブル
-create table connected_post_table (
-    -- 主キー
-    id int auto_increment primary key,
-    -- 連結元ID（連携元の投稿IDが保存される）
-    SOURCE_POST_ID int null,
-    -- 題名
-    TITLE varchar(200),
-    -- 概要
-    OVERVIEW varchar(200),
-    -- 音声1
-    AUDIO1 varchar(200),
-    -- 画像
-    IMAGES varchar(200),
-
-    -- 外部キー制約
-    -- 連結元ID
-    FOREIGN KEY (SOURCE_POST_ID) REFERENCES post_table(id) ON DELETE CASCADE
-);
-
 /*備考
     ・外部キーの投稿IDを主キーしていたので、
     機材テーブルの主キーを設定し、
@@ -231,8 +211,6 @@ INSERT INTO post_table VALUES (5,2,'投稿2-2','投稿2-2の概要です','録�
 INSERT INTO post_table VALUES (6,2,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21 0:00',3,'maou_bgm_fantasy15.mp3','ms50g.png',true);
 INSERT INTO post_table VALUES (7,3,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21 0:00',3,'maou_bgm_fantasy15.mp3','AC-3.jpg',true);
 INSERT INTO post_table VALUES (8,3,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21 0:00',3,'maou_bgm_fantasy15.mp3','AC-3.jpg',false);
-
-INSERT INTO connected_post_table VALUES (null, 8,'連結投稿','概要','maou_bgm_fantasy15.mp3','AC-3.jpg');
 
 INSERT INTO equip_table VALUES (null,1,1,'マルチストンプ');
 INSERT INTO equip_table VALUES (null,1,2,'投稿1使用機材2');

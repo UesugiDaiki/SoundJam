@@ -59,11 +59,9 @@ class SearchController extends Controller
         $sql .= " ) ORDER BY LIKES DESC, DATES DESC LIMIT 10 OFFSET ?";
         $tmp_like_results = DB::select($sql, $param);
 
-        // 投稿ごとにユーザー、いいね、使用機材、連結投稿の情報を追加して整形
+        // 投稿ごとにユーザー、いいね、使用機材を追加して整形
         foreach ($tmp_like_results as $post) {
             $items = [];
-
-            $items2 = [];
             // 1投稿ずつのJSON整形
 
             // オブジェクト -> 連想配列
@@ -119,15 +117,6 @@ class SearchController extends Controller
             }
             $post_key[] = 'ITEMS';
             $post_value[] = $items;
-
-            // 連結投稿データ取得
-            $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID = ?', [$post["id"]]);
-            foreach ($test as $item) {
-                $item = (array)$item;
-                $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
-            }
-            $post_key[] = 'CONNECT';
-            $post_value[] = $items2;
 
             $post = array_combine($post_key, $post_value);
 
@@ -186,11 +175,9 @@ class SearchController extends Controller
         $sql .= " ) ORDER BY DATES DESC LIMIT 10 OFFSET ?";
         $tmp_newest_results = DB::select($sql, $param);
 
-        // 投稿ごとにユーザー、いいね、使用機材、連結投稿の情報を追加して整形
+        // 投稿ごとにユーザー、いいね、使用機材を追加して整形
         foreach ($tmp_newest_results as $post) {
             $items = [];
-
-            $items2 = [];
             // 1投稿ずつのJSON整形
 
             // オブジェクト -> 連想配列
@@ -246,15 +233,6 @@ class SearchController extends Controller
             }
             $post_key[] = 'ITEMS';
             $post_value[] = $items;
-
-            // 連結投稿データ取得
-            $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID = ?', [$post["id"]]);
-            foreach ($test as $item) {
-                $item = (array)$item;
-                $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
-            }
-            $post_key[] = 'CONNECT';
-            $post_value[] = $items2;
 
             $post = array_combine($post_key, $post_value);
 

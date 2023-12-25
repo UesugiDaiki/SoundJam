@@ -6,7 +6,6 @@
                 <v-card-text class="text-center  pt-5">「{{ title }}」</v-card-text>
                 <!-- =============================== -->
                 <v-card-title class="text-center pt-2">この投稿を削除しますか？</v-card-title>
-                <!-- <v-card-subtitle class="text-center pt-2">※この投稿に連結している投稿も削除されます</v-card-subtitle> -->
                 <v-card-item class="px-3 py-5  d-flex justify-center">
                     <v-btn color="error" class="mx-5" @click="deletePost"> 削除 </v-btn>
                     <v-btn variant="tonal" class="mx-5" @click="dialog = false">

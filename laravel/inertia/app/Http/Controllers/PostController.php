@@ -85,15 +85,6 @@ class PostController extends Controller
                 $post_key[] = 'ITEMS';
                 $post_value[] = $items;
 
-                // 連結投稿データ取得
-                $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID = ?', [$post["id"]]);
-                foreach ($test as $item) {
-                    $item = (array)$item;
-                    $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
-                }
-                $post_key[] = 'CONNECT';
-                $post_value[] = $items2;
-
                 $post = array_combine($post_key, $post_value);
 
                 array_push($posts, $post);
@@ -172,15 +163,6 @@ class PostController extends Controller
                 $post_key[] = 'ITEMS';
                 $post_value[] = $items;
 
-                // 連結投稿データ取得
-                $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID = ?', [$post["id"]]);
-                foreach ($test as $item) {
-                    $item = (array)$item;
-                    $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
-                }
-                $post_key[] = 'CONNECT';
-                $post_value[] = $items2;
-
                 $post = array_combine($post_key, $post_value);
 
                 array_push($posts, $post);
@@ -207,7 +189,7 @@ class PostController extends Controller
         // 使用機材のDB挿入が成功か
         $success_flg = true;
 
-        // （消したら連結投稿出来ない）投稿したデータの主キー（id）を格納する変数
+        // 投稿したデータの主キー（id）を格納する変数
         $connect_post_id = null;
         $login_user_id = Session::get('soundjam_user');
         // post_tableへの挿入
@@ -243,43 +225,6 @@ class PostController extends Controller
                 }
                 $i++;
             }
-
-            //＝＝＝＝＝＝＝＝＝＝＝＝連結投稿部分：消すと連結出来ません＝＝＝＝＝＝＝＝＝＝＝＝＝
-            //連結投稿データの数を取得
-            $count = (int)$request->input('connectCounter');
-            //連結投稿の数だけデータを取得
-            for ($i = 0; $i < $count; $i++) {
-                //タイトル
-                $title = $request->input('connectFree' . $i . '_1');
-                //概要
-                $overview = $request->input('connectFree' . $i . '_2');
-                //ファイル名取得
-                $audio1 = $request->file('connectFree' . $i . '_3')->getClientOriginalName();
-                $images = $request->file('connectFree' . $i . '_4')->getClientOriginalName();
-                // storage/app/public/post/投稿IDに、ファイルを保存
-                $request->file('connectFree' . $i . '_3')->storeAs('public/post/' . $connect_post_id . '/', $audio1);
-                $request->file('connectFree' . $i . '_4')->storeAs('public/post/' . $connect_post_id . '/', $images);
-
-                //連結投稿データを格納する
-                if (DB::table('connected_post_table')->insert([
-                    //連結元のID
-                    'SOURCE_POST_ID' => $connect_post_id,
-                    //タイトル
-                    'TITLE' => $title,
-                    //概要
-                    'OVERVIEW' => $overview,
-                    //音声
-                    'AUDIO1' => 'storage/music/' . $audio1,
-                    //画像
-                    'IMAGES' => 'storage/product/' . $images,
-                ])) {
-                    Log::debug('連結投稿成功');
-                } else {
-                    Log::debug('連結投稿失敗');
-                    return '連結投稿失敗';
-                }
-            }
-            //＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
         } else {
             Log::debug("失敗してます");
         }
@@ -301,7 +246,7 @@ class PostController extends Controller
         // 使用機材のDB挿入が成功か
         $success_flg = true;
 
-        // （消したら連結投稿出来ない）投稿したデータの主キー（id）を格納する変数
+        // 投稿したデータの主キー（id）を格納する変数
         $connect_post_id = null;
         $login_user_id = Session::get('soundjam_user');
         $dateTime = now();
@@ -339,43 +284,6 @@ class PostController extends Controller
                 }
                 $i++;
             }
-
-            //＝＝＝＝＝＝＝＝＝＝＝連結投稿部分：消すと連結出来ません＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-            //連結投稿データの数を取得
-            $count = (int)$request->input('connectCounter');
-            //連結投稿の数だけデータを取得
-            for ($i = 0; $i < $count; $i++) {
-                //タイトル
-                $title = $request->input('connectReview' . $i . '_1');
-                //概要
-                $overview = $request->input('connectReview' . $i . '_2');
-                //音声ファイルの名前を取得
-                $audio1 = $request->file('connectReview' . $i . '_3')->getClientOriginalName();
-                $images = $request->file('connectReview' . $i . '_4')->getClientOriginalName();
-
-                //音声データをstorage/app/public/productに保存
-                $request->file('connectReview' . $i . '_3')->storeAs('public/post/' . $connect_post_id . '/', $audio1);
-                $request->file('connectReview' . $i . '_4')->storeAs('public/post/' . $connect_post_id . '/', $images);
-                //連結投稿データを格納する
-                if (DB::table('connected_post_table')->insert([
-                    //連結元のID
-                    'SOURCE_POST_ID' => $connect_post_id,
-                    //タイトル
-                    'TITLE' => $title,
-                    //概要
-                    'OVERVIEW' => $overview,
-                    //音声
-                    'AUDIO1' => 'storage/music/' . $audio1,
-                    //画像
-                    'IMAGES' => 'storage/product/' . $images,
-                ])) {
-                    Log::debug('連結投稿成功');
-                } else {
-                    Log::debug('連結投稿失敗');
-                    return '連結投稿失敗';
-                }
-            }
-            //＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
         } else {
             Log::debug("失敗してます");
         }
@@ -394,8 +302,6 @@ class PostController extends Controller
         foreach ($tmp_posts as $post) {
             // 使用機材配列
             $items = [];
-            // 連結投稿配列
-            $items2 = [];
 
             // 投稿データを整形
             $post = (array)$post;
@@ -432,15 +338,6 @@ class PostController extends Controller
             }
             $post_key[] = 'ITEMS';
             $post_value[] = $items;
-
-            // 取得した投稿データに関連する連結投稿データ取得
-            $test = DB::select('SELECT TITLE, OVERVIEW, AUDIO1, IMAGES FROM connected_post_table WHERE SOURCE_POST_ID = ?', [$post["id"]]);
-            foreach ($test as $item) {
-                $item = (array)$item;
-                $items2[] = [$item["TITLE"], $item["OVERVIEW"], $item["AUDIO1"], $item["IMAGES"]];
-            }
-            $post_key[] = 'CONNECT';
-            $post_value[] = $items2;
 
             //配列に変換
             $post = array_combine($post_key, $post_value);

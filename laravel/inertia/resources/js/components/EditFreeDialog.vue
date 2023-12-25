@@ -129,10 +129,7 @@ export default {
     },
     computed: {
         // 自由投稿の必須項目入力済か
-        // 連結投稿未実装
         isEnterFree() {
-            console.log(typeof this.linkingFree)
-            console.log(this.linkingFree)
             if (
                 this.free.title?.trim()
                 && this.free.audioName.length

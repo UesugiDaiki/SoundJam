@@ -151,10 +151,7 @@ export default {
     },
     computed: {
         // レビュー投稿の必須項目入力済か
-        // 連結投稿未実装
         isEnterReview() {
-            console.log(typeof this.linkingReview)
-            console.log(this.linkingReview)
             if (
                 this.review.title?.trim()
                 && this.review.audioName.length
