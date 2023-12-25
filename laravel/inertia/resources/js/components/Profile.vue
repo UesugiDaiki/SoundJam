@@ -15,8 +15,6 @@
                     height="48" :disabled="creating" @click="follow">フォロー</v-btn>
                 <v-btn class="my-auto mx-1" v-if="!loggedInAccount && followed" elevation="0" rounded
                     height="48" :disabled="creating" @click="unFollow">フォロー解除</v-btn>
-                <v-btn class="my-auto mx-1" v-if="!loggedInAccount && !notification" icon="$bellOutline" elevation="0" :disabled="creating" @click="onNotification"></v-btn>
-                <v-btn class="my-auto mx-1" v-if="!loggedInAccount && notification" icon="$bell" elevation="0" :disabled="creating" @click="offNotification"></v-btn>
                 <!-- end -->
             </v-card-title>
             <v-sheet class="ma-3">
@@ -50,7 +48,6 @@ export default {
         userId: null,
         snackbar: false,
         snackbarMessage: '',
-        notification: false,
     }),
     computed: {
         loggedInAccount() {
@@ -70,7 +67,6 @@ export default {
                 userId: this.userId,
             }
             let _followed
-            let _notification
             // フォローしているか判定
             await axios.post('/api/getFollow', createdData)
                 .then(function(response){
@@ -80,18 +76,8 @@ export default {
                 .catch(function(error){
                     console.log('フォロー情報取得失敗')
                 })
-            // 通知をONにしているか判定
-            await axios.post('/api/getPostNotice', createdData)
-                .then(function(response) {
-                    console.log('通知情報取得成功')
-                    _notification = response.data
-                })
-                .catch(function(error) {
-                    console.log('通知情報取得失敗')
-                })
             
             this.followed = _followed
-            this.notification = _notification
         }
         this.creating = false
     },
@@ -145,45 +131,6 @@ export default {
 
             if (successFlg) {
                 this.followed = false
-            }
-        },
-        // 通知ON
-        async onNotification() {
-            if (this.session.data !== '') {
-                let successFlg = false
-                await axios.post('/api/onNotice', {userId: this.userId})
-                    .then(function(response) {
-                        console.log('通知ON成功')
-                        successFlg = true
-                    })
-                    .catch(function(error) {
-                        console.log('通知ON失敗')
-                        successFlg = false
-                    })
-
-                if (successFlg) {
-                    this.notification = true
-                }
-            } else {
-                this.snackbarMessage = '通知をONにするにはログインしてください。'
-                this.snackbar = true
-            }
-        },
-        // 通知OFF
-        async offNotification() {
-            let successFlg = false
-            await axios.post('/api/offNotice', {userId: this.userId})
-                .then(function(response) {
-                    console.log('通知OFF成功')
-                    successFlg = true
-                })
-                .catch(function(error) {
-                    console.log('通知OFF失敗')
-                    successFlg = false
-                })
-
-            if (successFlg) {
-                this.notification = false
             }
         },
     }

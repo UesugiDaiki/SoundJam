@@ -15,10 +15,6 @@ const routes = [
     component: () => import('@/layouts/search/Search.vue'),
 },
 {
-    path: '/notifications',
-    component: () => import('@/layouts/notifications/Notifications.vue'),
-},
-{
     path: '/inquiry',
     component: () => import('@/layouts/inquiry/Inquiry.vue')
 },
@@ -33,10 +29,6 @@ const routes = [
     path: '/settings',
     component: () => import('@/layouts/settings/Settings.vue'),
     children: [
-    {
-        path: 'notice_setting',
-        component: () => import('@/components/NoticeSetting.vue'),
-    },
     {
         path: 'reset_password',
         component: () => import('@/components/ResetPassword.vue'),

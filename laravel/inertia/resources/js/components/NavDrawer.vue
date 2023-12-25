@@ -12,10 +12,6 @@
                 <v-list-item class="d-flex justify-end pa-0">
                     <v-btn elevation="0" @click="Search" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$magnify"></v-btn>
                 </v-list-item>
-                <!-- 通知 -->
-                <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="Notifications" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path === '/notifications' ? '$bell' : '$bellOutline'"></v-btn>
-                </v-list-item>
                 <!-- お問い合わせ -->
                 <v-list-item class="d-flex justify-end pa-0">
                     <v-btn elevation="0" @click="Inquiry" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path === '/inquiry' ? '$email' : '$emailOutline'"></v-btn>
@@ -115,16 +111,6 @@ export default {
             // 検索画面に遷移
             this.$router.push('/search');
         },
-        //通知
-        Notifications() {
-            //ログイン判定
-            if (this.loginFlg === false) {
-                this.onLogin()
-            } else {
-                // 通知画面に遷移
-                this.$router.push('/notifications');
-            }
-        },
         //お問い合わせ
         Inquiry() {
             //ログイン判定
@@ -154,7 +140,7 @@ export default {
                 this.onLogin()
             } else {
                 // 設定画面に遷移
-                this.$router.push('/settings/notice_setting');
+                this.$router.push('/settings/reset_password');
             }
         },
     },

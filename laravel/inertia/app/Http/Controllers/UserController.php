@@ -17,7 +17,7 @@ class UserController extends Controller
         //全アカウント情報を取得
 
         $posts = [];
-        foreach (DB::select('SELECT id, USER_NAME, ICON, FOLLOW_NOTICE, LIKE_NOTICE FROM user_table ORDER BY id DESC') as $post) {
+        foreach (DB::select('SELECT id, USER_NAME, ICON FROM user_table ORDER BY id DESC') as $post) {
             // オブジェクト -> 連想配列
             $post = (array)$post;
             //posts配列に連想配列をプッシュ
@@ -69,42 +69,6 @@ class UserController extends Controller
         $post = (array)$post[0];
         //ユーザの情報を返す
         return $post;
-    }
-
-    // ログインしているユーザーの通知設定情報を取得
-    public function get_notice_settings()
-    {
-        $login_user_id = Session::get('soundjam_user');
-        $settings = DB::select('SELECT FOLLOW_NOTICE, LIKE_NOTICE FROM user_table WHERE id = ?', [$login_user_id]);
-        return $settings;
-    }
-
-    // フォロー通知をON
-    public function on_follow_notice()
-    {
-        $login_user_id = Session::get('soundjam_user');
-        DB::update('UPDATE user_table set FOLLOW_NOTICE = 1 WHERE id = ?', [$login_user_id]);
-    }
-
-    // フォロー通知をOFF
-    public function off_follow_notice()
-    {
-        $login_user_id = Session::get('soundjam_user');
-        DB::update('UPDATE user_table set FOLLOW_NOTICE = 0 WHERE id = ?', [$login_user_id]);
-    }
-
-    // いいね通知をON
-    public function on_like_notice()
-    {
-        $login_user_id = Session::get('soundjam_user');
-        DB::update('UPDATE user_table set LIKE_NOTICE = 1 WHERE id = ?', [$login_user_id]);
-    }
-
-    // いいね通知をOFF
-    public function off_like_notice()
-    {
-        $login_user_id = Session::get('soundjam_user');
-        DB::update('UPDATE user_table set LIKE_NOTICE = 0 WHERE id = ?', [$login_user_id]);
     }
 
     // パスワード変更

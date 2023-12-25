@@ -311,23 +311,19 @@ class PostController extends Controller
             }
 
             //　ユーザーの情報を取得　id,
-            $user = DB::select('SELECT USER_NAME, ICON, FOLLOW_NOTICE, LIKE_NOTICE FROM user_table WHERE id = ?', [$request->input("userId")]);
+            $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id = ?', [$request->input("userId")]);
             foreach ($user as $value) {
                 // $post_key[] = 'id';
                 $post_key[] = 'USER_NAME';
                 // $post_key[] = 'PROFILES';
                 // $post_key[] = 'WEBSITE';
                 $post_key[] = 'ICON';
-                $post_key[] = 'FOLLOW_NOTICE';
-                $post_key[] = 'LIKE_NOTICE';
                 $value = (array)$value;
                 // $post_value[] = $value['id'];
                 $post_value[] = $value['USER_NAME'];
                 // $post_value[] = $value['PROFILES'];
                 // $post_value[] = $value['WEBSITE'];
                 $post_value[] = $value['ICON'];
-                $post_value[] = $value['FOLLOW_NOTICE'];
-                $post_value[] = $value['LIKE_NOTICE'];
             }
 
             // 取得した投稿IDに関連する使用機材を取得

@@ -60,8 +60,6 @@ class AuthController extends Controller
             'ICON' => 'default_icon.jpg',
             'EMAIL_ADDRESS' => $request->input("registMail"),
             'PASSWORDS' => $request->input("registPass"),
-            'FOLLOW_NOTICE' => 1,
-            'LIKE_NOTICE' => 1,
         ];
         $user_id = DB::table('user_table')->insertGetId($regist_data);
 

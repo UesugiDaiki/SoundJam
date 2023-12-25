@@ -34,11 +34,7 @@ create table user_table (
     -- メールアドレス
     EMAIL_ADDRESS varchar(200) not null,
     -- パスワード
-    PASSWORDS varchar(200) not null,
-    -- フォロー通知ON/OF
-    FOLLOW_NOTICE BOOLEAN not null,
-    -- いいね通知ON/OFF
-    LIKE_NOTICE BOOLEAN not null
+    PASSWORDS varchar(200) not null
 );
 
 /*　備考
@@ -134,24 +130,6 @@ create table like_table (
     FOREIGN KEY (POST_ID) REFERENCES post_table(id) ON DELETE CASCADE
 );
 
--- 投稿通知テーブル
-create table postnotice_table (
-    -- 主キー
-    id int auto_increment primary key,
-    -- ONしている（外部キー）
-    is_on int not null,
-    -- ONされている（外部キー）
-    is_truned_on int not null,
-
-    -- 外部キー
-    -- ONしている
-    FOREIGN KEY (is_on) REFERENCES user_table(id) ON DELETE CASCADE,
-
-    -- ONされている
-    FOREIGN KEY (is_truned_on) REFERENCES user_table(id) ON DELETE CASCADE
-
-);
-
 -- お問い合わせテーブル
 create table inquiry_table (
     -- 主キー
@@ -199,9 +177,9 @@ create table admin_table (
 );
 
 
-INSERT INTO user_table VALUES (1,'雅弥','プロフィールプロフィール','linklink','masaya.png','test@test','testtest',1,1);
-INSERT INTO user_table VALUES (2,'管理者','プロフィールプロフィール','testlink','masaya.png','admin@admin','adminadmin',1,1);
-INSERT INTO user_table VALUES (3,'オフロスキー','お風呂は好きかい？','testlink','オフロスキー1.jpg','admin@admin','adminadmin',1,1);
+INSERT INTO user_table VALUES (1,'雅弥','プロフィールプロフィール','linklink','masaya.png','test@test','testtest');
+INSERT INTO user_table VALUES (2,'管理者','プロフィールプロフィール','testlink','masaya.png','admin@admin','adminadmin');
+INSERT INTO user_table VALUES (3,'オフロスキー','お風呂は好きかい？','testlink','オフロスキー1.jpg','admin@admin','adminadmin');
 
 INSERT INTO post_table VALUES (1,1,'投稿１','投稿１の概要です','録音方法は。。。','2023/11/21 0:00',3,'maou_bgm_fantasy15.mp3','ms50g.png',true);
 INSERT INTO post_table VALUES (2,1,'投稿2','投稿2の概要です','録音方法は。。。','2023/11/21 0:00',3,'maou_bgm_fantasy15.mp3','ms50g.png',true);
