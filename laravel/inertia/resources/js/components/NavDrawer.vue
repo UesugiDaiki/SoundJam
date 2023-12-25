@@ -18,7 +18,7 @@
                 </v-list-item>
                 <!-- ユーザー（プロフィール） -->
                 <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="User" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path.includes('/user') ? '$account' : '$accountOutline'"></v-btn>
+                    <v-btn elevation="0" @click="User" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="isLoginUserPage ? '$account' : '$accountOutline'"></v-btn>
                 </v-list-item>
                 <!-- 設定詳細 -->
                 <v-list-item class="d-flex justify-end pa-0">
@@ -29,11 +29,11 @@
                     <v-btn elevation="0" @click="onPost" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$guitarPickOutline"></v-btn>
                 </v-list-item>
                 <!-- ログイン時のボタン表示 -->
-                <v-list-item v-if="loginFlg" class="d-flex justify-end pa-0">
+                <v-list-item v-if="loginFlg === true" class="d-flex justify-end pa-0">
                     <v-btn elevation="0" @click="onLogout" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$logout"></v-btn>
                 </v-list-item>
                 <!-- ログアウト時のボタン表示 -->
-                <v-list-item v-if="!loginFlg" class="d-flex justify-end pa-0">
+                <v-list-item v-if="loginFlg === false" class="d-flex justify-end pa-0">
                     <v-btn elevation="0" @click="onLogin" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$login"></v-btn>
                 </v-list-item>
             </v-list>

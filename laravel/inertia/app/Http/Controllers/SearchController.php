@@ -56,7 +56,7 @@ class SearchController extends Controller
             }
             $k++;
         }
-        $sql .= " ) ORDER BY DATES DESC LIMIT 10 OFFSET ?";
+        $sql .= " ) ORDER BY DATES ASC LIMIT 30 OFFSET ?";
         $tmp_newest_results = DB::select($sql, $param);
 
         // 投稿ごとにユーザー、使用機材を追加して整形
@@ -118,7 +118,7 @@ class SearchController extends Controller
             }
             $i++;
         }
-        $sql .= " ) LIMIT 10 OFFSET ?";
+        $sql .= " ) LIMIT 30 OFFSET ?";
         $user_results = DB::select($sql, $param);
 
         return $user_results;

@@ -15,9 +15,8 @@ class UserController extends Controller
     public function get_account()
     {
         //全アカウント情報を取得
-
         $posts = [];
-        foreach (DB::select('SELECT id, USER_NAME, ICON FROM user_table ORDER BY id DESC') as $post) {
+        foreach (DB::select('SELECT id, USER_NAME, ICON FROM user_table ORDER BY id DESC LIMIT 30') as $post) {
             // オブジェクト -> 連想配列
             $post = (array)$post;
             //posts配列に連想配列をプッシュ
