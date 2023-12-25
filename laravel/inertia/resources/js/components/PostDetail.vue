@@ -151,6 +151,7 @@ export default {
 }
 
 .day {
+    padding-top: 10px;
     text-align: right;
 }
 </style>

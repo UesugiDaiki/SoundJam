@@ -269,7 +269,7 @@ export default {
             let existEquip = true
             console.log(this.review.equips.length)
             for (let i = 0; i < this.review.equips.length; i++) {
-                if (this.review.equips[i].equip !== '') {
+                if (this.review.equips[i].equip === '') {
                     existEquip = true
                 }
             }

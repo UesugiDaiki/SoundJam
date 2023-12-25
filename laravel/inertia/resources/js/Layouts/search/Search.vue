@@ -13,7 +13,6 @@
             <v-card max-width="556" class="mx-auto" elevation="0" hide-details>
                 <v-tabs bg-color="" slider-color="teal-lighten-3" v-model="searchTab">
                     <v-tab :key="1" :value="1" class="px-8" @click="firstSearch">すべて </v-tab>
-                    <v-tab :key="2" :value="2" class="px-8" @click="firstSearch">いいね</v-tab>
                     <v-tab :key="3" :value="3" class="px-8" @click="firstSearch">最新</v-tab>
                     <v-tab :key="5" :value="5" class="px-8" @click="firstSearch">アカウント </v-tab>
                 </v-tabs>
@@ -31,18 +30,10 @@
 
                 <!-- 検索結果(すべて) -->
                 <v-window-item :value="1">
-                    <v-card v-if="likePosts.length + users.length == 0 && !firstSearching" elevation="0" class="my-10 text-center text-h5">
+                    <v-card v-if="newestPosts.length + users.length == 0 && !firstSearching" elevation="0" class="my-10 text-center text-h5">
                         検索結果は見つかりませんでした
                     </v-card>
-                    <SearchResults :posts="likePosts" :users="users" />
-                </v-window-item>
-
-                <!-- 検索結果(いいね順) -->
-                <v-window-item :value="2">
-                    <v-card v-if="likePosts.length == 0 && !firstSearching" elevation="0" class="my-10 text-center text-h5">
-                        検索結果は見つかりませんでした
-                    </v-card>
-                    <search-results-like :posts="likePosts" />
+                    <SearchResults :posts="newestPosts" :users="users" />
                 </v-window-item>
 
                 <!-- 検索結果(新着順) -->
@@ -74,7 +65,6 @@
 <script setup>
 import NavDrawer from '@/components/NavDrawer.vue'
 import SearchResults from '@/components/SearchResults.vue'
-import SearchResultsLike from '@/components/SearchResultsLike.vue'
 import SearchResultsNew from '@/components/SearchResultsNew.vue'
 import SearchResultsAccount from '@/components/SearchResultsAccount.vue'
 </script>
@@ -95,17 +85,14 @@ export default {
         // 検索バー検索
         async firstSearch() {
             this.firstSearching = true
-            this.likePosts = [],
             this.newestPosts = [],
             this.users = [],
             this.all = 0
-            this.like = 0
             this.newest = 0
             this.user = 0
             let searchData = {
                 searchWords: this.searchWords,
                 all: this.all,
-                like: this.like,
                 newest: this.newest,
                 user: this.user,
             }
@@ -113,13 +100,13 @@ export default {
             switch (this.searchTab) {
                 // 「すべて」検索
                 case 1:
-                    let __likePosts
+                    let __newestPosts
                     let __users
-                    await axios.post('/api/searchLike', searchData)
+                    await axios.post('/api/searchNewest', searchData)
                         .then(function(response) {
                             console.log('成功')
                             console.log(response)
-                            __likePosts = response.data
+                            __newestPosts = response.data
                         })
                         .catch(function() {
                             console.log('失敗')
@@ -135,26 +122,8 @@ export default {
                             console.log(error)
                         })
                     this.firstSearching = false
-                    this.likePosts = __likePosts
+                    this.newestPosts = __newestPosts
                     this.users = __users
-                    break;
-
-                // 「いいね」検索
-                case 2:
-                    let _likePosts
-                    await axios.post('/api/searchLike', searchData)
-                        .then(function(response) {
-                            console.log('成功')
-                            console.log(response)
-                            _likePosts = response.data
-                        })
-                        .catch(function() {
-                            console.log('失敗')
-                        })
-                    
-                    this.firstSearching = false
-                    this.likePosts = _likePosts
-                    this.like++
                     break;
 
                 // 「最新順」検索
@@ -202,7 +171,6 @@ export default {
             let searchData = {
                 searchWords: this.searchWords,
                 all: this.all,
-                like: this.like,
                 newest: this.newest,
                 user: this.user,
             }
@@ -217,26 +185,6 @@ export default {
                         .catch(function() {
 
                         })
-                    break;
-
-                // 「いいね」検索
-                case 2:
-                    let _likePosts
-                    await axios.post('/api/searchLike', searchData)
-                        .then(function(response) {
-                            console.log('成功')
-                            console.log(response)
-                            _likePosts = response.data
-                        })
-                        .catch(function() {
-                            console.log('失敗')
-                        })
-                    
-                    this.searching = false
-                    for (let i = 0; i < _likePosts.length; i++) {
-                        this.likePosts.push(_likePosts[i])
-                    }
-                    this.like++
                     break;
 
                 // 「最新順」検索
@@ -282,12 +230,10 @@ export default {
         searchWord: '',
         // 検索回数
         all: 0,
-        like: 0,
         newest: 0,
         user: 0,
         // 検索結果
         users: [],
-        likePosts: [],
         newestPosts: [],
     }),
     computed: {

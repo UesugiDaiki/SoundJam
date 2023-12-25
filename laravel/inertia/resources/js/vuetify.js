@@ -109,7 +109,7 @@ export default createVuetify({
       plusBoxOutline: mdiPlusBoxOutline,
       minusBoxOutline: mdiMinusBoxOutline,
 
-      // いいね
+      // 音符
       musicNoteHalf: mdiMusicNoteHalf,
       musicNoteEighth: mdiMusicNoteEighth,
 

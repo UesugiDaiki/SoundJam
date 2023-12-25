@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
@@ -56,13 +55,8 @@ Route::post('/application', [AppController::class, 'application']);
 // 運営からのメッセージ取得
 Route::get('/getInquiry', [AppController::class, 'get_inquiry']);
 
-//いいね
-Route::post('/createLike', [LikeController::class, 'createLike']);
-Route::post('/deleteLike', [LikeController::class, 'deleteLike']);
-
 // 検索関連
 Route::post('/searchAll', [SearchController::class, 'search_all']);
-Route::post('/searchLike', [SearchController::class, 'search_like']);
 Route::post('/searchNewest', [SearchController::class, 'search_newest']);
 Route::post('/searchUser', [SearchController::class, 'search_user']);
 

@@ -14,14 +14,8 @@
     <v-card-title class="title name">
     {{ name }}
     </v-card-title>
-    <like class="title iine" :postId="this.postId" :likeFlg="likeFlg" :likeCount="likeCount"/>
 </v-card-title>
 </template>
-
-
-<script setup>
-import Like from '@/components/Like.vue'
-</script>
 
 <script>
 export default {
@@ -30,8 +24,6 @@ export default {
         myImg: String,
         userId: Number,
         postId: Number,
-        likeFlg: Boolean,
-        likeCount: Number,
     }
 }
 </script>

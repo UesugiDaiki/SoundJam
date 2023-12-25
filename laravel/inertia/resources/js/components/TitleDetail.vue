@@ -1,5 +1,5 @@
 <template>
-    <v-card-title class="masaya">
+    <v-card-title class="masaya d-flex">
         <router-link :to="{ name: 'user', params: { userId: post.USER_ID } }">
             <v-img :width="47" :height="47" margin="auto" cover :src="'../../storage/user/' + post.USER_ID + '/' + post.ICON" class="title rounded-circle"></v-img>
         </router-link>
@@ -7,7 +7,7 @@
         <v-card-title class="title name">
             {{ post.USER_NAME }}
         </v-card-title>
-        <like class="title iine" />
+        <v-spacer></v-spacer>
         <v-btn color="error" variant="text" icon="$delete" v-if="loggedInAccount" @click="onDeletePost" elevation="0"></v-btn>
     </v-card-title>
 
@@ -15,7 +15,6 @@
 </template>
 
 <script setup>
-import Like from '@/components/Like.vue'
 import DeletePostDialog from './DeletePostDialog.vue'
 import axios from 'axios'
 </script>

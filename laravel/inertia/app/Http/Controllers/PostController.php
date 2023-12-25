@@ -22,7 +22,7 @@ class PostController extends Controller
         $posts = [];
 
         if ($login_user_id == '') {
-            // ログインしていない場合（30日以内の投稿をいいね順表示）（未完成）
+            // ログインしていない場合
             // 投稿データ取得 (id列の値を基準に昇順)
             $tmp_posts = DB::select('SELECT * FROM post_table ORDER BY id DESC');
             foreach ($tmp_posts as $post) {
@@ -36,35 +36,6 @@ class PostController extends Controller
                 foreach ($post as $key => $value) {
                     $post_key[] = $key;
                     $post_value[] = $value;
-                }
-
-                //ログインしている場合
-                if ($sessions = Session::get('soundjam_user', 'default') !== 'default') {
-                    // 自分が良いねしている投稿の場合
-                    if (DB::select('SELECT * FROM like_table WHERE POST_ID = ? AND LIKER_ID = ?', [$post['id'], $sessions])) {
-                        //いいねフラグをtrueで送信
-                        $post_key[] = 'LIKE_FLG';
-                        $post_value[] = true;
-                    } else {
-                        //いいねフラグをfalseで送信
-                        $post_key[] = 'LIKE_FLG';
-                        $post_value[] = false;
-                    };
-                }
-
-                //投稿のいいね数を計測
-                // $like_list = null;
-                $like_counter = 0;
-                if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID = ?', [$post['id']])) {
-                    foreach ($like_list as $value) {
-                        //いいね数追加
-                        $like_counter++;
-                    }
-                    $post_key[] = 'LIKE_COUNT';
-                    $post_value[] = $like_counter;
-                } else {
-                    $post_key[] = 'LIKE_COUNT';
-                    $post_value[] = $like_counter;
                 }
 
                 // ユーザー名
@@ -114,35 +85,6 @@ class PostController extends Controller
                 foreach ($post as $key => $value) {
                     $post_key[] = $key;
                     $post_value[] = $value;
-                }
-
-                //ログインしている場合
-                if ($sessions = Session::get('soundjam_user', 'default') !== 'default') {
-                    // 自分が良いねしている投稿の場合
-                    if (DB::select('SELECT * FROM like_table WHERE POST_ID = ? AND LIKER_ID = ?', [$post['id'], $sessions])) {
-                        //いいねフラグをtrueで送信
-                        $post_key[] = 'LIKE_FLG';
-                        $post_value[] = true;
-                    } else {
-                        //いいねフラグをfalseで送信
-                        $post_key[] = 'LIKE_FLG';
-                        $post_value[] = false;
-                    };
-                }
-
-                //投稿のいいね数を計測
-                // $like_list = null;
-                $like_counter = 0;
-                if ($like_list = DB::select('SELECT * FROM like_table WHERE POST_ID = ?', [$post['id']])) {
-                    foreach ($like_list as $value) {
-                        //いいね数追加
-                        $like_counter++;
-                    }
-                    $post_key[] = 'LIKE_COUNT';
-                    $post_value[] = $like_counter;
-                } else {
-                    $post_key[] = 'LIKE_COUNT';
-                    $post_value[] = $like_counter;
                 }
 
                 // ユーザー名
@@ -200,7 +142,6 @@ class PostController extends Controller
             'OVERVIEW' => $overview,
             'RECORDING_METHOD' => $recording_method,
             'DATES' => $date_time->format('Y-m-j G:i'),
-            'LIKES' => 0,
             'AUDIO1' => $mp3_name,
             'IMAGES' => $img_name,
             'POST_TYPE' => 0,
@@ -259,7 +200,6 @@ class PostController extends Controller
             'OVERVIEW' => $overview,
             'RECORDING_METHOD' => $recording_method,
             'DATES' => $date_time->format('Y-m-j G:i'),
-            'LIKES' => 0,
             'AUDIO1' => $mp3_name1,
             'IMAGES' => $img_name,
             'POST_TYPE' => 1,
