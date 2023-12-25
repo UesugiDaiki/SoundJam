@@ -68,9 +68,6 @@ export default {
         window.scrollTo({
             top: 0,
         })
-        //デバッグ
-        console.log(this.$store.state.postData);
-        console.log(this.post.ITEMS);
     },
     data: () => ({
         //投稿データを保存するデータ

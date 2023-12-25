@@ -57,8 +57,6 @@ export default {
         //ユーザーの投稿データをstore.jsのstateに保存
         this.$store.commit('addData', this.post);
         // this.post = this.$store.state.postData;
-        console.log('feafaefa' + this.$store.state.postData);
-        console.log(this.post);
     },
     data: () => ({
         show: false,
@@ -69,13 +67,6 @@ export default {
         accodion: function (event) {
             event.preventDefault()
             this.show = !this.show
-        },
-        // /postにリダイレクトする
-        toPost: function () {
-            // this.$router.push("/post");
-            console.log('関数遷移成功')
-            // postに遷移した時、この投稿のidを渡す
-            // this.$router.push({name: 'post', params: {userId: this.post.id}});
         },
         //投稿詳細のデータをセットする関数
         setPostDetail() {

@@ -267,7 +267,6 @@ export default {
         // レビュー投稿の必須項目入力済か
         isEnterReview() {
             let existEquip = true
-            console.log(this.review.equips.length)
             for (let i = 0; i < this.review.equips.length; i++) {
                 if (this.review.equips[i].equip === '') {
                     existEquip = true
@@ -362,12 +361,9 @@ export default {
             let successFlg = false
             await axios.post('/api/postFree', formData, config)
                 .then(function (response) {
-                    console.log('成功')
                     successFlg = true
                 })
                 .catch(function (error) {
-                    console.log('失敗')
-                    console.log(error)
                     successFlg = false
                 })
 
@@ -394,12 +390,10 @@ export default {
             formData.append('img', this.review.image);
             let i = 0;
             for (i = 0; i < this.review.equips.length; i++) {
-                console.log(i);
                 formData.append('equip' + i, this.review.equips[i]["equip"]);
                 //機材追加数計測カウンター
                 this.equipsReviewCounter++;
             }
-            console.log(this.equipsReviewCounter);
             //機材数を格納
             formData.append('equipsCounter', this.equipsReviewCounter);
 
@@ -412,12 +406,9 @@ export default {
             let successFlg = false
             await axios.post('/api/postReview', formData, config)
                 .then(function (response) {
-                    console.log('成功')
                     successFlg = true
                 })
                 .catch(function (error) {
-                    console.log('失敗')
-                    console.log(error)
                     successFlg = false
                 })
 

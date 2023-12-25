@@ -61,9 +61,6 @@ export default {
         reveal: false,
     }),
     methods: {
-        // toPost: function() {
-        // this.$router.push("/post");
-        // },
         accodion: function (event) {
             event.preventDefault()
             this.show = !this.show

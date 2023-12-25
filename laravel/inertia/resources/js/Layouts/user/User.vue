@@ -32,7 +32,6 @@ export default {
         // //ユーザー情報取得
         async getUser() {
             const res = await axios.post('/api/getUser', {userId: this.$route.params.userId});
-            console.log(res.data);
             // 投稿データ取得
             this.user = res.data;
         },
@@ -40,7 +39,6 @@ export default {
         // ユーザの投稿関連データ取得
         async getUserPostData() {
             const res = await axios.post('/api/getUserPostData', {userId: this.$route.params.userId});
-            console.log(res.data);
             // 投稿データ取得
             this.posts = res.data;
         },

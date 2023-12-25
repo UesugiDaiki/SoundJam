@@ -42,7 +42,6 @@ export default {
     methods: {
         // 投稿削除ダイアログ表示
         onDeletePost() {
-            // console.log('onDeletePost')
             this.$refs.delete.openDialog()
         },
     }

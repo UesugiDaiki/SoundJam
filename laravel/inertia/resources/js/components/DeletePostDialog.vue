@@ -40,12 +40,10 @@ export default {
             this.dialog = true
         },
         async deletePost(){
-            console.log("削除")
             this.dialog = false
             let successFlg = false
             await axios.post('/api/deletePost', {postId: this.postId})
                 .then(function(response) {
-                    console.log('削除成功')
                     successFlg = true
                 })
                 .catch(function(error) {

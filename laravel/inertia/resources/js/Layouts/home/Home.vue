@@ -30,14 +30,11 @@ export default {
         this.reloadCircular = false;
         // 1分ごとにデータベースから投稿データを取得する
         this.reactiveGetPosts();
-        console.log(this.IntervalId);
     },
     //ページ離脱時に実行
     unmounted() {
-        console.log('setIntervalのID:' + this.IntervalId);
         //リアルタイム更新停止
         clearInterval(this.IntervalId);
-        console.log('setIntervalを停止しました')
     },
     methods: {
         // 投稿データ取得
@@ -45,13 +42,11 @@ export default {
             const res = await axios.get("/api/getPosts");
             // const res = await axios.get("/api/getUserPostData");
             this.posts = res.data;
-            console.log(this.posts);
         },
         // 投稿リアルタイム更新
         async reactiveGetPosts() {
             this.IntervalId = await setInterval(() => {
                 this.getPosts();
-                console.log('更新されました');
             }, 10000);
         },
     },

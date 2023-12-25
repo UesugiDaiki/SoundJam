@@ -132,14 +132,9 @@ export default {
             let successFlg = false
             await axios.post('/api/login', loginData)
                 .then(function(response) {
-                    console.log('成功');
-                    console.log(response);
-                    console.log(response['data']['soundjam_user']);
                     successFlg = true
                 })
                 .catch(function(error) {
-                    console.log('失敗');
-                    console.log(error);
                     successFlg = false
                 })
 
@@ -161,11 +156,9 @@ export default {
             let successFlg = false
             await axios.post('/api/regist', registData)
                 .then(function(response) {
-                    console.log('新規登録成功')
                     successFlg = true
                 })
                 .catch(function(error) {
-                    console.log('新規登録失敗')
                     successFlg = false
                 })
 

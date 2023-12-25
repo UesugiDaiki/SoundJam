@@ -17,14 +17,7 @@ export const store = createStore({
         addData(state, data) {
             //投稿データのオブジェクトを格納
             state.postData = data;
-            //成功表示
-            console.log('store成功：' + state.postData);
         },
-        // addPostDetailData(state, {n1, n2}) {
-        //     state.postDetailData = n1;
-        //     state.detailFlg = n2;
-        //     console.log( 'state' + state.detailFlg);
-        // }
     },
     //これをしないとデータが保持されない
     plugins: [createPersistedState(

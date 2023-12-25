@@ -76,10 +76,8 @@ export default {
     },
     //ページ離脱時に実行
     unmounted() {
-        console.log('setIntervalのID:' + this.IntervalId);
         //リアルタイム更新停止
         clearInterval(this.IntervalId);
-        console.log('setIntervalを停止しました')
     },
     methods: {
         // 検索バー検索
@@ -104,22 +102,11 @@ export default {
                     let __users
                     await axios.post('/api/searchNewest', searchData)
                         .then(function(response) {
-                            console.log('成功')
-                            console.log(response)
                             __newestPosts = response.data
-                        })
-                        .catch(function() {
-                            console.log('失敗')
                         })
                     await axios.post('/api/searchUser', searchData)
                         .then(function(response) {
-                            console.log('成功')
-                            console.log(response)
                             __users = response.data
-                        })
-                        .catch(function(error) {
-                            console.log('失敗')
-                            console.log(error)
                         })
                     this.firstSearching = false
                     this.newestPosts = __newestPosts
@@ -131,13 +118,7 @@ export default {
                     let _newestPosts
                     await axios.post('/api/searchNewest', searchData)
                         .then(function(response) {
-                            console.log('成功')
-                            console.log(response)
                             _newestPosts = response.data
-                        })
-                        .catch(function(error) {
-                            console.log('失敗')
-                            console.log(error)
                         })
 
                     this.firstSearching = false
@@ -150,13 +131,7 @@ export default {
                     let _users
                     await axios.post('/api/searchUser', searchData)
                         .then(function(response) {
-                            console.log('成功')
-                            console.log(response)
                             _users = response.data
-                        })
-                        .catch(function(error) {
-                            console.log('失敗')
-                            console.log(error)
                         })
                         this.firstSearching = false
                         this.users = _users
@@ -192,13 +167,7 @@ export default {
                     let _newestPosts
                     await axios.post('/api/searchNewest', searchData)
                         .then(function(response) {
-                            console.log('成功')
-                            console.log(response)
                             _newestPosts = response.data
-                        })
-                        .catch(function(error) {
-                            console.log('失敗')
-                            console.log(error)
                         })
 
                     this.searching = false

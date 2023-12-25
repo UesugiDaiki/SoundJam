@@ -65,8 +65,6 @@ export default {
     created() {
         this.path = this.$route.path
         this.getLogin()
-        console.log('this.path : ' + this.path.replace('/user/', ''))
-        console.log('this.session : ' + this.session)
     },
     computed: {
         isLoginUserPage() {
@@ -127,7 +125,6 @@ export default {
             if (this.loginFlg === false) {
                 this.onLogin()
             } else {
-                console.log(this.session['data']);
                 // プロフィール画面に遷移
                 // this.$router.push('/user');
                 this.$router.push({name: 'user', params: {userId: this.session['data']}});

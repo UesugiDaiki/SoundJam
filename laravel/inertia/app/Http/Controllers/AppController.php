@@ -18,7 +18,7 @@ class AppController extends Controller
         $recordingMethod = $request->input('recordingMethod');
 
 
-        if (DB::table('inquiry_table')->insert([
+        DB::table('inquiry_table')->insert([
             'REPLY_FROM' => 1,
             'REPLY_TO' => null,
             'TITLE' => $title,
@@ -27,11 +27,7 @@ class AppController extends Controller
             'AUDIO1' => null,
             'IMAGES' => null,
             'IDENTIFICATION' => 1,
-        ])) {
-            Log::debug('成功');
-        } else {
-            Log::debug('失敗');
-        }
+        ]);
         // 'REPLY_FROM' ここはユーザーIDを引っ張ってくる予定,
         // IDENTIFICATION →問い合わせ１，申請０
     }
@@ -55,7 +51,7 @@ class AppController extends Controller
         $title = $request->input('title');
         $overview = $request->input('overview');
         $recordingMethod = $request->input('recordingMethod');
-        if (DB::table('inquiry_table')->insert([
+        DB::table('inquiry_table')->insert([
             'REPLY_FROM' => 1,
             'REPLY_TO' => null,
             'TITLE' => $title,
@@ -64,11 +60,7 @@ class AppController extends Controller
             'AUDIO1' => 'storage/music/' . $music_OFF_name,
             'IMAGES' => 'storage/product/' . $img_name,
             'IDENTIFICATION' => 0,
-        ])) {
-            Log::debug('プロモ成功');
-        } else {
-            Log::debug('プロモ失敗');
-        }
+        ]);
         // 'REPLY_FROM' ここはユーザーIDを引っ張ってくる予定,
         // IDENTIFICATION →問い合わせ１，申請０
     }

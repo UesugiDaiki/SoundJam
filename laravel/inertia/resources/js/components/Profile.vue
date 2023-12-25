@@ -70,11 +70,7 @@ export default {
             // フォローしているか判定
             await axios.post('/api/getFollow', createdData)
                 .then(function(response){
-                    console.log('フォロー情報取得成功')
                     _followed = response.data
-                })
-                .catch(function(error){
-                    console.log('フォロー情報取得失敗')
                 })
             
             this.followed = _followed
@@ -96,11 +92,9 @@ export default {
                 let successFlg = false
                 await axios.post('/api/follow', followData)
                     .then(function(response) {
-                        console.log('フォロー成功')
                         successFlg = true
                     })
                     .catch(function(error) {
-                        console.log('フォロー失敗')
                         successFlg = false
                     })
                 
@@ -121,11 +115,9 @@ export default {
             let successFlg = false
             await axios.post('/api/unFollow', unFollowData)
                 .then(function(response) {
-                    console.log('フォロー解除成功')
                     successFlg = true
                 })
                 .catch(function(error) {
-                    console.log('フォロー解除失敗')
                     successFlg = false
                 })
 

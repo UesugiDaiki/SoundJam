@@ -166,8 +166,6 @@ class PostController extends Controller
                 }
                 $i++;
             }
-        } else {
-            Log::debug("失敗してます");
         }
     }
 
@@ -224,8 +222,6 @@ class PostController extends Controller
                 }
                 $i++;
             }
-        } else {
-            Log::debug("失敗してます");
         }
     }
 

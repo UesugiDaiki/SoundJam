@@ -83,15 +83,11 @@ export default {
             let successFlg = false
             await axios.post('/api/updateUser', formData)
                 .then(function(response) {
-                    console.log('成功');
                     //ページリロード
                     location.reload();
-                    console.log(response);
                     successFlg = true
                 })
                 .catch(function(error) {
-                    console.log('失敗');
-                    console.log(error);
                     successFlg = false
                 })
 

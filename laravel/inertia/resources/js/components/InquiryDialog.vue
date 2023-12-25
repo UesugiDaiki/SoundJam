@@ -154,8 +154,6 @@ export default {
 
         //　問い合わせ送信処理1
         async question(){
-            console.log(this.inquiry.title);
-            console.log(this.inquiry.overview);
             let formData = new FormData();
             formData.append('title',this.inquiry.title);
             formData.append('overview',this.inquiry.overview);
@@ -173,12 +171,9 @@ export default {
             let successFlg = false;
             await axios.post('/api/question', formData, config)
                 .then(function(response) {
-                    console.log('成功');
                     successFlg = true;
                 })
                 .catch(function(error) {
-                    console.log('失敗');
-                    console.log(error);
                     successFlg = false;
                 })
 
@@ -192,8 +187,6 @@ export default {
         },
         // 申請処理0
         async application(){
-            console.log(this.review.title);
-            console.log(this.review.overview);
             let formData = new FormData();
 
             formData.append('title',this.review.title);
@@ -213,12 +206,9 @@ export default {
             let successFlg = false;
             await axios.post('/api/application', formData, config)
                 .then(function(response) {
-                    console.log('成功プロ');
                     successFlg = true;
                 })
                 .catch(function(error) {
-                    console.log('失敗プロ');
-                    console.log(error);
                     successFlg = false;
                 })
 
