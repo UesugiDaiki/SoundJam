@@ -29,6 +29,8 @@ if (isset($_REQUEST['command'])) {
   switch ($_REQUEST['command']) {
     // メッセージ送信
     case 'send-message':
+      $stmt = $pdo->prepare('INSERT INTO inquiry_table (id, REPLY_FROM, REPLY_TO, TITLE, OVERVIEW, IDENTIFICATION) VALUES(null, null, ?, ?, ?, 0)');
+      $stmt->execute([$_REQUEST['address'], $_REQUEST['subject'], $_REQUEST['body']]);
       break;
   }
 }
