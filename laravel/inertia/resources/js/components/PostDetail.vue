@@ -64,6 +64,7 @@ export default {
     created() {
         //　storeに保存している投稿データを取得
         this.post = this.$store.state.postData;
+
         // 画面表示位置を一番上に移動
         window.scrollTo({
             top: 0,

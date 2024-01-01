@@ -52,12 +52,6 @@ import Title from '@/components/Title.vue'
 
 <script>
 export default {
-    created() {
-        // this.$store.commit('addData', this.post);
-        //ユーザーの投稿データをstore.jsのstateに保存
-        this.$store.commit('addData', this.post);
-        // this.post = this.$store.state.postData;
-    },
     data: () => ({
         show: false,
         reveal: false,

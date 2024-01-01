@@ -40,7 +40,6 @@ export default {
         // 投稿データ取得
         async getPosts() {
             const res = await axios.get("/api/getPosts");
-            // const res = await axios.get("/api/getUserPostData");
             this.posts = res.data;
         },
         // 投稿リアルタイム更新

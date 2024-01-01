@@ -53,9 +53,6 @@ import Title from '@/components/Title.vue'
 
 <script>
 export default {
-    // created() {
-
-    // },
     data: () => ({
         show: false,
         reveal: false,
