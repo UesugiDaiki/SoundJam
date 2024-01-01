@@ -19,7 +19,7 @@ class AppController extends Controller
 
 
         DB::table('inquiry_table')->insert([
-            'REPLY_FROM' => 1,
+            'REPLY_FROM' => Session::get('soundjam_user'),
             'REPLY_TO' => null,
             'TITLE' => $title,
             'OVERVIEW' => $overview,
