@@ -22,7 +22,7 @@ require 'header.php';
         <!-- item end -->
         <?php
         $i = 0;
-        $stmt = $pdo->prepare('SELECT REPLY_FROM, TITLE, OVERVIEW FROM inquiry_table WHERE REPLY_TO = null AND IDENTIFICATION = 1');
+        $stmt = $pdo->prepare('SELECT REPLY_FROM, TITLE, OVERVIEW FROM inquiry_table WHERE REPLY_TO IS NULL AND IDENTIFICATION = 1');
         $stmt->execute();
         foreach ($stmt as $row) {
             $i++;
@@ -39,8 +39,7 @@ require 'header.php';
             echo '</div>';
             echo '</div>';
         }
-
-        if ($i == 0) {
+        if (!$stmt->rowCount()) {
             echo '<p class="text-center">まだメッセージはありません</p>';
         }
         ?>
