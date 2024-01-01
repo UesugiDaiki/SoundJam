@@ -19,9 +19,7 @@ require 'header.php';
         <?php
         // 検索されたか
         if (isset($_REQUEST['command']) && $_REQUEST['command'] == 'delete-post-search') {
-            $i = 0;
             foreach($stmt as $row) {
-                $i++;
                 echo '<form action="delete_post.php" method="post">';
                 echo '<a href="http://localhost:8000/post/' . htmlspecialchars($row['id']) . '/" class="list-group-item list-group-item-action d-flex justify-content-between">';
                 echo '<p class="my-auto">' . htmlspecialchars($row['TITLE']) . '</p>';
@@ -32,7 +30,7 @@ require 'header.php';
                 echo '</form>';
             }
             
-            if ($i == 0) {
+            if (!$stmt->rowCount()) {
                 echo '<p class="text-center">一致する投稿はありません</p>';
             }
         } else {
