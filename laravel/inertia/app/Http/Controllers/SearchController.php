@@ -23,7 +23,7 @@ class SearchController extends Controller
         $param[] = $request->input("newest") * 10;
         $newest_results = [];
 
-        $sql = "SELECT * FROM post_table WHERE ";
+        $sql = "SELECT * FROM post_table WHERE IS_PROMOTION != 1 AND ";
         // TITLE列から部分一致
         $i = 0;
         foreach ($search_words as $word) {

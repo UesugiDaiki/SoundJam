@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use DateTime;
 
 // 運営に対する申告、申請関連
 class AppController extends Controller
@@ -15,54 +16,69 @@ class AppController extends Controller
     {
         $title = $request->input('title');
         $overview = $request->input('overview');
-        $recordingMethod = $request->input('recordingMethod');
-
 
         DB::table('inquiry_table')->insert([
             'REPLY_FROM' => Session::get('soundjam_user'),
             'REPLY_TO' => null,
             'TITLE' => $title,
             'OVERVIEW' => $overview,
-            'RECORDING_METHOD' => null,
-            'AUDIO1' => null,
-            'IMAGES' => null,
-            'IDENTIFICATION' => 1,
         ]);
         // 'REPLY_FROM' ここはユーザーIDを引っ張ってくる予定,
-        // IDENTIFICATION →問い合わせ１，申請０
     }
 
     // 申請処理
     public function application(Request $request)
     {
-
-        //画像ファイル取得
+        //　ファイル名取得
+        $mp3_name = $request->file('mp3')->getClientOriginalName();
         $img_name = $request->file('img')->getClientOriginalName();
-        // storage/app/publicに、ファイルを保存
-        $request->file('img')->storeAs('public/product', $img_name);
-
-        // 音声ファイルの名前取得
-        $music_OFF_name = $request->file('OFF')->getClientOriginalName();
-        $request->file('OFF')->storeAs('public/music', $music_OFF_name);
-
-        $music_ON_name = $request->file('ON')->getClientOriginalName();
-        $request->file('ON')->storeAs('public/music', $music_ON_name);
 
         $title = $request->input('title');
         $overview = $request->input('overview');
-        $recordingMethod = $request->input('recordingMethod');
-        DB::table('inquiry_table')->insert([
-            'REPLY_FROM' => 1,
-            'REPLY_TO' => null,
+        $recording_method = $request->input('recordingMethod');
+        date_default_timezone_set('Asia/Tokyo');
+        $date_time = new DateTime();
+
+        // 使用機材のDB挿入が成功か
+        $success_flg = true;
+
+        // 投稿したデータの主キー（id）を格納する変数
+        $connect_post_id = null;
+        $login_user_id = Session::get('soundjam_user');
+        // post_tableへの挿入
+        if ($connect_post_id = DB::table('post_table')->insertGetId([
+            //ログインしているユーザーのidを取得して格納
+            'USER_ID' => $login_user_id,
             'TITLE' => $title,
             'OVERVIEW' => $overview,
-            'RECORDING_METHOD' => $recordingMethod,
-            'AUDIO1' => 'storage/music/' . $music_OFF_name,
-            'IMAGES' => 'storage/product/' . $img_name,
-            'IDENTIFICATION' => 0,
-        ]);
-        // 'REPLY_FROM' ここはユーザーIDを引っ張ってくる予定,
-        // IDENTIFICATION →問い合わせ１，申請０
+            'RECORDING_METHOD' => $recording_method,
+            'DATES' => $date_time->format('Y-m-j G:i'),
+            'AUDIO1' => $mp3_name,
+            'IMAGES' => $img_name,
+            'POST_TYPE' => 0,
+            'IS_PROMOTION' => 1,
+        ])) {
+            // storage/app/public/post/投稿IDに、ファイルを保存
+            $request->file('mp3')->storeAs('public/post/' . $connect_post_id . '/', $mp3_name);
+            $request->file('img')->storeAs('public/post/' . $connect_post_id . '/', $img_name);
+
+            $i = 0;
+            $j = 1;
+            $equips = (int)$request->input('equipsCounter');
+            while ($i < $equips and $success_flg) {
+                // $equip = $equips['equip' . $i];
+                if (!(empty($request->input('equip' . $i)))) {
+                    // equip_tableへの挿入
+                    $success_flg = DB::table('equip_table')->insert([
+                        'POST_ID' => $connect_post_id,
+                        'NUMBERS' => $j,
+                        'EQUIP_NAME' => $request->input('equip' . $i),
+                    ]);
+                    $j++;
+                }
+                $i++;
+            }
+        }
     }
 
     // 運営からのメッセージ取得

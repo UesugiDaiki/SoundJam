@@ -24,7 +24,7 @@ class PostController extends Controller
         if ($login_user_id == '') {
             // ログインしていない場合
             // 投稿データ取得 (DATES列の値を基準に降順)
-            $tmp_posts = DB::select('SELECT * FROM post_table ORDER BY DATES ASC LIMIT 30');
+            $tmp_posts = DB::select('SELECT * FROM post_table WHERE IS_PROMOTION != 1 ORDER BY DATES ASC LIMIT 30');
             foreach ($tmp_posts as $post) {
                 $items = [];
                 // 1投稿ずつのJSON整形
@@ -61,7 +61,7 @@ class PostController extends Controller
         } else {
             // ログインしている場合（フォローしているユーザーの投稿のみ表示）
             $followees = [$login_user_id];
-            $get_post_sql = 'SELECT * FROM post_table WHERE USER_ID in (?';
+            $get_post_sql = 'SELECT * FROM post_table WHERE IS_PROMOTION != 1 AND USER_ID in (?';
             $tmp_followees = DB::select('SELECT FOLLOWEE_ID FROM follow_table WHERE FOLLOWER_ID = ?', [$login_user_id]);
             // １人以上フォローしている場合
             foreach($tmp_followees as $followee) {
@@ -122,7 +122,6 @@ class PostController extends Controller
         $recording_method = $request->input('recordingMethod');
         date_default_timezone_set('Asia/Tokyo');
         $date_time = new DateTime();
-        // $equips = $request->except(['title', 'overview', 'recordingMethod', 'mp3', 'img']);
 
         // 使用機材のDB挿入が成功か
         $success_flg = true;
@@ -141,6 +140,7 @@ class PostController extends Controller
             'AUDIO1' => $mp3_name,
             'IMAGES' => $img_name,
             'POST_TYPE' => 0,
+            'IS_PROMOTION' => 0,
         ])) {
             // storage/app/public/post/投稿IDに、ファイルを保存
             $request->file('mp3')->storeAs('public/post/' . $connect_post_id . '/', $mp3_name);
@@ -175,8 +175,8 @@ class PostController extends Controller
         $title = $request->input('product');
         $overview = $request->input('overview');
         $recording_method = $request->input('recordingMethod');
+        date_default_timezone_set('Asia/Tokyo');
         $date_time = new DateTime();
-        // $equips = $request->except(['title', 'overview', 'recordingMethod', 'mp3', 'img']);
 
         // 使用機材のDB挿入が成功か
         $success_flg = true;
@@ -197,6 +197,7 @@ class PostController extends Controller
             'AUDIO1' => $mp3_name1,
             'IMAGES' => $img_name,
             'POST_TYPE' => 1,
+            'IS_PROMOTION' => 0,
         ])) {
             // storage/app/public/post/投稿IDに、ファイルを保存
             $request->file('mp3_1')->storeAs('public/post/' . $connect_post_id, $mp3_name1);
@@ -228,7 +229,7 @@ class PostController extends Controller
         $posts = [];
 
         // 投稿データ取得 (DATES列の値を基準に昇順)
-        $tmp_posts = DB::select('SELECT * FROM post_table WHERE USER_ID = ? ORDER BY DATES ASC LIMIT 30', [$request->input("userId")]);
+        $tmp_posts = DB::select('SELECT * FROM post_table WHERE IS_PROMOTION != 1 AND USER_ID = ? ORDER BY DATES ASC LIMIT 30', [$request->input("userId")]);
 
         //取得した投稿データを一列ずつ取り出す
         foreach ($tmp_posts as $post) {
