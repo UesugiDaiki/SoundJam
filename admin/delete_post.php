@@ -34,7 +34,7 @@ require 'header.php';
                 echo '<p class="text-center">一致する投稿はありません</p>';
             }
         } else {
-            $stmt = $pdo->prepare('SELECT * FROM post_table ORDER BY DATES ASC');
+            $stmt = $pdo->prepare('SELECT * FROM post_table ORDER BY DATES DESC');
             $stmt->execute();
 
             foreach($stmt as $row) {

@@ -72,7 +72,7 @@ if (isset($_REQUEST['command'])) {
           $sql .= " AND RECORDING_METHOD LIKE ?";
         }
       }
-      $sql .= " ) ORDER BY DATES ASC";
+      $sql .= " ) ORDER BY DATES DESC";
 
       $stmt = $pdo->prepare($sql);
       $stmt->execute($param);
@@ -83,6 +83,57 @@ if (isset($_REQUEST['command'])) {
      */
     case 'delete-post':
       $stmt = $pdo->prepare('DELETE FROM post_table WHERE id = ?');
+      $stmt->execute([$_REQUEST['post-id']]);
+      break;
+
+    /**
+     * プロモーション検索
+     */
+    case 'promotion-search':
+      $words = explode(' ', $_REQUEST['words']);
+      for ($i = 0; $i < 3; $i++) {
+        foreach ($words as $word) {
+          $param[] = '%' . $word . '%';
+        }
+      }
+      $sql = 'SELECT id, TITLE FROM post_table WHERE IS_PROMOTION = 1 AND ';
+      // TITLE列から部分一致
+      for ($i = 0; $i < count($words); $i++) {
+        if ($i == 0) {
+          $sql .= "( TITLE LIKE ?";
+        } else {
+          $sql .= " AND TITLE LIKE ?";
+        }
+      }
+      $sql .= " ) OR ";
+      // OVERVIEW列から部分一致
+      for ($i = 0; $i < count($words); $i++) {
+        if ($i == 0) {
+          $sql .= "( OVERVIEW LIKE ?";
+        } else {
+          $sql .= " AND OVERVIEW LIKE ?";
+        }
+      }
+      $sql .= " ) OR ";
+      // RECORDING_METHOD列から部分一致
+      for ($i = 0; $i < count($words); $i++) {
+        if ($i == 0) {
+          $sql .= "( RECORDING_METHOD LIKE ?";
+        } else {
+          $sql .= " AND RECORDING_METHOD LIKE ?";
+        }
+      }
+      $sql .= " ) ORDER BY DATES DESC";
+
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute($param);
+      break;
+    
+    /**
+     * プロモーション許可
+     */
+    case 'post-promotion':
+      $stmt = $pdo->prepare('UPDATE post_table SET IS_PROMOTION = 2 WHERE id = ?');
       $stmt->execute([$_REQUEST['post-id']]);
       break;
   }

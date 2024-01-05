@@ -6,20 +6,6 @@ require 'header.php';
 
 <div class="container">
     <div class="accordion m-4" id="inbox-area">
-        <!-- item -->
-        <!-- <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#message1" aria-expanded="false" aria-controls="message1">
-                    ユーザーID : 件名
-                </button>
-            </h2>
-            <div id="message1" class="accordion-collapse collapse" data-bs-parent="#inbox-area">
-                <div class="accordion-body">
-                    ユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージユーザーからのメッセージ
-                </div>
-            </div>
-        </div> -->
-        <!-- item end -->
         <?php
         $i = 0;
         $stmt = $pdo->prepare('SELECT REPLY_FROM, TITLE, OVERVIEW FROM inquiry_table WHERE REPLY_TO IS NULL AND IDENTIFICATION = 1');
