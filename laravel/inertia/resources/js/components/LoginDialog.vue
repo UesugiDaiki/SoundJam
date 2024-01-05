@@ -12,8 +12,8 @@
                 <v-card-text>
                     <v-container>
                         <!-- ログイン情報入力テキストボックス -->
-                        <v-text-field v-model="loginID" label="メールアドレス/ユーザーID" required :rules="[rules.required]"></v-text-field>
-                        <v-text-field v-model="loginPass" label="パスワード" type="password" required :rules="[rules.required]"></v-text-field>
+                        <v-text-field v-model="loginID" label="メールアドレス/ユーザーID" :rules="[rules.required]"></v-text-field>
+                        <v-text-field v-model="loginPass" label="パスワード" type="password" :rules="[rules.required]"></v-text-field>
                         <v-card-item class="mt-3 d-flex justify-center ">
                             <!-- ログインボタン -->
                             <v-btn style="font-size: 16px;" color="black" width="200" height="40" elevation="0" :disabled="isEnterLogin"
@@ -40,15 +40,15 @@
                 <v-card-text class="pt-0">
                     <v-container class="pb-0">
                         <!-- 新規登録情報入力テキストボックス -->
-                        <v-text-field v-model="registName" label="ユーザー名" required :rules="[rules.required]"></v-text-field>
-                        <v-text-field v-model="registMail" label="メールアドレス" type="email" required :rules="[rules.required]"></v-text-field>
+                        <v-text-field v-model="registName" label="ユーザー名" :rules="[rules.required]"></v-text-field>
+                        <v-text-field v-model="registMail" label="メールアドレス" type="email" :rules="[rules.required]"></v-text-field>
                         <v-text-field v-model="registPass" label="パスワード" :type="show1 ? 'text' : 'password'"
-                            hint="半角英数字8~16文字" required :rules="[rules.required, rules.min, rules.max,]"
+                            hint="半角英数字8~16文字" :rules="[rules.required, rules.min, rules.max,]"
                             :append-inner-icon="show1 ? '$eye' : '$eyeOff'" @click:append-inner="show1 = !show1" counter>
                         </v-text-field>
 
                         <v-text-field v-model="registCheckPass" label="パスワード再確認" :type="show2 ? 'text' : 'password'"
-                            required :rules="[rules.required]" :append-inner-icon="show2 ? '$eye' : '$eyeOff'"
+                            :rules="[rules.required]" :append-inner-icon="show2 ? '$eye' : '$eyeOff'"
                             @click:append-inner="show2 = !show2" :error="matchPassWord" :error-messages="matchPassWord ? 'パスワードが一致しません' : null"></v-text-field>
                         <v-card-item class="mt-1  d-flex justify-center ">
                             <v-btn style="font-size: 16px;" color="black" width="200" height="40" :disabled="isEnterRegist" @click="regist">登録</v-btn>

@@ -19,10 +19,10 @@
                             <form @submit.prevent="submit">
                                 <v-row>
                                     <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="inquiry.title" label="件名" required></v-text-field>
+                                        <v-text-field v-model="inquiry.title" label="件名"></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-textarea v-model="inquiry.overview" label="本文" required></v-textarea>
+                                        <v-textarea v-model="inquiry.overview" label="本文"></v-textarea>
                                     </v-col>
                                 </v-row>
 
@@ -40,7 +40,7 @@
                                 <v-row>
                                     <!-- タイトル -->
                                     <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="free.title" required :rules="[rules.required]">
+                                        <v-text-field v-model="free.title" :rules="[rules.required]">
                                             <template v-slot:label>タイトル<span style="color: red"> * </span>
                                             </template>
                                         </v-text-field>
@@ -50,7 +50,7 @@
                                         <!-- 画像選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera" ref="previewFree"
                                             hint="(5MBまで)" @change="fileSelect2" v-on:change="showFree" accept=".png,.jpg"
-                                            show-size v-model="free.imageName" persistent-hint :error="imgRuleFree" required
+                                            show-size v-model="free.imageName" persistent-hint :error="imgRuleFree"
                                             :rules="[rules.required]">
                                             <template v-slot:label>画像<span style="color: red"> * </span>
                                             </template>
@@ -65,7 +65,7 @@
                                     <v-col cols="6" class="py-0" width="300">
                                         <!--　音声ファイル選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            hint="(10MBまで)" required :rules="[rules.required]" ref="playFree" show-size
+                                            hint="(10MBまで)" :rules="[rules.required]" ref="playFree" show-size
                                             v-model="free.audioName" @change="fileSelect1" v-on:change="playFree"
                                             persistent-hint :error="audioRuleFree">
                                             <template v-slot:label>音声<span style="color: red"> * </span>

@@ -20,7 +20,7 @@
                                 <v-row>
                                     <!-- タイトル -->
                                     <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="free.title" required :rules="[rules.required]">
+                                        <v-text-field v-model="free.title" :rules="[rules.required]">
                                             <template v-slot:label>タイトル<span style="color: red"> * </span>
                                             </template>
                                         </v-text-field>
@@ -30,7 +30,7 @@
                                         <!-- 画像選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera" ref="previewFree"
                                             hint="(5MBまで)" @change="fileSelect2" v-on:change="showFree" accept=".png,.jpg"
-                                            show-size v-model="free.imageName" persistent-hint :error="imgRuleFree" required
+                                            show-size v-model="free.imageName" persistent-hint :error="imgRuleFree"
                                             :rules="[rules.required]">
                                             <template v-slot:label>画像<span style="color: red"> * </span>
                                             </template>
@@ -45,7 +45,7 @@
                                     <v-col cols="6" class="py-0" width="300">
                                         <!--　音声ファイル選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            hint="(10MBまで)" required :rules="[rules.required]" ref="playFree" show-size
+                                            hint="(10MBまで)" :rules="[rules.required]" ref="playFree" show-size
                                             v-model="free.audioName" @change="fileSelect1" v-on:change="playFree"
                                             persistent-hint :error="audioRuleFree">
                                             <template v-slot:label>音声<span style="color: red"> * </span>
@@ -95,7 +95,7 @@
                                 <v-row>
                                     <!-- タイトル -->
                                     <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="review.product" required :rules="[rules.required]">
+                                        <v-text-field v-model="review.product" :rules="[rules.required]">
                                             <template v-slot:label>タイトル<span style="color: red"> * </span>
                                             </template>
                                         </v-text-field>
@@ -105,7 +105,7 @@
                                         <!-- 画像選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera"
                                             v-model="review.imageName" hint="(5MBまで)" persistent-hint accept=".png,.jpg"
-                                            @change="fileSelect3" v-on:change="showReview" ref="previewReview" required
+                                            @change="fileSelect3" v-on:change="showReview" ref="previewReview"
                                             :rules="[rules.required]" :error="imgRuleReview">
                                             <template v-slot:label>つまみの状態がわかる画像<span style="color: red"> * </span>
                                             </template>
@@ -120,7 +120,7 @@
                                     <v-col cols="6" class="py-0" width="300">
                                         <!-- 音声ファイル１ -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
-                                            v-model="review.audio1Name" persistent-hint hint="(10MBまで)" required
+                                            v-model="review.audio1Name" persistent-hint hint="(10MBまで)"
                                             :rules="[rules.required]" ref="playReview1" show-size @change="fileSelect1_1"
                                             v-on:change="playReview1" :error="audioRuleReview1">
                                             <template v-slot:label>音声（エフェクターOFF）<span style="color: red"> * </span>
@@ -136,7 +136,7 @@
                                 </v-row>
                                 <v-row>
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea auto-grow v-model="review.overview" rows="2" label="概要" required
+                                        <v-textarea auto-grow v-model="review.overview" rows="2" label="概要"
                                             :rules="[rules.required]">
                                             <template v-slot:label>概要<span style="color: red"> * </span>
                                             </template>
@@ -144,7 +144,7 @@
                                     </v-col>
                                     <v-col cols="6" class="py-0">
                                         <v-textarea auto-grow v-model="review.recordingMethod" rows="2" label="録音方法"
-                                            required :rules="[rules.required]">
+                                            :rules="[rules.required]">
                                             <template v-slot:label>録音方法<span style="color: red"> * </span>
                                             </template>
                                         </v-textarea>
@@ -153,7 +153,7 @@
                                     <v-col cols="6" class="pt-0">
                                         <v-text-field v-for="equip in review.equips"
                                             v-model="review.equips[equip.index].equip"
-                                            :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'" required
+                                            :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'"
                                             :rules="[rules.required]">
                                             <template v-slot:label>機材{{ equip.index + 1 }}<span style="color: red"> *
                                                 </span>
