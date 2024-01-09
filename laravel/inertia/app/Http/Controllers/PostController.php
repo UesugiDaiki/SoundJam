@@ -110,6 +110,46 @@ class PostController extends Controller
         return $posts;
     }
 
+    // 投稿取得（投稿詳細）
+    public function get_post_detail(Request $request)
+    {
+        // 投稿データ取得
+        $tmp_posts = DB::select('SELECT * FROM post_table WHERE id = ?', [$request->input('postId')]);
+        foreach ($tmp_posts as $post) {
+            $items = [];
+            // 1投稿ずつのJSON整形
+
+            // オブジェクト -> 連想配列
+            $post = (array)$post;
+            foreach ($post as $key => $value) {
+                $post_key[] = $key;
+                $post_value[] = $value;
+            }
+
+            // ユーザー名
+            $user = DB::select('SELECT USER_NAME, ICON FROM user_table WHERE id = ?', [$post["USER_ID"]]);
+            foreach ($user as $value) {
+                $post_key[] = 'USER_NAME';
+                $post_key[] = 'ICON';
+                $value = (array)$value;
+                $post_value[] = $value["USER_NAME"];
+                $post_value[] = $value["ICON"];
+            }
+            // 使用機材
+            $tmp_items = DB::select('SELECT EQUIP_NAME FROM equip_table WHERE post_id = ?', [$post["id"]]);
+            foreach ($tmp_items as $item) {
+                $item = (array)$item;
+                $items[] = $item["EQUIP_NAME"];
+            }
+            $post_key[] = 'ITEMS';
+            $post_value[] = $items;
+
+            $post = array_combine($post_key, $post_value);
+        };
+
+        return $post;
+    }
+
     //　自由投稿をDBに登録
     public function post_free(Request $request)
     {

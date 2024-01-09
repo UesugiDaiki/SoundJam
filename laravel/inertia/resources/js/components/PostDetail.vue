@@ -61,9 +61,20 @@ import TitleDetail from './TitleDetail.vue'
 <script>
 export default {
     //ページ読み込み時発動
-    created() {
+    async created() {
         //　storeに保存している投稿データを取得
         this.post = this.$store.state.postData;
+        // URLで直接画面遷移しているか
+        if (this.post.id === undefined) {
+            // している場合
+            let postId = Number(this.$route.path.replace(/[^0-9]/g, ''));
+            let _post
+            await axios.post("/api/getPostDetail", {postId: postId})
+                .then(function(response){
+                    _post = response.data
+                })
+            this.post = _post
+        }
 
         // 画面表示位置を一番上に移動
         window.scrollTo({
@@ -72,7 +83,7 @@ export default {
     },
     data: () => ({
         //投稿データを保存するデータ
-        post: Object,
+        post: {},
         show: true,
         reveal: false,
     }),

@@ -35,6 +35,7 @@ Route::post('/regist', [AuthController::class, 'regist']);
 Route::post('/postFree', [PostController::class, 'post_free']);
 Route::post('/postReview', [PostController::class, 'post_review']);
 Route::get('/getPosts', [PostController::class, 'get_posts']);
+Route::post('/getPostDetail', [PostController::class, 'get_post_detail']);
 Route::post('/getUserPostData', [PostController::class, 'get_user_post_data']);
 Route::post('/deletePost', [PostController::class, 'delete_post']);
 

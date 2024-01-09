@@ -1,6 +1,6 @@
 <template>
     <v-card-title class="masaya d-flex">
-        <router-link :to="{ name: 'user', params: { userId: post.USER_ID } }">
+        <router-link v-if="post.id !== undefined" :to="{ name: 'user', params: { userId: post.USER_ID } }">
             <v-img :width="47" :height="47" margin="auto" cover :src="'../../storage/user/' + post.USER_ID + '/' + post.ICON" class="title rounded-circle"></v-img>
         </router-link>
 
