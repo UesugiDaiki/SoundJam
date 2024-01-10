@@ -26,7 +26,7 @@
                 </v-list-item>
                 <!-- 投稿ダイアログ表示 -->
                 <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="onPost" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$guitarPickOutline"></v-btn>
+                    <v-btn elevation="0" @click="onPost" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$pencilPlusOutline"></v-btn>
                 </v-list-item>
                 <!-- ログイン時のボタン表示 -->
                 <v-list-item v-if="loginFlg === true" class="d-flex justify-end pa-0">
