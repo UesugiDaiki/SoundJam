@@ -3,7 +3,7 @@
         <v-navigation-drawer permanent>
             <v-list nav class="justify-end">
                 <!-- SoudJamロゴ -->
-                <v-list-item @click="Home" :ripple="false" :active="false" class="text-h6 font-weight-black text-center ml-auto" width="150px">SoundJam</v-list-item>
+                <v-list-item @click="Home" :ripple="false" :active="false" class="font-weight-black text-center ml-auto" width="150px">SoundJam</v-list-item>
                 <!-- ホーム -->
                 <v-list-item class="d-flex justify-end pa-0">
                     <v-btn elevation="0" @click="Home" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path === '/home' ? '$home' : '$homeOutline'"></v-btn>
