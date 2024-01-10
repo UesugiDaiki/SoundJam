@@ -72,11 +72,16 @@
                                         <v-text-field v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
                                             :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'"
                                             :label="'機材' + String(equip.index + 1)"></v-text-field>
-                                        <v-btn variant="flat" icon="$plus" @click="addEquip(tab)"></v-btn>
+                                        <v-btn variant="flat" icon="$plus" @click="addEquip(tab)">
+                                            <v-icon icon="$plus"></v-icon>
+                                            <v-tooltip activator="parent" location="right" text="機材を追加"></v-tooltip>
+                                        </v-btn>
                                     </v-col>
                                     <v-col cols="6" class="pt-0 d-flex align-end" style="padding-bottom: 86px;">
-                                        <v-btn v-if="free.equips.length > 1" variant="flat" icon="$minus"
-                                            @click="removeEquip(tab)"></v-btn>
+                                        <v-btn v-if="free.equips.length > 1" variant="flat" icon="$minus" @click="removeEquip(tab)">
+                                            <v-icon icon="$minus"></v-icon>
+                                            <v-tooltip activator="parent" location="right" text="機材を減らす"></v-tooltip>
+                                        </v-btn>
                                     </v-col>
                                 </v-row>
 
@@ -159,11 +164,16 @@
                                                 </span>
                                             </template>
                                         </v-text-field>
-                                        <v-btn variant="flat" icon="$plus" @click="addEquip(tab)"></v-btn>
+                                        <v-btn variant="flat" icon="$plus" @click="addEquip(tab)">
+                                            <v-icon icon="$plus"></v-icon>
+                                            <v-tooltip activator="parent" location="right" text="機材を追加"></v-tooltip>
+                                        </v-btn>
                                     </v-col>
                                     <v-col cols="6" class="pt-0 d-flex align-end" style="padding-bottom: 86px;">
-                                        <v-btn v-if="review.equips.length > 1" variant="flat" icon="$minus"
-                                            @click="removeEquip(tab)"></v-btn>
+                                        <v-btn v-if="review.equips.length > 1" variant="flat" icon="$minus" @click="removeEquip(tab)">
+                                            <v-icon icon="$minus"></v-icon>
+                                            <v-tooltip activator="parent" location="right" text="機材を減らす"></v-tooltip>
+                                        </v-btn>
                                     </v-col>
                                 </v-row>
 

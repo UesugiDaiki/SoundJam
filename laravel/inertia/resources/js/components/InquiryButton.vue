@@ -1,6 +1,7 @@
 <template>
     <v-btn @click="onInquiry" class="rounded-circle" height="64px" width="64px" style="z-index: 2; bottom: 50px; right: 50px; position:fixed;">
         <v-icon class="text-h4">$pencil</v-icon>
+        <v-tooltip activator="parent" location="bottom"  text="お問い合わせを作成"></v-tooltip>
     </v-btn>
 
     <inquiry-dialog ref="inquiry"/>

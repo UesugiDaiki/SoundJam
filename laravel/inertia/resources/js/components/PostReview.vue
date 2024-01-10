@@ -18,7 +18,12 @@
                 </div>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn :icon="show ? '$chevronUp' : '$chevronDown'" @click="accodion($event)"></v-btn>
+                    <v-btn :icon="show ? '$chevronUp' : '$chevronDown'" @click="accodion($event)">
+                        <v-icon :icon="show ? '$chevronUp' : '$chevronDown'"></v-icon>
+                        <!-- これのが短いけどずれる <v-tooltip activator="parent" location="bottom" :text="show ? '閉じる' : '収録環境を表示'" close-on-content-click="true" ></v-tooltip> -->
+                        <v-tooltip activator="parent" location="bottom" v-if="show" text="閉じる"  ></v-tooltip>
+                        <v-tooltip activator="parent" location="bottom" v-if="!show" text="収録環境を表示"></v-tooltip>
+                    </v-btn>
                 </v-card-actions>
                 <v-expand-transition>
                     <div v-show="show">
