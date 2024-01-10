@@ -8,7 +8,10 @@
             {{ post.USER_NAME }}
         </v-card-title>
         <v-spacer></v-spacer>
-        <v-btn color="error" variant="text" icon="$delete" v-if="loggedInAccount" @click="onDeletePost" elevation="0"></v-btn>
+        <v-btn color="error" variant="text" icon="$delete" v-if="loggedInAccount" @click="onDeletePost" elevation="0">
+            <v-icon icon="$delete"></v-icon>
+            <v-tooltip activator="parent" location="bottom" text="投稿を削除"></v-tooltip>
+        </v-btn>
     </v-card-title>
 
     <delete-post-dialog ref="delete" :title="post.TITLE" :postId="post.id"/>

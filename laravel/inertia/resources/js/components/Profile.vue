@@ -7,7 +7,10 @@
                 <v-card-title class="my-auto text-h5 font-weight-bold">{{ user.USER_NAME }}</v-card-title>
                 <v-spacer></v-spacer>
                 <!-- ログイン済アカウント -->
-                <v-btn class="my-auto mx-1" v-if="loggedInAccount" icon="$cogOutline" elevation="0" @click="onEditProfile"></v-btn>
+                <v-btn class="my-auto mx-1" v-if="loggedInAccount" icon="$cogOutline" elevation="0" @click="onEditProfile">
+                    <v-icon icon="$cogOutline"></v-icon>
+                    <v-tooltip activator="parent" location="bottom"  text="プロフィール編集"></v-tooltip>
+                </v-btn>
                 <!-- end -->
 
                 <!-- 他アカウント -->
