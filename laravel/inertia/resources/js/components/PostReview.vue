@@ -127,7 +127,7 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    border-top: 40px solid #5bc8ac;
+    border-top: 40px solid #733cff;
     border-left: 40px solid transparent;
 }
 </style>

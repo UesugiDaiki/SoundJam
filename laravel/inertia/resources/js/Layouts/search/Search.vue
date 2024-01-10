@@ -4,14 +4,14 @@
 
         <v-app-bar elevation="0">
             <v-responsive class="mx-auto my-3" min-width="340" max-width="460">
-                <v-text-field flat rounded bg-color="#bbb" density="compact" variant="solo" append-inner-icon="$magnify"
+                <v-text-field flat rounded bg-color="#dcdcdc" density="compact" variant="solo" append-inner-icon="$magnify"
                     single-line hide-details @click:append-inner="firstSearch" @keypress.enter="firstSearch" v-model="searchWord"></v-text-field>
             </v-responsive>
         </v-app-bar>
 
         <v-app-bar elevation="0">
             <v-card max-width="556" class="mx-auto" elevation="0" hide-details>
-                <v-tabs bg-color="" slider-color="teal-lighten-3" v-model="searchTab">
+                <v-tabs bg-color="" slider-color="#733cff" v-model="searchTab">
                     <v-tab :key="1" :value="1" class="px-8" @click="firstSearch">すべて </v-tab>
                     <v-tab :key="3" :value="3" class="px-8" @click="firstSearch">最新</v-tab>
                     <v-tab :key="5" :value="5" class="px-8" @click="firstSearch">アカウント </v-tab>
