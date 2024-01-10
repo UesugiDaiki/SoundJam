@@ -6,35 +6,59 @@
                 <v-list-item @click="Home" :ripple="false" :active="false" class="font-weight-black text-center ml-auto" width="150px">SoundJam</v-list-item>
                 <!-- ホーム -->
                 <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="Home" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path === '/home' ? '$home' : '$homeOutline'"></v-btn>
+                    <v-btn elevation="0" @click="Home" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon>
+                        <v-icon :icon="path === '/home' ? '$home' : '$homeOutline'"></v-icon>
+                        <v-tooltip activator="parent" location="bottom"  text="ホーム" ></v-tooltip>
+                    </v-btn>
                 </v-list-item>
                 <!-- 検索 -->
                 <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="Search" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$magnify"></v-btn>
+                    <v-btn elevation="0" @click="Search" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon>
+                        <v-icon icon="$magnify"></v-icon>
+                        <v-tooltip activator="parent" location="bottom"  text="検索" ></v-tooltip>
+                    </v-btn>
                 </v-list-item>
                 <!-- お問い合わせ -->
                 <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="Inquiry" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path === '/inquiry' ? '$email' : '$emailOutline'"></v-btn>
+                    <v-btn elevation="0" @click="Inquiry" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon>
+                        <v-icon :icon="path === '/inquiry' ? '$email' : '$emailOutline'"></v-icon>
+                        <v-tooltip activator="parent" location="bottom"  text="お問い合わせ" ></v-tooltip>
+                    </v-btn>
                 </v-list-item>
                 <!-- ユーザー（プロフィール） -->
                 <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="User" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="isLoginUserPage ? '$account' : '$accountOutline'"></v-btn>
+                    <v-btn elevation="0" @click="User" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon>
+                        <v-icon :icon="isLoginUserPage ? '$account' : '$accountOutline'"></v-icon>
+                        <v-tooltip activator="parent" location="bottom"  text="プロフィール" ></v-tooltip>
+                    </v-btn>
                 </v-list-item>
                 <!-- 設定詳細 -->
                 <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="Settings" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" :icon="path.indexOf('/settings') === 0 ? '$cog' : '$cogOutline'"></v-btn>
+                    <v-btn elevation="0" @click="Settings" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon>
+                        <v-icon :icon="path.indexOf('/settings') === 0 ? '$cog' : '$cogOutline'"></v-icon>
+                        <v-tooltip activator="parent" location="bottom"  text="設定" ></v-tooltip>
+                    </v-btn>
                 </v-list-item>
                 <!-- 投稿ダイアログ表示 -->
                 <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="onPost" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$pencilPlusOutline"></v-btn>
-                </v-list-item>
-                <!-- ログイン時のボタン表示 -->
-                <v-list-item v-if="loginFlg === true" class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="onLogout" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$logout"></v-btn>
+                    <v-btn elevation="0" @click="onPost" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon>
+                        <v-icon icon="$pencilPlusOutline"></v-icon>
+                        <v-tooltip activator="parent" location="bottom"  text="投稿" ></v-tooltip>
+                    </v-btn>
                 </v-list-item>
                 <!-- ログアウト時のボタン表示 -->
+                <v-list-item v-if="loginFlg === true" class="d-flex justify-end pa-0">
+                    <v-btn elevation="0" @click="onLogout" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon>
+                        <v-icon icon="$logout"></v-icon>
+                        <v-tooltip activator="parent" location="bottom"  text="ログアウト" ></v-tooltip>
+                    </v-btn>
+                </v-list-item>
+                <!-- ログイン時のボタン表示 -->
                 <v-list-item v-if="loginFlg === false" class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="onLogin" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon="$login"></v-btn>
+                    <v-btn elevation="0" @click="onLogin" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon>
+                        <v-icon icon="$login"></v-icon>
+                        <v-tooltip activator="parent" location="bottom"  text="ログイン" ></v-tooltip>
+                    </v-btn>
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
