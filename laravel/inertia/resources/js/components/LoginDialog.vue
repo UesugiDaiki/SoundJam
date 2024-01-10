@@ -132,7 +132,11 @@ export default {
             let successFlg = false
             await axios.post('/api/login', loginData)
                 .then(function(response) {
-                    successFlg = true
+                    if (response.data[0] === false) {
+                        successFlg = false
+                    }else {
+                        successFlg = true
+                    }
                 })
                 .catch(function(error) {
                     successFlg = false

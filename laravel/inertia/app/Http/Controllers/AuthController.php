@@ -27,19 +27,32 @@ class AuthController extends Controller
         if (strpos($request["loginID"], '@')) {
             // メールアドレスでログイン
             $user = DB::select('SELECT * FROM user_table WHERE EMAIL_ADDRESS = ?', [$request->input("loginID")]);
+            // 検索結果で空の配列が返ってきた場合
+            if (empty($user)) {
+                return [false];
+            }
             //デバッグ
             $user = (array)$user[0];
             if ($user["PASSWORDS"] == $request["loginPass"]) {
                 Session::put('soundjam_user', $user["id"]);
+            } else {
+                return [false];
             }
         } else {
             // ログインIDでログイン
             $user = DB::select('SELECT * FROM user_table WHERE ID = ?', [$request->input("loginID")]);
+            // 検索結果で空の配列が返ってきた場合
+            if (empty($user)) {
+                return [false];
+            }
             $user = (array)$user[0];
             if ($user["PASSWORDS"] == $request["loginPass"]) {
                 Session::put('soundjam_user', $user["id"]);
+            } else {
+                return [false];
             }
         }
+
         return Session::all();
     }
 
