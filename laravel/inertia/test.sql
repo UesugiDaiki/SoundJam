@@ -1,11 +1,11 @@
 -- 既に存在しているなら削除
-drop database if exists test_db;
+drop database if exists soundjam;
 -- 新しくDBを作成
-create database test_db default character set utf8 collate utf8_general_ci;
--- test_dbの操作の全権限を与えた状態でユーザーを作成
-grant all on test_db.* to 'test_user'@'localhost' identified by 'secret';
+create database soundjam default character set utf8 collate utf8_general_ci;
+-- soundjamの操作の全権限を与えた状態でユーザーを作成
+grant all on soundjam.* to 'soundjam_user'@'localhost' identified by 'secret';
 -- データベースに接続（下のテーブル作成のコマンドを実行するため）
-use test_db;
+use soundjam;
 
 /*備考
     ・外部キーの投稿IDを主キーしていたので、
