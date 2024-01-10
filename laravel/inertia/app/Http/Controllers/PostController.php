@@ -24,7 +24,7 @@ class PostController extends Controller
         if ($login_user_id == '') {
             // ログインしていない場合
             // 投稿データ取得 (DATES列の値を基準に降順)
-            $tmp_posts = DB::select('SELECT * FROM post_table WHERE IS_PROMOTION != 1 ORDER BY DATES ASC LIMIT 30');
+            $tmp_posts = DB::select('SELECT * FROM post_table WHERE IS_PROMOTION != 1 ORDER BY DATES DESC LIMIT 30');
             foreach ($tmp_posts as $post) {
                 $items = [];
                 // 1投稿ずつのJSON整形
@@ -69,7 +69,7 @@ class PostController extends Controller
                 array_push($followees, $followee['FOLLOWEE_ID']);
                 $get_post_sql .= ', ?';
             }
-            $get_post_sql .= ') ORDER BY DATES ASC LIMIT 30';
+            $get_post_sql .= ') ORDER BY DATES DESC LIMIT 30';
 
             $tmp_posts = DB::select($get_post_sql, $followees);
             foreach ($tmp_posts as $post) {
@@ -269,7 +269,7 @@ class PostController extends Controller
         $posts = [];
 
         // 投稿データ取得 (DATES列の値を基準に昇順)
-        $tmp_posts = DB::select('SELECT * FROM post_table WHERE IS_PROMOTION != 1 AND USER_ID = ? ORDER BY DATES ASC LIMIT 30', [$request->input("userId")]);
+        $tmp_posts = DB::select('SELECT * FROM post_table WHERE IS_PROMOTION != 1 AND USER_ID = ? ORDER BY DATES DESC LIMIT 30', [$request->input("userId")]);
 
         //取得した投稿データを一列ずつ取り出す
         foreach ($tmp_posts as $post) {

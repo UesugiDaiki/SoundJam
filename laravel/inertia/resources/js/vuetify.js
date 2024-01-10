@@ -49,6 +49,7 @@ import {
   mdiDotsHorizontal,
   mdiDelete,
   mdiPenPlus,
+  mdiPencilPlusOutline,
 } from '@mdi/js';
 
 // Composables
@@ -144,6 +145,9 @@ export default createVuetify({
 
       // ペンプラス
       penPuls:mdiPenPlus,
+
+      //  投稿ボタン
+      pencilPlusOutline:mdiPencilPlusOutline,
     },
     sets: {
       mdi,
