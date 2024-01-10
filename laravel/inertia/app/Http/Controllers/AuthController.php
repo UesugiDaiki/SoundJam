@@ -21,36 +21,35 @@ class AuthController extends Controller
     // ログイン
     public function login(Request $request)
     {
-        // 引数に指定したセッションデータを削除
-        Session::forget("soundjam_user");
-        //　strpos:指定した文字列が見つかる位置を返す
-        if (strpos($request["loginID"], '@')) {
-            // メールアドレスでログイン
-            $user = DB::select('SELECT * FROM user_table WHERE EMAIL_ADDRESS = ?', [$request->input("loginID")]);
-            // 検索結果で空の配列が返ってきた場合
-            if (empty($user)) {
-                return [false];
-            }
-            //デバッグ
-            $user = (array)$user[0];
-            if ($user["PASSWORDS"] == $request["loginPass"]) {
-                Session::put('soundjam_user', $user["id"]);
+        try {
+            // 引数に指定したセッションデータを削除
+            Session::forget("soundjam_user");
+            //　strpos:指定した文字列が見つかる位置を返す
+            if (strpos($request["loginID"], '@')) {
+                // メールアドレスでログイン
+                $user = DB::select('SELECT * FROM user_table WHERE EMAIL_ADDRESS = ?', [$request->input("loginID")]);
+                //デバッグ
+                $user = (array)$user[0];
+                if ($user["PASSWORDS"] == $request["loginPass"]) {
+                    Session::put('soundjam_user', $user["id"]);
+                } else {
+                    return [false];
+                }
             } else {
-                return [false];
+                // ログインIDでログイン
+                $user = DB::select('SELECT * FROM user_table WHERE ID = ?', [$request->input("loginID")]);
+                $user = (array)$user[0];
+                if ($user["PASSWORDS"] == $request["loginPass"]) {
+                    Session::put('soundjam_user', $user["id"]);
+                } else {
+                    return [false];
+                }
             }
-        } else {
-            // ログインIDでログイン
-            $user = DB::select('SELECT * FROM user_table WHERE ID = ?', [$request->input("loginID")]);
-            // 検索結果で空の配列が返ってきた場合
-            if (empty($user)) {
-                return [false];
-            }
-            $user = (array)$user[0];
-            if ($user["PASSWORDS"] == $request["loginPass"]) {
-                Session::put('soundjam_user', $user["id"]);
-            } else {
-                return [false];
-            }
+            // 例外キャッチャ
+        } catch (\Throwable $e) {
+            // エラーをlaravel.logに表示
+            Log::debug($e);
+            return [false];
         }
 
         return Session::all();
