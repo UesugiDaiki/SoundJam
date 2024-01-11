@@ -21,6 +21,7 @@
 
 
 <script>
+import { mdiSleep } from '@mdi/js'
 import axios from 'axios'
 
 export default {
@@ -58,6 +59,9 @@ export default {
             this.snackbar = true
             
             window.history.back();
+            mdiSleep(50)
+            window.history.back();
+
         }
     }
 }
