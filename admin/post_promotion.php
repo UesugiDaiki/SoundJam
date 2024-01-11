@@ -21,7 +21,7 @@ require 'header.php';
         if (isset($_REQUEST['command']) && $_REQUEST['command'] == 'promotion-search') {
             foreach($stmt as $row) {
                 echo '<form action="post_promotion.php" method="post">';
-                echo '<a class="list-group-item list-group-item-action d-flex justify-content-between">';
+                echo '<a href="http://localhost:8000/post/' . htmlspecialchars($row['id']) . '/" class="list-group-item list-group-item-action d-flex justify-content-between">';
                 echo '<p class="my-auto">' . htmlspecialchars($row['TITLE']) . '</p>';
                 echo '<input type="hidden" name="command" value="post-promotion">';
                 echo '<input type="hidden" name="post-id" value="' . htmlspecialchars($row['id']) . '">';
@@ -39,7 +39,7 @@ require 'header.php';
 
             foreach($stmt as $row) {
                 echo '<form action="post_promotion.php" method="post">';
-                echo '<a class="list-group-item list-group-item-action d-flex justify-content-between">';
+                echo '<a href="http://localhost:8000/post/' . htmlspecialchars($row['id']) . '/" class="list-group-item list-group-item-action d-flex justify-content-between">';
                 echo '<p class="my-auto">' . htmlspecialchars($row['TITLE']) . '</p>';
                 echo '<input type="hidden" name="command" value="post-promotion">';
                 echo '<input type="hidden" name="post-id" value="' . htmlspecialchars($row['id']) . '">';
