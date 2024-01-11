@@ -16,10 +16,10 @@
                                 <v-text-field label="ユーザー名" v-model="_user.name"></v-text-field>
                             </v-col>
                             <v-col cols="6" class="py-0">
-                                <v-file-input prepend-icon="" prepend-inner-icon="$camera" @change="fileSelect"></v-file-input>
+                                <v-file-input prepend-icon="" label="アイコン画像" prepend-inner-icon="$camera" @change="fileSelect"  accept=".png,.jpg"></v-file-input>
                             </v-col>
                             <v-col cols="6" class="py-0">
-                                <v-text-field prepend-inner-icon="$link" v-model="_user.website"></v-text-field>
+                                <v-text-field prepend-inner-icon="$link" label="URLリンク" v-model="_user.website"></v-text-field>
                             </v-col>
                             <v-col cols="12" class="py-0">
                                 <v-textarea label="プロフィール" rows="3" v-model="_user.profile"></v-textarea>
