@@ -65,7 +65,7 @@ export default {
         //　storeに保存している投稿データを取得
         this.post = this.$store.state.postData;
         // URLで直接画面遷移しているか
-        if (this.post.id === undefined) {
+        if (this.post.id !== Number(this.$route.path.replace(/[^0-9]/g, ''))) {
             // している場合
             let postId = Number(this.$route.path.replace(/[^0-9]/g, ''));
             let _post
