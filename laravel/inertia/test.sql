@@ -172,3 +172,5 @@ INSERT INTO equip_table VALUES (null,7,1,'マルチストンプ');
 INSERT INTO equip_table VALUES (null,7,2,'投稿1使用機材2');
 INSERT INTO equip_table VALUES (null,7,3,'投稿1使用機材3');
 INSERT INTO equip_table VALUES (null,7,1,'ギター');
+
+INSERT INTO admin_table VALUES (null,'admin','9ae42a0c7fae97275ba1935bdf7f9136fc93a71ea97f96d4a955a3430d6bbfbd');
