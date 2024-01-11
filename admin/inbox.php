@@ -8,7 +8,7 @@ require 'header.php';
     <div class="accordion m-4" id="inbox-area">
         <?php
         $i = 0;
-        $stmt = $pdo->prepare('SELECT REPLY_FROM, TITLE, OVERVIEW FROM inquiry_table WHERE REPLY_TO IS NULL AND IDENTIFICATION = 1');
+        $stmt = $pdo->prepare('SELECT REPLY_FROM, TITLE, OVERVIEW FROM inquiry_table WHERE REPLY_TO IS NULL');
         $stmt->execute();
         foreach ($stmt as $row) {
             $i++;
