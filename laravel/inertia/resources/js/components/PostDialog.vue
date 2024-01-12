@@ -70,7 +70,7 @@
                                     <!-- 機材 -->
                                     <v-col cols="6" class="pt-0">
                                         <v-text-field v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
-                                            :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'"
+                                            :hint=" String(equip.index + 1) + 'つ目の機材名'"
                                             :label="'機材' + String(equip.index + 1)"></v-text-field>
                                         <v-btn variant="flat" icon="$plus" @click="addEquip(tab)">
                                             <v-icon icon="$plus"></v-icon>
@@ -98,10 +98,10 @@
                         <v-window-item value="review">
                             <form @submit.prevent="submit">
                                 <v-row>
-                                    <!-- タイトル -->
+                                    <!-- 製品名 -->
                                     <v-col cols="12" class="pb-0">
                                         <v-text-field v-model="review.product" :rules="[rules.required]">
-                                            <template v-slot:label>タイトル<span style="color: red"> * </span>
+                                            <template v-slot:label>製品名<span style="color: red"> * </span>
                                             </template>
                                         </v-text-field>
                                     </v-col>
