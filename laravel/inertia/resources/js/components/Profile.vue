@@ -23,8 +23,8 @@
             <v-sheet class="ma-3">
                 <v-card-subtitle><v-icon class="mx-2">$at</v-icon>{{ user.id }}</v-card-subtitle>
                 <v-card-subtitle v-if="user.WEBSITE !== null">
-                    <v-icon class="mx-2">$link</v-icon>
-                    <a v-bind:href="user.WEBSITE">{{ user.WEBSITE }}</a>
+                    <v-icon v-if="user.WEBSITE !== null" class="mx-2">$link</v-icon>
+                    <a v-if="user.WEBSITE !== null" v-bind:href="user.WEBSITE">{{ user.WEBSITE }}</a>
                 </v-card-subtitle>
             </v-sheet>
             <v-card rounded="0" elevation="0">
