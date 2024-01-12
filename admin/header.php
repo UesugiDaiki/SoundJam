@@ -4,9 +4,9 @@ if (isset($_REQUEST['command'])) {
   if ($_REQUEST['command'] == 'login') {
     $login = $_REQUEST['id'];
     $password = $_REQUEST['password'];
-    
+
     unset($_SESSION['soundjam_admin']);
-    
+
     $stmt = $pdo->prepare('SELECT * FROM admin_table WHERE ADMINS = ? and PASSWORDS = ?');
     $stmt->execute([$login, hash('sha256', $password)]);
     foreach ($stmt as $row) {
@@ -27,7 +27,7 @@ if (is_null($_SESSION['soundjam_admin'])) {
 // 操作が行われたか
 if (isset($_REQUEST['command'])) {
   switch ($_REQUEST['command']) {
-    /**
+      /**
      * メッセージ送信
      */
     case 'send-message':
@@ -35,9 +35,9 @@ if (isset($_REQUEST['command'])) {
       $stmt->execute([$_REQUEST['address'], $_REQUEST['subject'], $_REQUEST['body']]);
       break;
 
-    /**
-     * 削除する投稿の検索
-     */
+      /**
+       * 削除する投稿の検索
+       */
     case 'delete-post-search':
       $words = explode(' ', $_REQUEST['words']);
       for ($i = 0; $i < 3; $i++) {
@@ -78,17 +78,17 @@ if (isset($_REQUEST['command'])) {
       $stmt->execute($param);
       break;
 
-    /**
-     * 投稿削除
-     */
+      /**
+       * 投稿削除
+       */
     case 'delete-post':
       $stmt = $pdo->prepare('DELETE FROM post_table WHERE id = ?');
       $stmt->execute([$_REQUEST['post-id']]);
       break;
 
-    /**
-     * プロモーション検索
-     */
+      /**
+       * プロモーション検索
+       */
     case 'promotion-search':
       $words = explode(' ', $_REQUEST['words']);
       for ($i = 0; $i < 3; $i++) {
@@ -128,13 +128,29 @@ if (isset($_REQUEST['command'])) {
       $stmt = $pdo->prepare($sql);
       $stmt->execute($param);
       break;
-    
-    /**
-     * プロモーション許可
-     */
+
+      /**
+       * プロモーション許可
+       */
     case 'post-promotion':
       $stmt = $pdo->prepare('UPDATE post_table SET IS_PROMOTION = 2 WHERE id = ?');
       $stmt->execute([$_REQUEST['post-id']]);
+      break;
+
+      /**
+       * ユーザー検索
+       */
+    case 'delete-user-search':
+      $stmt = $pdo->prepare('SELECT id, USER_NAME FROM user_table WHERE USER_NAME LIKE "%' . $_REQUEST['words'] . '%"');
+      $stmt->execute();
+      break;
+
+      /**
+       * ユーザ削除
+       */
+    case 'delete-user':
+      $stmt = $pdo->prepare('DELETE FROM user_table WHERE id = ?');
+      $stmt->execute([$_REQUEST['user-id']]);
       break;
   }
 }
@@ -142,6 +158,7 @@ if (isset($_REQUEST['command'])) {
 
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -151,6 +168,7 @@ if (isset($_REQUEST['command'])) {
 
   <title>SoundJam | admin</title>
 </head>
+
 <body>
   <!-- header -->
   <nav class="navbar bg-body-secondary">

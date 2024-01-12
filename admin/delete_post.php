@@ -19,7 +19,7 @@ require 'header.php';
         <?php
         // 検索されたか
         if (isset($_REQUEST['command']) && $_REQUEST['command'] == 'delete-post-search') {
-            foreach($stmt as $row) {
+            foreach ($stmt as $row) {
                 echo '<form action="delete_post.php" method="post">';
                 echo '<a href="http://localhost:8000/post/' . htmlspecialchars($row['id']) . '/" class="list-group-item list-group-item-action d-flex justify-content-between">';
                 echo '<p class="my-auto">' . htmlspecialchars($row['TITLE']) . '</p>';
@@ -29,7 +29,7 @@ require 'header.php';
                 echo '</a>';
                 echo '</form>';
             }
-            
+
             if (!$stmt->rowCount()) {
                 echo '<p class="text-center">一致する投稿はありません</p>';
             }
@@ -37,7 +37,7 @@ require 'header.php';
             $stmt = $pdo->prepare('SELECT * FROM post_table ORDER BY DATES DESC');
             $stmt->execute();
 
-            foreach($stmt as $row) {
+            foreach ($stmt as $row) {
                 echo '<form action="delete_post.php" method="post">';
                 echo '<a href="http://localhost:8000/post/' . htmlspecialchars($row['id']) . '/" class="list-group-item list-group-item-action d-flex justify-content-between">';
                 echo '<p class="my-auto">' . htmlspecialchars($row['TITLE']) . '</p>';
