@@ -24,7 +24,7 @@
                 <v-card-subtitle><v-icon class="mx-2">$at</v-icon>{{ user.id }}</v-card-subtitle>
                 <v-card-subtitle v-if="user.WEBSITE !== null">
                     <v-icon v-if="user.WEBSITE !== null" class="mx-2">$link</v-icon>
-                    <a v-if="user.WEBSITE !== null" v-bind:href="user.WEBSITE">{{ user.WEBSITE }}</a>
+                    <a target="_blank" v-if="user.WEBSITE !== null" v-bind:href="user.WEBSITE">{{ user.WEBSITE }}</a>
                 </v-card-subtitle>
             </v-sheet>
             <v-card rounded="0" elevation="0">
@@ -78,7 +78,7 @@ export default {
                 .then(function(response){
                     _followed = response.data
                 })
-            
+
             this.followed = _followed
         }
         this.creating = false
@@ -103,7 +103,7 @@ export default {
                     .catch(function(error) {
                         successFlg = false
                     })
-                
+
                 if (successFlg) {
                     this.followed = true
                 }
