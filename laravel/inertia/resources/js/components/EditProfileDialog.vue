@@ -13,7 +13,7 @@
                     <form @submit.prevent="submit">
                         <v-row>
                             <v-col cols="12" class="pb-0">
-                                <v-text-field  v-model="_user.name" :rules="[rules.required]">
+                                <v-text-field  counter v-model="_user.name" :rules="[userNameRules.required , userNameRules.userNameMax]">
                                     <template v-slot:label>ユーザー名<span style="color: red"> * </span>
                                     </template>
                                 </v-text-field>
@@ -25,12 +25,12 @@
                                 <v-text-field prepend-inner-icon="$link" label="URLリンク" v-model="_user.website"></v-text-field>
                             </v-col>
                             <v-col cols="12" class="py-0">
-                                <v-textarea label="プロフィール" rows="3" v-model="_user.profiles"></v-textarea>
+                                <v-textarea counter label="プロフィール" auto-grow rows="3" v-model="_user.profiles" :rules="[profileRules.profileMax]"></v-textarea>
                             </v-col>
                         </v-row>
 
                         <v-card-actions>
-                            <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="updateUser">
+                            <v-btn :disabled="errorDetection" variant="flat" class="me-4" type="submit" color="primary" @click="updateUser">
                                 保存
                             </v-btn>
                         </v-card-actions>
@@ -55,9 +55,14 @@ export default {
             dialog: false,
             setDialog: false,
             _user: {},
-            // 入力ルール
-            rules: {
+            // ユーザー名入力ルール
+            userNameRules: {
                 required: value => !!value || '必須項目です',
+                userNameMax: v => v.length <= 14 || '最大文字数は14文字です',
+            },
+            // プロフィール入力ルール
+            profileRules: {
+                profileMax: v => v.length <= 160 || '最大文字数は160文字です',
             },
         }
     },
@@ -107,6 +112,17 @@ export default {
             this.snackbar = true
             this.dialog = false
         }
+    },
+    computed: {
+        // 入力に間違いがあるとボタン無効化するやつ
+        errorDetection() {
+            if(this._user.name == "" || this._user.name.length > 14 || this._user.profiles.length > 160){
+                return true
+            }
+            else{
+                return false
+            }
+        },
     }
 }
 </script>
