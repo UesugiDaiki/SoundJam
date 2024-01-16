@@ -136,6 +136,8 @@ export default {
             // 入力ルール
             rules: {
                 required: value => !!value || '必須項目です',
+                max: v => v.length <= 160 || '最大文字数は160文字です',
+                
             },
             free: {
                 // タイトル
@@ -204,11 +206,19 @@ export default {
             this.free.image = e.target.files[0];
         },
 
+        // お問い合わせの初期化
+        inquiryInitialization(){
+            this.inquiry.title = "";
+            this.inquiry.overview =  "";
+        },
+
         //　問い合わせ送信処理1
         async question(){
             let formData = new FormData();
             formData.append('title',this.inquiry.title);
             formData.append('overview',this.inquiry.overview);
+            // 初期化
+            this.inquiryInitialization()
             formData.append('recordingMethod',this.inquiry.recordingMethod);
             formData.append('img',this.fileSelectimg);
             formData.append('music1',this.fileSelectOFF);
@@ -236,6 +246,8 @@ export default {
                 this.snackbarMessage = 'お問い合わせの送信に失敗しました。';
             }
             this.snackbar = true;
+
+
         },
 
         // 申請処理
