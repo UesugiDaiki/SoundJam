@@ -84,7 +84,7 @@ export default {
             formData.append('id', this.user.id);
             formData.append('name', this._user.name);
             formData.append('website', this._user.website);
-            formData.append('profiles', this._user.profile);
+            formData.append('profiles', this._user.profile ? this._user.profile : "");
             formData.append('icon', this._user.icon);
 
             let successFlg = false

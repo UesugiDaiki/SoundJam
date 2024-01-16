@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use Mockery\Undefined;
 
 // ユーザ関連
 class UserController extends Controller
@@ -28,10 +29,12 @@ class UserController extends Controller
     //ユーザー情報更新
     public function update_user(Request $request)
     {
-        //画像名格納変数
+        // 画像名格納変数
         $icon_name = null;
-        //アイコン画像変更フラグ
+        // アイコン画像変更フラグ
         $icon_change = null;
+        // webサイトurl格納
+        $web_url = null;
         $id = $request->input('id');
 
         // 画像が変更されていない場合は、そのままアイコン名を取得
@@ -43,8 +46,15 @@ class UserController extends Controller
             $icon_name =  $request->file('icon')->getClientOriginalName();
             $icon_change = true;
         }
+        // webサイトのURLが設定してない場合,空文字を挿入
+        if ($request->input('website') === null) {
+            $web_url = "";
+        } else {
+            $web_url = $request->input('website');
+        }
+
         //updateを実行
-        if (DB::update('UPDATE user_table SET USER_NAME = ?, PROFILES = ?, WEBSITE = ?, ICON = ?  WHERE id = ?',  [$request->input('name'), $request->input('profiles'), $request->input('website'), $icon_name, Session::get('soundjam_user')])) {
+        if (DB::update('UPDATE user_table SET USER_NAME = ?, PROFILES = ?, WEBSITE = ?, ICON = ?  WHERE id = ?',  [$request->input('name'), $request->input('profiles'), $web_url, $icon_name, Session::get('soundjam_user')])) {
             //アイコンが変更しているか判定
             if ($icon_change) {
                 // 変更したアイコン画像をユーザのフォルダに保存
