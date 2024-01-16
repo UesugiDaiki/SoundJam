@@ -34,21 +34,21 @@ class UserController extends Controller
         $icon_change = null;
         $id = $request->input('id');
 
-        // 画像が変更されていない場合は、そのままパスを取得
+        // 画像が変更されていない場合は、そのままアイコン名を取得
         if (is_string($request->input('icon'))) {
-            $icon_name = mb_substr($request->input('icon'), 13);
+            $icon_name = $request->input('icon');
             $icon_change = false;
         } else {
-            //そうでない場合は、新しい画像のデータから名前を取得
+            // そうでない場合は、新しい画像のデータから名前を取得
             $icon_name =  $request->file('icon')->getClientOriginalName();
             $icon_change = true;
         }
         //updateを実行
-        if (DB::update('UPDATE user_table SET USER_NAME = ?, PROFILES = ?, WEBSITE = ?, ICON = ?  WHERE id = ?',  [$request->input('name'), $request->input('profiles'), $request->input('website'),$icon_name, Session::get('soundjam_user')])) {
+        if (DB::update('UPDATE user_table SET USER_NAME = ?, PROFILES = ?, WEBSITE = ?, ICON = ?  WHERE id = ?',  [$request->input('name'), $request->input('profiles'), $request->input('website'), $icon_name, Session::get('soundjam_user')])) {
             //アイコンが変更しているか判定
             if ($icon_change) {
-                //変更した画像のデータを保存
-                $request->file('icon')->storeAs('public/user/'.$id.'/'.$icon_name);
+                // 変更したアイコン画像をユーザのフォルダに保存
+                $request->file('icon')->storeAs('public/user/' . $id, $icon_name);
                 return '成功（画像変更あり）';
             } else {
                 return '成功（画像変更なし）';
