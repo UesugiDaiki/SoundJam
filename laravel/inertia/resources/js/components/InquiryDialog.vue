@@ -19,15 +19,15 @@
                             <form @submit.prevent="submit">
                                 <v-row>
                                     <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="inquiry.title" label="件名"></v-text-field>
+                                        <v-text-field v-model="inquiry.title" label="件名" counter :rules="[rules.required,rules.max]"></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-textarea v-model="inquiry.overview" label="本文"></v-textarea>
+                                        <v-textarea v-model="inquiry.overview" label="本文" auto-grow counter :rules="[rules.required,mainRules.max]"></v-textarea>
                                     </v-col>
                                 </v-row>
 
                                 <v-card-actions class="mt-15">
-                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="question" v-on:click="dialog = false">
+                                    <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="question" v-on:click="dialog = false" :disabled="inputError">
                                         送信
                                     </v-btn>
                                 </v-card-actions>
@@ -136,8 +136,11 @@ export default {
             // 入力ルール
             rules: {
                 required: value => !!value || '必須項目です',
-                max: v => v.length <= 160 || '最大文字数は160文字です',
+                max: v => v.length <= 40 || '最大文字数は40文字です',
                 
+            },
+            mainRules:{
+                max: v => v.length <= 160 || '最大文字数は160文字です',
             },
             free: {
                 // タイトル
@@ -180,6 +183,14 @@ export default {
                 return true
             }
         },
+        inputError() {
+            return !(
+                this.inquiry.title != ""
+                && this.inquiry.overview != ""
+                && this.inquiry.title.length <= 40
+                && this.inquiry.overview.length <= 160
+            )
+        }
     },
     methods: {
         openInquiry() {
