@@ -40,7 +40,7 @@
                 <v-card-text class="pt-0">
                     <v-container class="pb-0">
                         <!-- 新規登録情報入力テキストボックス -->
-                        <v-text-field v-model="registName" label="ユーザー名" :rules="[rules.required]"></v-text-field>
+                        <v-text-field v-model="registName" label="ユーザー名" :rules="[rules.required,userNameRules.max]"></v-text-field>
                         <v-text-field v-model="registMail" label="メールアドレス" type="email" :rules="[rules.required]"></v-text-field>
                         <v-text-field v-model="registPass" label="パスワード" :type="show1 ? 'text' : 'password'"
                             hint="半角英数字8~16文字" :rules="[rules.required, rules.min, rules.max,]"
@@ -51,7 +51,7 @@
                             :rules="[rules.required]" :append-inner-icon="show2 ? '$eye' : '$eyeOff'"
                             @click:append-inner="show2 = !show2" :error="matchPassWord" :error-messages="matchPassWord ? 'パスワードが一致しません' : null"></v-text-field>
                         <v-card-item class="mt-1  d-flex justify-center ">
-                            <v-btn style="font-size: 16px;" color="black" width="200" height="40" :disabled="isEnterRegist" @click="regist">登録</v-btn>
+                            <v-btn  style="font-size: 16px;" color="black" width="200" height="40" :disabled="inputError" @click="regist">登録</v-btn>
                         </v-card-item>
                     </v-container>
                 </v-card-text>
@@ -83,6 +83,9 @@ export default {
             registPass: '',
             registCheckPass: '',
             // 入力ルール
+            userNameRules: {
+                max: v => v.length <= 14 || '最大文字数は14文字です',
+            },
             rules: {
                 required: value => !!value || '必須項目です',
                 min: v => v.length >= 8 || '最低8文字入力してください',
@@ -105,14 +108,19 @@ export default {
                 && this.loginPass?.trim()
             )
         },
-        // 新規登録フォーム入力済か
-        isEnterRegist() {
+        // 新規登録フォームの入力が正しいか確認
+        inputError() {
             return !(
                 this.registName?.trim()
                 && this.registMail?.trim()
                 && this.registPass?.trim()
                 && this.registCheckPass?.trim()
                 && !this.matchPassWord
+                && this.registName.length <= 14
+                && this.registPass.length >= 8 
+                && this.registPass.length <= 16
+                
+
             )
         },
     },
@@ -174,6 +182,6 @@ export default {
             this.snackbar = true
             this.registDialog = false
         },
-    }
+    },
 }
 </script>
