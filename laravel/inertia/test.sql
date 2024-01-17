@@ -152,7 +152,7 @@ create table admin_table (
 
 INSERT INTO user_table VALUES (1,'雅弥','プロフィールプロフィール','linklink','masaya.png','test@test','testtest');
 INSERT INTO user_table VALUES (2,'管理者','プロフィールプロフィール','testlink','masaya.png','admin@admin','adminadmin');
-INSERT INTO user_table VALUES (3,'オフロスキー','お風呂は好きかい？','testlink','オフロスキー1.jpg','admin@admin','adminadmin');
+INSERT INTO user_table VALUES (3,'オフロスキー','お風呂は好きかい？','test_link','オフロスキー1.jpg','ohuro@ohuro','ohuroohuro');
 
 INSERT INTO post_table VALUES (1,1,'投稿１','投稿１の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
 INSERT INTO post_table VALUES (2,1,'投稿2','投稿2の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
