@@ -8,37 +8,37 @@ const routes = [
 },
 {
     path: '/home',
-    component: () => import('@/layouts/home/Home.vue'),
+    component: () => import('@/Layouts/home/Home.vue'),
 },
 {
     path: '/search',
-    component: () => import('@/layouts/search/Search.vue'),
+    component: () => import('@/Layouts/search/Search.vue'),
 },
 {
     path: '/inquiry',
-    component: () => import('@/layouts/inquiry/Inquiry.vue')
+    component: () => import('@/Layouts/inquiry/Inquiry.vue')
 },
 {
     // path: '/user',
     path: '/user/:userId',
     name: 'user',
-    component: () => import('@/layouts/user/User.vue'),
+    component: () => import('@/Layouts/user/User.vue'),
     props: true,
 },
 {
     path: '/settings',
-    component: () => import('@/layouts/settings/Settings.vue'),
+    component: () => import('@/Layouts/settings/Settings.vue'),
     children: [
     {
         path: 'reset_password',
-        component: () => import('@/components/ResetPassword.vue'),
+        component: () => import('@/Components/ResetPassword.vue'),
     }
     ]
 },
 {
     path: '/post/:postId/',
     name: 'post',
-    component: () => import('@/layouts/postDetail/PostDetail.vue'),
+    component: () => import('@/Layouts/postDetail/PostDetail.vue'),
     props: true,
 },
 ]

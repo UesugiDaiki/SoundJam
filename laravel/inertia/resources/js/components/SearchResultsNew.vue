@@ -3,9 +3,9 @@
 </template>
 
 <script setup>
-import Post from '@/components/Post.vue'
-import PostFree from '@/components/PostFree.vue'
-import PostReview from '@/components/PostReview.vue'
+import Post from '@/Components/Post.vue'
+import PostFree from '@/Components/PostFree.vue'
+import PostReview from '@/Components/PostReview.vue'
 </script>
 
 <script>

@@ -14,10 +14,10 @@
 </template>
 
 <script setup>
-import NavDrawer from '@/components/NavDrawer.vue'
-import PageTitle from '@/components/PageTitle.vue'
-import Profile from '@/components/Profile.vue'
-import Post from '@/components/Post.vue'
+import NavDrawer from '@/Components/NavDrawer.vue'
+import PageTitle from '@/Components/PageTitle.vue'
+import Profile from '@/Components/Profile.vue'
+import Post from '@/Components/Post.vue'
 </script>
 
 <script>

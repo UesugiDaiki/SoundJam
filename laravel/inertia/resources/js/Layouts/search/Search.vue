@@ -63,10 +63,10 @@
 </template>
 
 <script setup>
-import NavDrawer from '@/components/NavDrawer.vue'
-import SearchResults from '@/components/SearchResults.vue'
-import SearchResultsNew from '@/components/SearchResultsNew.vue'
-import SearchResultsAccount from '@/components/SearchResultsAccount.vue'
+import NavDrawer from '@/Components/NavDrawer.vue'
+import SearchResults from '@/Components/SearchResults.vue'
+import SearchResultsNew from '@/Components/SearchResultsNew.vue'
+import SearchResultsAccount from '@/Components/SearchResultsAccount.vue'
 </script>
 
 <script>

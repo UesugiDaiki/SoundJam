@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import AnUser from '@/components/AnUser.vue'
+import AnUser from '@/Components/AnUser.vue'
 </script>
 
 <script>

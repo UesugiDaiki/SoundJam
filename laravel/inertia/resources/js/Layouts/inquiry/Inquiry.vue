@@ -17,10 +17,10 @@
 </template>
 
 <script setup>
-import NavDrawer from '@/components/NavDrawer.vue'
-import AnInquiry from '@/components/AnInquiry.vue';
-import InquiryButton from '@/components/InquiryButton.vue'
-import PageTitle from '@/components/PageTitle.vue';
+import NavDrawer from '@/Components/NavDrawer.vue'
+import AnInquiry from '@/Components/AnInquiry.vue';
+import InquiryButton from '@/Components/InquiryButton.vue'
+import PageTitle from '@/Components/PageTitle.vue';
 </script>
 
 <script>

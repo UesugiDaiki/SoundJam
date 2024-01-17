@@ -4,8 +4,8 @@
 </template>
 
 <script setup>
-import AnUser from '@/components/AnUser.vue'
-import Post from '@/components/Post.vue'
+import AnUser from '@/Components/AnUser.vue'
+import Post from '@/Components/Post.vue'
 
 </script>
 

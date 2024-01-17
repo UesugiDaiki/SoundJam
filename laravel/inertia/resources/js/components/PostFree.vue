@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import Title from '@/components/Title.vue'
+import Title from '@/Components/Title.vue'
 </script>
 
 <script>

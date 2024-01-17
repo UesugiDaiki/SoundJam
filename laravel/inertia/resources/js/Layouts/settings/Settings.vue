@@ -15,6 +15,6 @@
 </template>
 
 <script setup>
-import NavDrawer from '@/components/NavDrawer.vue'
-import PageTitle from '@/components/PageTitle.vue';
+import NavDrawer from '@/Components/NavDrawer.vue'
+import PageTitle from '@/Components/PageTitle.vue';
 </script>

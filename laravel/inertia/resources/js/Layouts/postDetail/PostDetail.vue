@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import PageTitle from '@/components/PageTitle.vue'
-import NavDrawer from '@/components/NavDrawer.vue'
-import PostDetail from '@/components/PostDetail.vue'
+import PageTitle from '@/Components/PageTitle.vue'
+import NavDrawer from '@/Components/NavDrawer.vue'
+import PostDetail from '@/Components/PostDetail.vue'
 </script>

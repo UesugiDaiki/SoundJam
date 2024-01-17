@@ -17,8 +17,8 @@
 </template>
 
 <script setup>
-import NavDrawer from '@/components/NavDrawer.vue'
-import Post from '@/components/Post.vue'
+import NavDrawer from '@/Components/NavDrawer.vue'
+import Post from '@/Components/Post.vue'
 </script>
 
 <script>
