@@ -31,8 +31,17 @@ if (isset($_REQUEST['command'])) {
      * メッセージ送信
      */
     case 'send-message':
-      $stmt = $pdo->prepare('INSERT INTO inquiry_table (id, REPLY_FROM, REPLY_TO, TITLE, OVERVIEW) VALUES(null, null, ?, ?, ?)');
-      $stmt->execute([$_REQUEST['address'], $_REQUEST['subject'], $_REQUEST['body']]);
+      $stmt = $pdo->prepare('SELECT COUNT(*) from user_table where id = ?');
+      $stmt->execute([$_REQUEST['address']]);
+      foreach ($stmt as $user) {
+        $is_exist = $user["COUNT(*)"] != 0;
+      }
+      if ($is_exist) {
+        $stmt = $pdo->prepare('INSERT INTO inquiry_table (id, REPLY_FROM, REPLY_TO, TITLE, OVERVIEW) VALUES(null, null, ?, ?, ?)');
+        $stmt->execute([$_REQUEST['address'], $_REQUEST['subject'], $_REQUEST['body']]);
+      } else {
+        echo "<script type='text/javascript'>alert('一致するユーザーIDが見つかりません');</script>";
+      }
       break;
 
       /**
