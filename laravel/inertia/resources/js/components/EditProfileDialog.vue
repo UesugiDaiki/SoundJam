@@ -13,7 +13,7 @@
                     <form @submit.prevent="submit">
                         <v-row>
                             <v-col cols="12" class="pb-0">
-                                <v-text-field  counter v-model="_user.name" :rules="[userNameRules.required , userNameRules.userNameMax]">
+                                <v-text-field  counter="14" v-model="_user.name" :rules="[userNameRules.required , userNameRules.userNameMax]">
                                     <template v-slot:label>ユーザー名<span style="color: red"> * </span>
                                     </template>
                                 </v-text-field>
@@ -22,15 +22,15 @@
                                 <v-file-input prepend-icon="" label="アイコン画像" prepend-inner-icon="$camera" @change="fileSelect"  accept=".png,.jpg"></v-file-input>
                             </v-col>
                             <v-col cols="6" class="py-0">
-                                <v-text-field prepend-inner-icon="$link" label="URLリンク" v-model="_user.website"></v-text-field>
+                                <v-text-field prepend-inner-icon="$link" :rules="[linkRules.urlCheck]" label="URLリンク" v-model="_user.website"></v-text-field>
                             </v-col>
                             <v-col cols="12" class="py-0">
-                                <v-textarea counter label="プロフィール" auto-grow rows="3" v-model="_user.profiles" :rules="[profileRules.profileMax]"></v-textarea>
+                                <v-textarea counter="160" label="プロフィール" auto-grow rows="3" v-model="_user.profiles" :rules="[profileRules.profileMax]"></v-textarea>
                             </v-col>
                         </v-row>
 
                         <v-card-actions>
-                            <v-btn :disabled="errorDetection" variant="flat" class="me-4" type="submit" color="primary" @click="updateUser">
+                            <v-btn :disabled="errorDetection || urlCheckDetection" variant="flat" class="me-4" type="submit" color="primary" @click="updateUser">
                                 保存
                             </v-btn>
                         </v-card-actions>
@@ -55,6 +55,7 @@ export default {
             dialog: false,
             setDialog: false,
             _user: {},
+            jpUrlRule: /https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+/g,
             // ユーザー名入力ルール
             userNameRules: {
                 required: value => !!value || '必須項目です',
@@ -64,9 +65,25 @@ export default {
             profileRules: {
                 profileMax: v => v.length <= 160 || '最大文字数は160文字です',
             },
+            // リンク入力ルール
+            linkRules: {
+                urlCheck:value => {
+                    // リンクが入力されている場合
+                    if(this._user.website != ""){
+                        return this.urlCheck(this._user.website) || "URLのみ入力可能です"
+                    }
+                },
+            },
         }
     },
     methods: {
+        // URLか判定
+        urlCheck(str){
+                //日本語を含むURLの正規表現
+                const jpUrlPattern = /https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+/g;
+                return jpUrlPattern.test(str);
+        },
+
         //ファイル選択時の処理
         fileSelect: function(e) {
             //選択したファイルの情報を取得しプロパティにいれる
@@ -127,6 +144,22 @@ export default {
                 return true
             }
         },
+        // リンクが入力されていたらURLか判定しボタン無効化するか決める
+        urlCheckDetection(){
+            // 空白ではない場合
+            if(this._user.website != ""){
+                //-- URLか判定 --//
+                // 入力内容がURLの場合
+                if(this.urlCheck(this._user.website)){
+                    return false
+                }
+                // 入力内容がURLではない場合
+                else{
+                    // ボタン無効化
+                    return true
+                }
+            }
+        }
     }
 }
 </script>
