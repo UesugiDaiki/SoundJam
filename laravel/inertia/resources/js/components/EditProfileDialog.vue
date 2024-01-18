@@ -30,7 +30,7 @@
                         </v-row>
 
                         <v-card-actions>
-                            <v-btn :disabled="errorDetection || urlCheckDetection" variant="flat" class="me-4" type="submit" color="primary" @click="updateUser">
+                            <v-btn :disabled="errorDetection || urlCheckDetection || sizeDetection" variant="flat" class="me-4" type="submit" color="primary" @click="updateUser">
                                 保存
                             </v-btn>
                         </v-card-actions>
@@ -132,6 +132,17 @@ export default {
         }
     },
     computed: {
+        // 
+        sizeDetection(){
+            //上限サイズは5MB
+            if (this._user.icon.size > 5000000) {
+                // ボタン無効化
+                return true
+            } else {
+                return false
+            }
+        },
+        
         // 入力に間違いがあるとボタン無効化するやつ
         errorDetection() {
             // 入力内容が正しい場合
