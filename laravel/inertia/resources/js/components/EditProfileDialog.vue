@@ -89,7 +89,8 @@ export default {
             formData.append('id', this.user.id);
             formData.append('name', this._user.name);
             formData.append('website', this._user.website);
-            formData.append('profiles', this._user.profiles ? this._user.profiles : "");
+            // formData.append('profiles', this._user.profiles ? this._user.profiles : "");
+            formData.append('profiles', this._user.profiles);
             formData.append('icon', this._user.icon);
 
             let successFlg = false
@@ -116,11 +117,14 @@ export default {
     computed: {
         // 入力に間違いがあるとボタン無効化するやつ
         errorDetection() {
-            if(this._user.name == "" || this._user.name.length > 14 || this._user.profiles.length > 160){
-                return true
-            }
-            else{
+            // 入力内容が正しい場合
+            if(this._user.name != "" && this._user.name.length <= 14 && this._user.profiles.length <= 160){
                 return false
+            }
+            // 入力が間違っている場合
+            else{
+                // 要素の無効化を正にするためtrueを返す
+                return true
             }
         },
     }
