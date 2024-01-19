@@ -19,7 +19,7 @@
                                 </v-text-field>
                             </v-col>
                             <v-col cols="6" class="py-0">
-                                <v-file-input prepend-icon="" label="アイコン画像" prepend-inner-icon="$camera" @change="fileSelect"  accept=".png,.jpg"></v-file-input>
+                                <v-file-input prepend-icon="" label="アイコン画像" prepend-inner-icon="$camera" hint="5MBまで" :error="sizeDetection"  @change="fileSelect"  accept=".png,.jpg"></v-file-input>
                             </v-col>
                             <v-col cols="6" class="py-0">
                                 <v-text-field prepend-inner-icon="$link" :rules="[linkRules.urlCheck]" label="URLリンク" v-model="_user.website"></v-text-field>
@@ -86,7 +86,7 @@ export default {
 
         //ファイル選択時の処理
         fileSelect: function(e) {
-            //選択したファイルの情報を取得しプロパティにいれる
+            //選択したファイルの情報を取得しプロパティに入れる
             this._user.icon = e.target.files[0];
         },
         openEditProfile() {
@@ -132,7 +132,7 @@ export default {
         }
     },
     computed: {
-        // 
+        // サイズ超えたらボタン無効化
         sizeDetection(){
             //上限サイズは5MB
             if (this._user.icon.size > 5000000) {
