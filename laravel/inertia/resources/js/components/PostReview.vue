@@ -12,7 +12,14 @@
                     <v-img max-width="250" min-width="250" max-height="190" min-height="190"
                         :src="'../../storage/post/' + post.id + '/' + post.IMAGES"></v-img>
                     <div class="audio">
-                        <div v-if="post.AUDIO2 === null">
+                        <div v-if="this.post.AUDIO2 === null">
+                            <!-- 音声1 -->
+                            <audio controlslist="nodownload" class="audio-position" controls
+                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
+                            
+                            
+                        </div>
+                        <div v-else>
                             <!-- 音声1 -->
                             <audio controlslist="nodownload" class="audio-position" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
@@ -21,12 +28,6 @@
                             
                             <audio controlslist="nodownload" class="audio-position" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO2"></audio>
-                        </div>
-                        <div v-else>
-                            <!-- 音声1 -->
-                            <audio controlslist="nodownload" class="audio-position" controls
-                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
-                            
                         </div>
                     </div>
                 </div>
@@ -72,6 +73,9 @@ import Title from '@/Components/Title.vue'
 
 <script>
 export default {
+    // created() {
+    //     console.log(this.post.AUDIO2);
+    // },
     data: () => ({
         show: false,
         reveal: false,
