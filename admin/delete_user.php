@@ -35,6 +35,21 @@ require 'header.php';
             if (!$stmt->rowCount()) {
                 echo '<p class="text-center">一致する投稿はありません</p>';
             }
+        } elseif (isset($_REQUEST['command']) && $_REQUEST['command'] == 'delete-user-id-search') {
+            foreach ($stmt as $row) {
+                echo '<form action="delete_user.php" method="post">';
+                echo '<a href="http://localhost:8000/user/' . htmlspecialchars($row['id']) . '/" class="list-group-item list-group-item-action d-flex justify-content-between">';
+                echo '<p class="my-auto">' . htmlspecialchars($row['USER_NAME']) . '</p>';
+                echo '<input type="hidden" name="command" value="delete-user">';
+                echo '<input type="hidden" name="user-id" value="' . htmlspecialchars($row['id']) . '">';
+                echo '<button type="submit" class="btn btn-outline-danger">削除</button>';
+                echo '</a>';
+                echo '</form>';
+            }
+
+            if (!$stmt->rowCount()) {
+                echo '<p class="text-center">一致する投稿はありません</p>';
+            }
         } else {
             // 降順(最新)に取得
             $stmt = $pdo->prepare('SELECT * FROM user_table ORDER BY id DESC');

@@ -42,7 +42,7 @@ if (isset($_REQUEST['command'])) {
       } else {
         echo "<script type='text/javascript'>alert('一致するユーザーIDが見つかりません');</script>";
       }
-      break;
+	break;
 
       /**
        * 削除する投稿の検索
@@ -150,7 +150,7 @@ if (isset($_REQUEST['command'])) {
        * ユーザー検索
        */
     case 'delete-user-search':
-      $stmt = $pdo->prepare('SELECT id, USER_NAME FROM user_table WHERE USER_NAME LIKE "%' . $_REQUEST['words'] . '%"');
+      $stmt = $pdo->prepare('SELECT id, USER_NAME FROM user_table WHERE USER_NAME LIKE "%' . $_REQUEST['words'] . '%" OR id="' . $_REQUEST['words'] . '"');
       $stmt->execute();
       break;
 
