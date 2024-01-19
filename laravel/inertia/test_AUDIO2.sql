@@ -58,6 +58,8 @@ create table post_table (
     DATES varchar(50) not null,
     -- 音声1
     AUDIO1 varchar(200),
+    -- 音声2
+    AUDIO2 varchar(200),
     -- 画像
     IMAGES varchar(200),
     -- 投稿種別
@@ -155,14 +157,16 @@ INSERT INTO user_table VALUES (2,'管理者','プロフィールプロフィー�
 INSERT INTO user_table VALUES (3,'オフロスキー','お風呂は好きかい？','test_link','オフロスキー1.jpg','ohuro@ohuro','ohuroohuro');
 INSERT INTO user_table VALUES (4,'test_user','testプロフィール','test_user_link','MicrosoftTeams-image (11).png','test_user@user','testuser');
 
-INSERT INTO post_table VALUES (1,1,'投稿１','投稿１の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
-INSERT INTO post_table VALUES (2,1,'投稿2','投稿2の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
-INSERT INTO post_table VALUES (3,1,'投稿3','投稿3の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
-INSERT INTO post_table VALUES (4,2,'投稿2-1','投稿2-1の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
-INSERT INTO post_table VALUES (5,2,'投稿2-2','投稿2-2の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
-INSERT INTO post_table VALUES (6,2,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
-INSERT INTO post_table VALUES (7,3,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','AC-3.jpg',true,0);
-INSERT INTO post_table VALUES (8,3,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','AC-3.jpg',false,0);
+INSERT INTO post_table VALUES (1,1,'投稿１','投稿１の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
+INSERT INTO post_table VALUES (2,1,'投稿2','投稿2の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
+INSERT INTO post_table VALUES (3,1,'投稿3','投稿3の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
+INSERT INTO post_table VALUES (4,2,'投稿2-1','投稿2-1の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
+INSERT INTO post_table VALUES (5,2,'投稿2-2','投稿2-2の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
+INSERT INTO post_table VALUES (6,2,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','maou_bgm_fantasy15.mp3','ms50g.png',true,0);
+INSERT INTO post_table VALUES (7,3,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3','maou_bgm_fantasy15.mp3','AC-3.jpg',true,0);
+INSERT INTO post_table VALUES (8,3,'投稿2-3','投稿2-3の概要です','録音方法は。。。','2023/11/21 0:00','maou_bgm_fantasy15.mp3',null,'AC-3.jpg',false,0);
+
+
 
 INSERT INTO equip_table VALUES (null,1,1,'マルチストンプ');
 INSERT INTO equip_table VALUES (null,1,2,'投稿1使用機材2');
