@@ -12,8 +12,22 @@
                     <v-img max-width="250" min-width="250" max-height="190" min-height="190"
                         :src="'../../storage/post/' + post.id + '/' + post.IMAGES"></v-img>
                     <div class="audio">
-                        <audio controlslist="nodownload" class="audio-position" controls
+                        <div v-if="post.AUDIO2 === null">
+                            <!-- 音声1 -->
+                            <audio controlslist="nodownload" class="audio-position" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
+                            
+                            <!-- 音声2 -->
+                            
+                            <audio controlslist="nodownload" class="audio-position" controls
+                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO2"></audio>
+                        </div>
+                        <div v-else>
+                            <!-- 音声1 -->
+                            <audio controlslist="nodownload" class="audio-position" controls
+                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
+                            
+                        </div>
                     </div>
                 </div>
                 <v-card-actions>
@@ -53,7 +67,7 @@
 </template>
 
 <script setup>
-import Title from '@/Components/Title.vue'
+import Title from '@/components/Title.vue'
 </script>
 
 <script>
