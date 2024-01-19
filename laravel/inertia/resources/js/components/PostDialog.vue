@@ -19,8 +19,8 @@
                             <form @submit.prevent="submit">
                                 <v-row>
                                     <!-- タイトル -->
-                                    <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="free.title" :rules="[rules.required]">
+                                    <v-col cols="12" class="pb-0" >
+                                        <v-text-field v-model="free.title" :rules="[rules.required,titleRules.max]" counter="25" >
                                             <template v-slot:label>タイトル<span style="color: red"> * </span>
                                             </template>
                                         </v-text-field>
@@ -30,7 +30,7 @@
                                         <!-- 画像選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera" ref="previewFree"
                                             hint="(5MBまで)" @change="fileSelect2" v-on:change="showFree" accept=".png,.jpg"
-                                            show-size v-model="free.imageName" persistent-hint :error="imgRuleFree"
+                                            show-size v-model="free.imageName" persistent-hint :error="imgRuleFree" 
                                             :rules="[rules.required]">
                                             <template v-slot:label>画像<span style="color: red"> * </span>
                                             </template>
@@ -60,16 +60,16 @@
                                     </v-col>
                                     <!-- 概要 -->
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea auto-grow v-model="free.overview" rows="2" label="概要"></v-textarea>
+                                        <v-textarea counter="160" :rules="[overviewRules.max]" auto-grow v-model="free.overview" rows="2" label="概要"></v-textarea>
                                     </v-col>
                                     <!-- 録音方法 -->
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea auto-grow v-model="free.recordingMethod" rows="2"
+                                        <v-textarea counter="160" :rules="[recordingMethodRules.max]" auto-grow v-model="free.recordingMethod" rows="2"
                                             label="録音方法"></v-textarea>
                                     </v-col>
                                     <!-- 機材 -->
                                     <v-col cols="6" class="pt-0">
-                                        <v-text-field v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
+                                        <v-text-field :rules="[equipsRules.max]" v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
                                             :hint=" String(equip.index + 1) + 'つ目の機材名'"
                                             :label="'機材' + String(equip.index + 1)"></v-text-field>
                                         <v-btn variant="flat" icon="$plus" @click="addEquip(tab)">
@@ -87,7 +87,7 @@
 
                                 <v-card-actions class="mt-4">
                                     <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="postFree"
-                                        v-on:click="dialog = false" :disabled="isEnterFree">
+                                        v-on:click="dialog = false" :disabled="isEnterFree || inputErrorFree  ">
                                         投稿
                                     </v-btn>
                                 </v-card-actions>
@@ -98,10 +98,10 @@
                         <v-window-item value="review">
                             <form @submit.prevent="submit">
                                 <v-row>
-                                    <!-- 製品名 -->
+                                    <!-- タイトル -->
                                     <v-col cols="12" class="pb-0">
                                         <v-text-field v-model="review.product" :rules="[rules.required]">
-                                            <template v-slot:label>製品名<span style="color: red"> * </span>
+                                            <template v-slot:label>タイトル<span style="color: red"> * </span>
                                             </template>
                                         </v-text-field>
                                     </v-col>
@@ -112,7 +112,7 @@
                                             v-model="review.imageName" hint="(5MBまで)" persistent-hint accept=".png,.jpg"
                                             @change="fileSelect3" v-on:change="showReview" ref="previewReview"
                                             :rules="[rules.required]" :error="imgRuleReview">
-                                            <template v-slot:label>つまみの状態がわかる画像<span style="color: red"> * </span>
+                                            <template v-slot:label>画像<span style="color: red"> * </span>
                                             </template>
                                         </v-file-input>
                                         <!-- 画像プレビュー -->
@@ -128,7 +128,7 @@
                                             v-model="review.audio1Name" persistent-hint hint="(10MBまで)"
                                             :rules="[rules.required]" ref="playReview1" show-size @change="fileSelect1_1"
                                             v-on:change="playReview1" :error="audioRuleReview1">
-                                            <template v-slot:label>音声（エフェクターOFF）<span style="color: red"> * </span>
+                                            <template v-slot:label>音声1<span style="color: red"> * </span>
                                             </template>
                                         </v-file-input>
                                         <!-- 上げた音声表示１ -->
@@ -136,6 +136,19 @@
                                             style="margin-bottom: 22px; height: 54px; ">
                                             <audio controlslist="nodownload" class="audio-playReview1  " controls
                                                 v-bind:src="audioUrlReview1"></audio>
+                                        </div>
+                                        <!-- 音声ファイル2 -->
+                                        <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
+                                            v-model="review.audio2Name" persistent-hint hint="(10MBまで)"
+                                            ref="playReview2" show-size @change="fileSelect2_2"
+                                            v-on:change="playReview2" :error="audioRuleReview2">
+                                            <template v-slot:label>音声2</template>
+                                        </v-file-input>
+                                        <!-- 上げた音声表示2 -->
+                                        <div class="playReview2-box" v-if="audioUrlReview2"
+                                            style="margin-bottom: 22px; height: 54px; ">
+                                            <audio controlslist="nodownload" class="audio-playReview2  " controls
+                                                v-bind:src="audioUrlReview2"></audio>
                                         </div>
                                     </v-col>
                                 </v-row>
@@ -158,7 +171,7 @@
                                     <v-col cols="6" class="pt-0">
                                         <v-text-field v-for="equip in review.equips"
                                             v-model="review.equips[equip.index].equip"
-                                            :hint="'楽器から' + String(equip.index + 1) + 'つ目につなげた機材名'"
+                                            :hint="String(equip.index + 1) + 'つ目の機材名'"
                                             :rules="[rules.required]">
                                             <template v-slot:label>機材{{ equip.index + 1 }}<span style="color: red"> *
                                                 </span>
@@ -213,9 +226,24 @@ export default {
             audioRuleReview1: false,   //レビュー投稿の１つ目
             audioRuleReview2: false,   //レビュー投稿の２つ目
 
-            // 入力ルール
+            // 入力ルール //
             rules: {
                 required: value => !!value || '必須項目です',
+            },
+            titleRules:{
+                max: v => v.length <= 25 || '最大文字数は25文字です',
+            },
+            // 概要
+            overviewRules:{
+                max: v => v.length <= 160 || '最大文字数は160文字です',
+            },
+            // 録音方法
+            recordingMethodRules:{
+                max: v => v.length <= 160 || '最大文字数は160文字です',
+            },
+            // 機材
+            equipsRules:{
+                max: v => v.length <= 30 || '最大文字数は30文字です',
             },
 
             snackbar: false,
@@ -249,6 +277,8 @@ export default {
                 // 音声情報
                 audio1: null,
                 audio1Name: [],
+                audio2: null,
+                audio2Name: [],
                 // 画像
                 image: null,
                 imageName: [],
@@ -268,11 +298,22 @@ export default {
                 this.free.title?.trim()
                 && this.free.audioName.length
                 && this.free.imageName.length
-            ) {
-                return false
-            } else {
-                return true
-            }
+            
+            ){ return false } 
+            else{return true} 
+        },
+        // 自由投稿の入力内容に不具合が無いか確認
+        inputErrorFree() {
+            if (
+                this.free.title.length <= 25
+                && this.free.overview.length <= 160
+                && this.free.recordingMethod.length <= 160
+                && this.free.image.size <= 5000000
+                && this.free.image.size <= 10000000
+                // エラー　＊＊＊＊＊＊＊＊＊＊
+                // && this.free.equips[1].equip.length <= 30
+            ) {return false}
+            else{return true}
         },
         // レビュー投稿の必須項目入力済か
         isEnterReview() {
@@ -288,6 +329,7 @@ export default {
                 && this.review.overview?.trim()
                 && this.review.recordingMethod?.trim()
                 && this.review.audio1Name.length
+                && this.review.audio2Name.length
                 && this.review.imageName.length
                 && existEquip
             ) {
@@ -344,6 +386,12 @@ export default {
             this.review.audio1 = e.target.files[0];
         },
 
+        //音声ファイル2選択時の処理
+        fileSelect2_2: function (e) {
+            //選択したファイルの情報を取得しプロパティにいれる
+            this.review.audio2 = e.target.files[0];
+        },
+
         // 自由投稿
         async postFree() {
             //自由投稿データ
@@ -397,6 +445,7 @@ export default {
             formData.append('overview', this.review.overview);
             formData.append('recordingMethod', this.review.recordingMethod);
             formData.append('mp3_1', this.review.audio1);
+            formData.append('mp3_2', this.review.audio2);
             formData.append('img', this.review.image);
             let i = 0;
             for (i = 0; i < this.review.equips.length; i++) {
@@ -535,6 +584,7 @@ export default {
                     recordingMethod: "",
                     // 音声情報
                     audio1: null,
+                    audio2: null,
                     // 画像
                     image: null,
                     equips: [
