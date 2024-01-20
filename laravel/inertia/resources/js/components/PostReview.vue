@@ -2,7 +2,7 @@
     <v-row class="pl-3" justify="center">
         <v-col cols="auto" class="soto">
             <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0" link
-                :ripple="false" @click="setPostDetail" :to="{ name: 'post', params: { postId: this.post.id } }">
+                :ripple="false" @click="setPostDetail" :to="{ name: 'post', params: { postId: post.id } }">
                 <Title :name="post.USER_NAME" :myImg="'../../storage/user/' + post.USER_ID + '/' + post.ICON" :userId="post.USER_ID" :postId="post.id"/>
                 <v-card-title>
                     {{ post.TITLE }}
