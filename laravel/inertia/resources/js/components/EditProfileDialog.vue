@@ -19,7 +19,7 @@
                                 </v-text-field>
                             </v-col>
                             <v-col cols="6" class="py-0">
-                                <v-file-input prepend-icon="" label="アイコン画像" prepend-inner-icon="$camera" hint="5MBまで" :error="sizeDetection"  @change="fileSelect"  accept=".png,.jpg"></v-file-input>
+                                <v-file-input prepend-icon="" show-size label="アイコン画像" prepend-inner-icon="$camera" hint="5MBまで" :error="sizeDetection"  @change="fileSelect"  accept=".png,.jpg"></v-file-input>
                             </v-col>
                             <v-col cols="6" class="py-0">
                                 <v-text-field prepend-inner-icon="$link" :rules="[linkRules.urlCheck]" label="URLリンク" v-model="_user.website"></v-text-field>
@@ -54,6 +54,7 @@ export default {
             snackbarMessage: '',
             dialog: false,
             setDialog: false,
+            uploadImgSize:0,
             _user: {},
             jpUrlRule: /https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+/g,
             // ユーザー名入力ルール
@@ -88,6 +89,7 @@ export default {
         fileSelect: function(e) {
             //選択したファイルの情報を取得しプロパティに入れる
             this._user.icon = e.target.files[0];
+            this.uploadImgSize = this._user.icon;
         },
         openEditProfile() {
             if (!this.setDialog) {
@@ -134,7 +136,7 @@ export default {
     computed: {
         // サイズ超えたらボタン無効化
         sizeDetection(){
-            //上限サイズは5MB
+            //上限サイズ5MBを超えた場合
             if (this._user.icon.size > 5000000) {
                 // ボタン無効化
                 return true
