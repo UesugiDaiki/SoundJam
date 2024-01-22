@@ -15,7 +15,14 @@ class AuthController extends Controller
     // session情報取得
     public function get_session()
     {
-        return Session::get('soundjam_user');
+        try {
+            return Session::get('soundjam_user');
+            // 例外キャッチャ
+        } catch (\Throwable $e) {
+            // エラーをlaravel.logに表示
+            Log::debug($e);
+            return [false];
+        }
     }
 
     // ログイン
@@ -58,25 +65,39 @@ class AuthController extends Controller
     // ログアウト
     public function logout()
     {
-        Session::forget('soundjam_user');
+        try {
+            Session::forget('soundjam_user');
+            // 例外キャッチャ
+        } catch (\Throwable $e) {
+            // エラーをlaravel.logに表示
+            Log::debug($e);
+            return [false];
+        }
     }
 
     // 新規登録
     public function regist(Request $request)
     {
-        // DB追加
-        $regist_data = [
-            'USER_NAME' => $request->input("registName"),
-            'PROFILES' => null,
-            'WEBSITE' => null,
-            'ICON' => 'default_icon.jpg',
-            'EMAIL_ADDRESS' => $request->input("registMail"),
-            'PASSWORDS' => $request->input("registPass"),
-        ];
-        $user_id = DB::table('user_table')->insertGetId($regist_data);
+        try {
+            // DB追加
+            $regist_data = [
+                'USER_NAME' => $request->input("registName"),
+                'PROFILES' => null,
+                'WEBSITE' => null,
+                'ICON' => 'default_icon.jpg',
+                'EMAIL_ADDRESS' => $request->input("registMail"),
+                'PASSWORDS' => $request->input("registPass"),
+            ];
+            $user_id = DB::table('user_table')->insertGetId($regist_data);
 
-        // ユーザーディレクトリ作成
-        Storage::makeDirectory('public/user/' . $user_id);
-        Storage::copy('public/user/default_icon.jpg', 'public/user/' . $user_id . '/default_icon.jpg');
+            // ユーザーディレクトリ作成
+            Storage::makeDirectory('public/user/' . $user_id);
+            Storage::copy('public/user/default_icon.jpg', 'public/user/' . $user_id . '/default_icon.jpg');
+            // 例外キャッチャ
+        } catch (\Throwable $e) {
+            // エラーをlaravel.logに表示
+            Log::debug($e);
+            return [false];
+        }
     }
 }
