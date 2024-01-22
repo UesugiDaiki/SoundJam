@@ -121,10 +121,10 @@ export default {
                 && this.registCheckPass?.trim()
                 && !this.matchPassWord
                 && this.registName.length <= 14
-                && this.registPass.length >= 8 
+                && this.registPass.length >= 8
                 && this.registPass.length <= 16
                 && this.inputPassCheck(this.registPass)
-                
+
 
             )
         },
@@ -186,6 +186,11 @@ export default {
                 })
 
             if (successFlg) {
+                this.registName = ""
+                this.registMail = ""
+                this.registPass = ""
+                this.registCheckPass = ""
+                this.loginDialog = false
                 this.snackbarMessage = 'ユーザーを作成しました。'
             } else {
                 this.snackbarMessage = 'ユーザーの作成に失敗しました。'
