@@ -69,7 +69,7 @@
                                     </v-col>
                                     <!-- 機材 -->
                                     <v-col cols="6" class="pt-0">
-                                        <v-text-field :rules="[equipsRules.max]" v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
+                                        <v-text-field :rules="[equipsRules.max]" counter="30" v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
                                             :hint=" String(equip.index + 1) + 'つ目の機材名'"
                                             :label="'機材' + String(equip.index + 1)"></v-text-field>
                                         <v-btn variant="flat" icon="$plus" @click="addEquip(tab)">
@@ -100,7 +100,7 @@
                                 <v-row>
                                     <!-- タイトル -->
                                     <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="review.product" :rules="[rules.required]">
+                                        <v-text-field v-model="review.product" :rules="[rules.required,titleRules.max]" counter="25">
                                             <template v-slot:label>タイトル<span style="color: red"> * </span>
                                             </template>
                                         </v-text-field>
@@ -110,7 +110,7 @@
                                         <!-- 画像選択 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$camera"
                                             v-model="review.imageName" hint="(5MBまで)" persistent-hint accept=".png,.jpg"
-                                            @change="fileSelect3" v-on:change="showReview" ref="previewReview"
+                                            @change="fileSelect3" v-on:change="showReview" ref="previewReview" show-size
                                             :rules="[rules.required]" :error="imgRuleReview">
                                             <template v-slot:label>画像<span style="color: red"> * </span>
                                             </template>
@@ -155,14 +155,14 @@
                                 <v-row>
                                     <v-col cols="6" class="py-0">
                                         <v-textarea auto-grow v-model="review.overview" rows="2" label="概要"
-                                            :rules="[rules.required]">
+                                            :rules="[rules.required,overviewRules.max]"  counter="160">
                                             <template v-slot:label>概要<span style="color: red"> * </span>
                                             </template>
                                         </v-textarea>
                                     </v-col>
                                     <v-col cols="6" class="py-0">
                                         <v-textarea auto-grow v-model="review.recordingMethod" rows="2" label="録音方法"
-                                            :rules="[rules.required]">
+                                            :rules="[rules.required,recordingMethodRules.max]" counter="160" >
                                             <template v-slot:label>録音方法<span style="color: red"> * </span>
                                             </template>
                                         </v-textarea>
@@ -172,7 +172,7 @@
                                         <v-text-field v-for="equip in review.equips"
                                             v-model="review.equips[equip.index].equip"
                                             :hint="String(equip.index + 1) + 'つ目の機材名'"
-                                            :rules="[rules.required]">
+                                            :rules="[rules.required,equipsRules.max]" counter="30">
                                             <template v-slot:label>機材{{ equip.index + 1 }}<span style="color: red"> *
                                                 </span>
                                             </template>
@@ -192,7 +192,7 @@
 
                                 <v-card-actions class="mt-4">
                                     <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="editReview"
-                                        v-on:click="dialog = false" :disabled="isEnterReview">
+                                        v-on:click="dialog = false" :disabled="isEnterReview || inputErrorReview">
                                         投稿
                                     </v-btn>
                                 </v-card-actions>
@@ -309,7 +309,7 @@ export default {
                 && this.free.overview.length <= 160
                 && this.free.recordingMethod.length <= 160
                 && this.free.image.size <= 5000000
-                && this.free.image.size <= 10000000
+                && this.free.audio.size <= 10000000
                 // エラー　＊＊＊＊＊＊＊＊＊＊
                 // && this.free.equips[1].equip.length <= 30
             ) {return false}
@@ -329,15 +329,28 @@ export default {
                 && this.review.overview?.trim()
                 && this.review.recordingMethod?.trim()
                 && this.review.audio1Name.length
-                && this.review.audio2Name.length
                 && this.review.imageName.length
+                && this.review.audio1Name.length
                 && existEquip
             ) {
                 return false
             } else {
                 return true
             }
-        }
+        },
+        // レビュー投稿の入力内容に不具合が無いか確認
+        inputErrorReview() {
+            if (
+                this.review.product.length <= 25
+                && this.review.overview.length <= 160
+                && this.review.recordingMethod.length <= 160
+                && this.review.image.size <= 5000000
+                && this.review.audio1.size <= 10000000
+                // エラー　＊＊＊＊＊＊＊＊＊＊
+                // && this.review.equips[1].equip.length <= 30
+            ) {return false}
+            else{return true}
+        },
     },
     methods: {
         openPost() {
