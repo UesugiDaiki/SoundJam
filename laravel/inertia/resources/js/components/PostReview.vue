@@ -6,7 +6,15 @@
                 <Title :name="post.USER_NAME" :myImg="'../../storage/user/' + post.USER_ID + '/' + post.ICON" :userId="post.USER_ID" :postId="post.id"/>
                 <v-card-title>
                     {{ post.TITLE }}
-                    <div class="Item-Content-Flg4"></div>
+                    <div v-if="post.IS_PROMOTION === 2">
+                        <div class="Promo">
+                        </div>
+                        <div class="Promo-Text">
+                            PR
+                        </div>
+                    </div>
+                    <div v-else class="Item-Content-Flg4">
+                    </div>
                 </v-card-title>
                 <div class="aaa">
                     <v-img max-width="250" min-width="250" max-height="190" min-height="190"
@@ -150,7 +158,24 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    border-top: 40px solid #733cff;
-    border-left: 40px solid transparent;
+    border-top: 44px solid #733cff;
+    border-left: 44px solid transparent;
+}
+.Promo {
+    /*三角形右上*/
+    position: absolute;
+    /* transform: translateX(24px); */
+    top: 0;
+    right: 0;
+    border-top: 44px solid #733cff;
+    border-left: 44px solid transparent;
+}
+.Promo-Text {
+    position: absolute;
+    top: 36px;
+    right: 3px;
+    transform: translateY(-40px);
+    color: #ffffff;
+    font-size: 16px;
 }
 </style>
