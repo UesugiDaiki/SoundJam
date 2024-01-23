@@ -63,7 +63,7 @@ class AppController extends Controller
                 'DATES' => $date_time->format('Y-m-j G:i'),
                 'AUDIO1' => $mp3_name,
                 'IMAGES' => $img_name,
-                'POST_TYPE' => 0,
+                'POST_TYPE' => 1,
                 'IS_PROMOTION' => 1,
             ])) {
                 // storage/app/public/post/投稿IDに、ファイルを保存
