@@ -143,9 +143,11 @@ export default {
             this.registDialog = true
         },
         async login() {
+            let _loginPass
+            await sha256(this.loginPass).then(hash => _loginPass = hash)
             let loginData = {
                 loginID: this.loginID,
-                loginPass: this.loginPass,
+                loginPass: _loginPass,
             }
 
             let successFlg = false
@@ -170,10 +172,12 @@ export default {
             }
         },
         async regist() {
+            let _registPass
+            await sha256(this.registPass).then(hash => _registPass = hash)
             let registData = {
                 registName: this.registName,
                 registMail: this.registMail,
-                registPass: this.registPass,
+                registPass: _registPass,
             }
 
             let successFlg = false
@@ -200,4 +204,11 @@ export default {
         },
     },
 }
+
+const sha256 = async (text) => {
+    const uint8  = new TextEncoder().encode(text)
+    const digest = await crypto.subtle.digest('SHA-256', uint8)
+    return Array.from(new Uint8Array(digest)).map(v => v.toString(16).padStart(2,'0')).join('')
+}
+// sha256('テスト').then(hash => console.log(hash));
 </script>
