@@ -151,7 +151,7 @@ create table admin_table (
 
 
 INSERT INTO user_table VALUES (1,'雅弥','プロフィールプロフィール','linklink','masaya.png','test@test','37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578'); -- testtest
-INSERT INTO user_table VALUES (2,'管理者','プロフィールプロフィール','testlink','masaya.png','admin@admin','d82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892'); --adminadmin
+INSERT INTO user_table VALUES (2,'管理者','プロフィールプロフィール','testlink','masaya.png','admin@admin','d82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892'); -- adminadmin
 INSERT INTO user_table VALUES (3,'オフロスキー','お風呂は好きかい？','test_link','オフロスキー1.jpg','ohuro@ohuro','a2cbe87461ee6293e6b6bebab885023362e63d4b2a19661136fc5916b54ebd0d'); -- ohuroohuro
 INSERT INTO user_table VALUES (4,'test_user','testプロフィール','test_user_link','MicrosoftTeams-image (11).png','test_user@user','ae5deb822e0d71992900471a7199d0d95b8e7c9d05c40a8245a281fd2c1d6684'); -- testuser
 
