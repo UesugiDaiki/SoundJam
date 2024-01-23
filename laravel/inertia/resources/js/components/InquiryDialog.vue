@@ -19,10 +19,10 @@
                             <form @submit.prevent="submit">
                                 <v-row>
                                     <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="inquiry.title" label="件名" counter :rules="[rules.required,rules.max]"></v-text-field>
+                                        <v-text-field v-model="inquiry.title" label="件名" counter="40" :rules="[rules.required,rules.max]"></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-textarea v-model="inquiry.overview" label="本文" auto-grow counter :rules="[rules.required,mainRules.max]"></v-textarea>
+                                        <v-textarea v-model="inquiry.overview" label="本文" counter="160" auto-grow  :rules="[rules.required,mainRules.max]"></v-textarea>
                                     </v-col>
                                 </v-row>
 
@@ -40,7 +40,7 @@
                                 <v-row>
                                     <!-- タイトル -->
                                     <v-col cols="12" class="pb-0">
-                                        <v-text-field v-model="free.title" :rules="[rules.required]">
+                                        <v-text-field v-model="free.title" :rules="[rules.required,titleRules.max]" counter="25">
                                             <template v-slot:label>タイトル<span style="color: red"> * </span>
                                             </template>
                                         </v-text-field>
@@ -80,16 +80,16 @@
                                     </v-col>
                                     <!-- 概要 -->
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea auto-grow v-model="free.overview" rows="2" label="概要"></v-textarea>
+                                        <v-textarea  counter="160" :rules="[overviewRules.max]" auto-grow v-model="free.overview" rows="2" label="概要"></v-textarea>
                                     </v-col>
                                     <!-- 録音方法 -->
                                     <v-col cols="6" class="py-0">
-                                        <v-textarea auto-grow v-model="free.recordingMethod" rows="2"
+                                        <v-textarea  counter="160" :rules="[recordingMethodRules.max]" auto-grow v-model="free.recordingMethod" rows="2"
                                             label="録音方法"></v-textarea>
                                     </v-col>
                                     <!-- 機材 -->
                                     <v-col cols="6" class="pt-0">
-                                        <v-text-field v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
+                                        <v-text-field :rules="[equipsRules.max]" v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
                                             :hint=" String(equip.index + 1) + 'つ目の機材名'"
                                             :label="'機材' + String(equip.index + 1)"></v-text-field>
                                         <v-btn variant="flat" icon @click="addEquip">
@@ -107,7 +107,7 @@
 
                                 <v-card-actions class="mt-4">
                                     <v-btn variant="flat" class="me-4" type="submit" color="primary" @click="postFree"
-                                        v-on:click="dialog = false" :disabled="isEnterFree">
+                                        v-on:click="dialog = false" :disabled="isEnterFree || inputErrorFree">
                                         投稿の申請
                                     </v-btn>
                                 </v-card-actions>
@@ -142,6 +142,21 @@ export default {
             mainRules:{
                 max: v => v.length <= 160 || '最大文字数は160文字です',
             },
+            titleRules:{
+                max: v => v.length <= 25 || '最大文字数は25文字です',
+            },
+            // 概要
+            overviewRules:{
+                max: v => v.length <= 160 || '最大文字数は160文字です',
+            },
+            // 録音方法
+            recordingMethodRules:{
+                max: v => v.length <= 160 || '最大文字数は160文字です',
+            },
+            // 機材
+            equipsRules:{
+                max: v => v.length <= 30 || '最大文字数は30文字です',
+            },
             free: {
                 // タイトル
                 title: "",
@@ -172,6 +187,16 @@ export default {
         }
     },
     computed: {
+        // お問い合わせの入力制限
+        inputError() {
+            return !(
+                this.inquiry.title != ""
+                && this.inquiry.overview != ""
+                && this.inquiry.title.length <= 40
+                && this.inquiry.overview.length <= 160
+            )
+        },
+        // プロモーション投稿の必須項目チェック
         isEnterFree() {
             if (
                 this.free.title?.trim()
@@ -183,14 +208,17 @@ export default {
                 return true
             }
         },
-        inputError() {
-            return !(
-                this.inquiry.title != ""
-                && this.inquiry.overview != ""
-                && this.inquiry.title.length <= 40
-                && this.inquiry.overview.length <= 160
-            )
-        }
+        // プロモーション投稿の入力内容に不具合が無いか確認
+        inputErrorFree() {
+            if (
+                this.free.title.length <= 25
+                && this.free.overview.length <= 160
+                && this.free.recordingMethod.length <= 160
+                && this.free.image.size <= 5000000
+                && this.free.audio.size <= 10000000
+            ) {return false}
+            else{return true}
+        },
     },
     methods: {
         openInquiry() {
