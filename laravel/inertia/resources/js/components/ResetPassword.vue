@@ -65,9 +65,11 @@ export default {
     },
     methods: {
         async resetPass() {
+            let _newPassword
+            await sha256(this.newPassword).then(hash => _newPassword = hash)
             let resetPassData = {
                 beforePass: this.beforePassword,
-                newPass: this.newPassword,
+                newPass: _newPassword,
             }
             let successMessage = ''
             await axios.post('/api/resetPass', resetPassData)
@@ -92,5 +94,11 @@ export default {
             this.checkPassword = ''
         }
     }
+}
+
+const sha256 = async (text) => {
+    const uint8  = new TextEncoder().encode(text)
+    const digest = await crypto.subtle.digest('SHA-256', uint8)
+    return Array.from(new Uint8Array(digest)).map(v => v.toString(16).padStart(2,'0')).join('')
 }
 </script>
