@@ -38,7 +38,8 @@ class AppController extends Controller
     {
         try {
             //　ファイル名取得
-            $mp3_name = $request->file('mp3')->getClientOriginalName();
+            $mp3_name1 = $request->file('mp3_1')->getClientOriginalName();
+            $mp3_name2 = $request->file('mp3_2')->getClientOriginalName();
             $img_name = $request->file('img')->getClientOriginalName();
 
             $title = $request->input('title');
@@ -61,13 +62,15 @@ class AppController extends Controller
                 'OVERVIEW' => $overview,
                 'RECORDING_METHOD' => $recording_method,
                 'DATES' => $date_time->format('Y-m-j G:i'),
-                'AUDIO1' => $mp3_name,
+                'AUDIO1' => $mp3_name1,
+                'AUDIO2' => $mp3_name2,
                 'IMAGES' => $img_name,
                 'POST_TYPE' => 1,
                 'IS_PROMOTION' => 1,
             ])) {
                 // storage/app/public/post/投稿IDに、ファイルを保存
-                $request->file('mp3')->storeAs('public/post/' . $connect_post_id . '/', $mp3_name);
+                $request->file('mp3_1')->storeAs('public/post/' . $connect_post_id . '/', $mp3_name1);
+                $request->file('mp3_2')->storeAs('public/post/' . $connect_post_id . '/', $mp3_name2);
                 $request->file('img')->storeAs('public/post/' . $connect_post_id . '/', $img_name);
 
                 $i = 0;
