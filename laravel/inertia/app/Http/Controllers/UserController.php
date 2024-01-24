@@ -42,6 +42,8 @@ class UserController extends Controller
             $icon_change = null;
             // webサイトurl格納
             $web_url = null;
+            // プロフィール格納
+            $profile = null;
             $id = $request->input('id');
 
             // 画像が変更されていない場合は、そのままアイコン名を取得
@@ -60,8 +62,15 @@ class UserController extends Controller
                 $web_url = $request->input('website');
             }
 
+            // webサイトのURLが設定してない場合,空文字を挿入
+            if ($request->input('profiles') === null) {
+                $profile = "";
+            } else {
+                $profile = $request->input('profiles');
+            }
+
             //updateを実行
-            if (DB::update('UPDATE user_table SET USER_NAME = ?, PROFILES = ?, WEBSITE = ?, ICON = ?  WHERE id = ?',  [$request->input('name'), $request->input('profiles'), $web_url, $icon_name, Session::get('soundjam_user')])) {
+            if (DB::update('UPDATE user_table SET USER_NAME = ?, PROFILES = ?, WEBSITE = ?, ICON = ?  WHERE id = ?',  [$request->input('name'), $profile, $web_url, $icon_name, Session::get('soundjam_user')])) {
                 //アイコンが変更しているか判定
                 if ($icon_change) {
                     // 変更したアイコン画像をユーザのフォルダに保存

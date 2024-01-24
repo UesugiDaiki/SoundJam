@@ -82,8 +82,8 @@ class AuthController extends Controller
             // DB追加
             $regist_data = [
                 'USER_NAME' => $request->input("registName"),
-                'PROFILES' => null,
-                'WEBSITE' => null,
+                'PROFILES' => '',
+                'WEBSITE' => '',
                 'ICON' => 'default_icon.jpg',
                 'EMAIL_ADDRESS' => $request->input("registMail"),
                 'PASSWORDS' => $request->input("registPass"),
