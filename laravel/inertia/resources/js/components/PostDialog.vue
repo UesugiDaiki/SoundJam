@@ -310,8 +310,6 @@ export default {
                 && this.free.recordingMethod.length <= 160
                 && this.free.image.size <= 5000000
                 && this.free.audio.size <= 10000000
-                // エラー　＊＊＊＊＊＊＊＊＊＊
-                // && this.free.equips[1].equip.length <= 30
             ) {return false}
             else{return true}
         },
@@ -346,8 +344,6 @@ export default {
                 && this.review.recordingMethod.length <= 160
                 && this.review.image.size <= 5000000
                 && this.review.audio1.size <= 10000000
-                // エラー　＊＊＊＊＊＊＊＊＊＊
-                // && this.review.equips[1].equip.length <= 30
             ) {return false}
             else{return true}
         },
