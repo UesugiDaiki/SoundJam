@@ -16,7 +16,7 @@
                         :src="'../../storage/post/' + post.id + '/' + post.IMAGES">
                     </v-img>
                     <div class="audio">
-                        <div v-if="this.post.AUDIO2 === null">
+                        <div v-if="post.AUDIO2 === null">
                             <!-- 音声1 -->
                             <audio controlslist="nodownload" class="audio-position" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
