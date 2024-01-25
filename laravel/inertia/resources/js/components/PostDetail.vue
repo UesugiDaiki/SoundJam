@@ -9,7 +9,16 @@
 
                 <v-card-title>
                     {{ post.TITLE }}
-                    <div v-if="post.POST_TYPE === 1" class="Item-Content-Flg4"></div>
+
+                    <div v-if="post.IS_PROMOTION === 2">
+                        <div class="Promo">
+                        </div>
+                        <div class="Promo-Text">
+                            PR
+                        </div>
+                    </div>
+                    <div v-else="post.POST_TYPE === 1" class="Item-Content-Flg4"></div>
+                    
                 </v-card-title>
                 <div class="aaa">
                     <v-img max-width="250" min-width="250" max-height="190" min-height="190"
