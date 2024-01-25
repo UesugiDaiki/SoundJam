@@ -232,7 +232,11 @@ class PostController extends Controller
         try {
             //　ファイル名取得
             $mp3_name1 = $request->file('mp3_1')->getClientOriginalName();
-            $mp3_name2 = $request->file('mp3_2')->getClientOriginalName();
+            if ($request->input('mp3_2')) {
+                $mp3_name2  = null;
+            } else {
+                $mp3_name2 = $request->file('mp3_2')->getClientOriginalName();
+            }
             $img_name = $request->file('img')->getClientOriginalName();
 
             $title = $request->input('product');
@@ -265,7 +269,11 @@ class PostController extends Controller
             ])) {
                 // storage/app/public/post/投稿IDに、ファイルを保存
                 $request->file('mp3_1')->storeAs('public/post/' . $connect_post_id, $mp3_name1);
-                $request->file('mp3_2')->storeAs('public/post/' . $connect_post_id, $mp3_name2);
+
+                if ($mp3_name2 != null) {
+                    $request->file('mp3_2')->storeAs('public/post/' . $connect_post_id, $mp3_name2);
+                }
+
                 $request->file('img')->storeAs('public/post/' . $connect_post_id, $img_name);
 
                 $i = 0;
