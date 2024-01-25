@@ -17,7 +17,7 @@
                             PR
                         </div>
                     </div>
-                    <div v-if="post.POST_TYPE === 1" class="Item-Content-Flg4"></div>
+                    <div v-else-if="post.POST_TYPE === 1" class="Item-Content-Flg4"></div>
                     
                 </v-card-title>
                 <div class="aaa">
@@ -181,6 +181,23 @@ export default {
     right: 0;
     border-top: 40px solid #733cff;
     border-left: 40px solid transparent;
+}
+.Promo {
+    /*三角形右上*/
+    position: absolute;
+    /* transform: translateX(24px); */
+    top: 0;
+    right: 0;
+    border-top: 44px solid #733cff;
+    border-left: 44px solid transparent;
+}
+.Promo-Text {
+    position: absolute;
+    top: 36px;
+    right: 3px;
+    transform: translateY(-40px);
+    color: #ffffff;
+    font-size: 16px;
 }
 
 .day {
