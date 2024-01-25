@@ -308,8 +308,8 @@ export default {
                 this.free.title.length <= 25
                 && this.free.overview.length <= 160
                 && this.free.recordingMethod.length <= 160
-                && this.free.image.size <= 5000000
-                && this.free.audio.size <= 10000000
+                && this.imgRuleFree == false
+                && this.audioRuleFree == false
             ) {return false}
             else{return true}
         },
@@ -342,8 +342,8 @@ export default {
                 this.review.product.length <= 25
                 && this.review.overview.length <= 160
                 && this.review.recordingMethod.length <= 160
-                && this.review.image.size <= 5000000
-                && this.review.audio1.size <= 10000000
+                && this.imgRuleReview == false
+                && this.audioRuleReview1 == false
             ) {return false}
             else{return true}
         },
