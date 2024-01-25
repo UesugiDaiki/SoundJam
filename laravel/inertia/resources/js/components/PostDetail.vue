@@ -17,7 +17,7 @@
                             PR
                         </div>
                     </div>
-                    <div v-else="post.POST_TYPE === 1" class="Item-Content-Flg4"></div>
+                    <div v-if="post.POST_TYPE === 1" class="Item-Content-Flg4"></div>
                     
                 </v-card-title>
                 <div class="aaa">
