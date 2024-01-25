@@ -247,8 +247,8 @@ export default {
                 this.promotion.title.length <= 25
                 && this.promotion.overview.length <= 160
                 && this.promotion.recordingMethod.length <= 160
-                && this.promotion.image.size <= 5000000
-                && this.promotion.audio1.size <= 10000000
+                && this.imgRulePromotion == false
+                && this.audioRulePromotion1 ==false
             ) {return false}
             else{return true
             }
