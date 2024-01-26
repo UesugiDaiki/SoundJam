@@ -442,6 +442,10 @@ export default {
             }
             this.snackbar = true
             this.dialog = false
+            // 現在の画面を再読み込み
+            if(this.$route.path == '/home' || this.$route.path.indexOf('/user') === 0){
+                window.history.go(0)
+            }
             this.initialization()
         },
 
@@ -488,6 +492,10 @@ export default {
             }
             this.snackbar = true
             this.dialog = false
+            // 現在の画面を再読み込み
+            if(this.$route.path == '/home' || this.$route.path.indexOf('/user') === 0){
+                window.history.go(0)
+            }
             this.initialization()
         },
 
