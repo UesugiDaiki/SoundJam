@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-navigation-drawer permanent>
+        <v-navigation-drawer permanent style="min-width: 15%; max-width: 21%;">
             <v-list nav class="justify-end">
                 <!-- SoudJamロゴ -->
                 <v-list-item @click="Home" :ripple="false" :active="false" class="font-weight-black text-center ml-auto" width="150px">SoundJam</v-list-item>
