@@ -127,6 +127,10 @@ export default {
         Home() {
             // ホーム画面に遷移
             this.$router.push('/home');
+            // ホーム画面でホームのアイコン押された場合
+            if(this.$route.path ==  '/home'){
+                window.history.go(0)
+            }
         },
         //検索
         Search() {
@@ -141,6 +145,10 @@ export default {
             } else {
                 // お問い合わせ画面に遷移
                 this.$router.push('/inquiry');
+                // お問い合わせ画面でお問い合わせのアイコン押された場合
+                if(this.$route.path ==  '/inquiry'){
+                window.history.go(0)
+                }
             }
         },
         //ユーザー(プロフィール)
