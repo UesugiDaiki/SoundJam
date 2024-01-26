@@ -1,8 +1,8 @@
 <template>
     <v-app>
-        <nav-drawer />
-
-        <v-main class="mt-n5">
+        
+        <v-main class="mt-n5" style="--v-layout-left: 23%; --v-layout-right: 0px; --v-layout-top: 0px; --v-layout-bottom: 0px;">
+            <nav-drawer />
             <!-- "丸" -->
             <div v-if="reloadCircular" class="text-center my-10">
                 <v-progress-circular :indeterminate="reloadCircular"></v-progress-circular>
