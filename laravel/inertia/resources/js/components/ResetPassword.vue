@@ -66,9 +66,11 @@ export default {
     methods: {
         async resetPass() {
             let _newPassword
+            let _beforePassword
+            await sha256(this.beforePassword).then(hash => _beforePassword = hash)
             await sha256(this.newPassword).then(hash => _newPassword = hash)
             let resetPassData = {
-                beforePass: this.beforePassword,
+                beforePass: _beforePassword,
                 newPass: _newPassword,
             }
             let successMessage = ''
