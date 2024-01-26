@@ -37,8 +37,8 @@
                                         </v-file-input>
                                         <!-- 上げた画像表示 -->
                                         <div class="previewFree-box" style="margin-bottom: 22px" v-if="urlFree">
-                                            <v-img class="image-previewFree mx-auto" v-bind:src="urlFree" max-width="300"
-                                                min-width="300" max-height="220" min-height="220"></v-img>
+                                            <v-img class="image-previewFree mx-auto my-4" v-bind:src="urlFree" 
+                                                style="max-width: 100%; min-width: 50%;"></v-img>
                                         </div>
                                     </v-col>
                                     <!-- 音声 -->
@@ -54,7 +54,7 @@
                                         <!-- 上げた音声表示 -->
                                         <div class="playFree-box" v-if="audioUrlFree"
                                             style="margin-bottom: 22px; height: 54px; ">
-                                            <audio controlslist="nodownload" class="audio-playFree " controls
+                                            <audio style="max-width: 100%; min-width: 50%; " controlslist="nodownload" class="audio-playFree" controls
                                                 v-bind:src="audioUrlFree"></audio>
                                         </div>
                                     </v-col>
@@ -117,8 +117,8 @@
                                         </v-file-input>
                                         <!-- 画像プレビュー -->
                                         <div class="previewReview-box" v-if="urlReview">
-                                            <v-img class="image-previewReview" v-bind:src="urlReview" max-width="300"
-                                                min-width="300" max-height="220" min-height="220"></v-img>
+                                            <v-img class="image-previewReview my-4" v-bind:src="urlReview" 
+                                                style="max-width: 100%; min-width: 50%;"  ></v-img>
                                         </div>
                                     </v-col>
                                     <!-- 音声 -->
@@ -134,7 +134,7 @@
                                         <!-- 上げた音声表示１ -->
                                         <div class="playReview1-box" v-if="audioUrlReview1"
                                             style="margin-bottom: 22px; height: 54px; ">
-                                            <audio controlslist="nodownload" class="audio-playReview1  " controls
+                                            <audio style="max-width: 100%; min-width: 50%; "  controlslist="nodownload" class="audio-playReview1  " controls
                                                 v-bind:src="audioUrlReview1"></audio>
                                         </div>
                                         <!-- 音声ファイル2 -->
@@ -147,7 +147,7 @@
                                         <!-- 上げた音声表示2 -->
                                         <div class="playReview2-box" v-if="audioUrlReview2"
                                             style="margin-bottom: 22px; height: 54px; ">
-                                            <audio controlslist="nodownload" class="audio-playReview2  " controls
+                                            <audio style="max-width: 100%; min-width: 50%; "  controlslist="nodownload" class="audio-playReview2  " controls
                                                 v-bind:src="audioUrlReview2"></audio>
                                         </div>
                                     </v-col>
