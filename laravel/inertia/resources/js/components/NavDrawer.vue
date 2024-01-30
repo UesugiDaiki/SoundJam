@@ -1,12 +1,12 @@
 <template>
-    <v-container>
-        <v-navigation-drawer permanent style="min-width: 15%; max-width: 25%;">
+    <v-container >
+        <v-navigation-drawer permanent class="homeBar">
             <v-list nav class="justify-end">
                 <!-- SoudJamロゴ -->
-                <v-list-item @click="Home" :ripple="false" :active="false" class="font-weight-black text-center ml-auto" width="150px">SoundJam</v-list-item>
+                <v-list-item  @click="Home" :ripple="false" :active="false" class="font-weight-black text-center ml-auto" width="150px">SoundJam</v-list-item>
                 <!-- ホーム -->
                 <v-list-item class="d-flex justify-end pa-0">
-                    <v-btn elevation="0" @click="Home" :ripple="false" :active="false" class="pa-2 text-h5 rounded" width="50px" height="50px" icon>
+                    <v-btn elevation="0" @click="Home" :ripple="false" :active="false" class=" text-h5 rounded" width="50px" height="50px" icon>
                         <v-icon :icon="path === '/home' ? '$home' : '$homeOutline'"></v-icon>
                         <v-tooltip activator="parent" location="bottom"  text="ホーム" ></v-tooltip>
                     </v-btn>
@@ -175,3 +175,18 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.homeBar{
+    /* 画面が850px以上の場合適応 */
+    width: 18% !important ;
+    /* !importantはあまりよろしくないのかも？？ */
+}
+    
+    /* 画面が850px以下の場合適応 */
+    @media screen and (max-width: 850px) {
+        .homeBar{
+            width: 24% !important ;
+        }
+    }
+</style>

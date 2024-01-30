@@ -2,7 +2,7 @@
     <v-app>
         <nav-drawer />
 
-        <v-main>
+        <v-main class="leftLength">
             <!-- ページタイトル -->
             <page-title :title="user.USER_NAME" />
             <!-- プロフィール -->
@@ -50,3 +50,17 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.leftLength{
+    /* 画面が850px以上の場合適応 */
+    --v-layout-left: 18% !important;
+}
+    
+    /* 画面が850px以下の場合適応 */
+    @media screen and (max-width: 850px) {
+        .leftLength{
+            --v-layout-left: 24% !important;
+        }
+    }
+</style>

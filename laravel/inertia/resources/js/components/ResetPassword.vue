@@ -1,6 +1,6 @@
 <template>
-    <v-list-item-title class="ma-4">パスワード再設定</v-list-item-title>
-    <v-divider></v-divider>
+    <v-list-item-title class="ma-4" style="left: 43%;" >パスワード再設定</v-list-item-title>
+    <v-divider ></v-divider>
     <v-card rounded="0" elevation="0" class="registerPopUp">
         <v-card-title class="mx-4 mt-4">
             <span class="">新規登録</span>

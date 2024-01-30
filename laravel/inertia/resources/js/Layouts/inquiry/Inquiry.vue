@@ -2,9 +2,9 @@
     <v-app>
         <nav-drawer />
 
-        <v-main>
+        <v-main class="leftLength">
             <page-title title="サポート"/>
-
+            
             <v-expansion-panels>
                 <an-inquiry v-for="inquiry in inquiries" :inquiry="inquiry" />
                 <an-inquiry v-if="inquiries.length < 10" :inquiry="{TITLE: 'ご登録ありがとうございます', OVERVIEW: 'SoundJamにご登録いただきありがとうございます'}"/>
@@ -36,3 +36,17 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.leftLength{
+    /* 画面が850px以上の場合適応 */
+    --v-layout-left: 18% !important;
+}
+    
+    /* 画面が850px以下の場合適応 */
+    @media screen and (max-width: 850px) {
+        .leftLength{
+            --v-layout-left: 24% !important;
+        }
+    }
+</style>

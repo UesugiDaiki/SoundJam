@@ -1,8 +1,8 @@
 <template>
     <v-app>
         
-        <v-main class="mt-n5" style="--v-layout-left: 23%; --v-layout-right: 0px; --v-layout-top: 0px; --v-layout-bottom: 0px;">
-            <nav-drawer />
+        <nav-drawer />
+        <v-main class="mt-n5 leftLength">
             <!-- "丸" -->
             <div v-if="reloadCircular" class="text-center my-10">
                 <v-progress-circular :indeterminate="reloadCircular"></v-progress-circular>
@@ -56,3 +56,17 @@ export default {
     })
 }
 </script>
+
+<style scoped>
+.leftLength{
+    /* 画面が850px以上の場合適応 */
+    --v-layout-left: 18% !important;
+}
+    
+    /* 画面が850px以下の場合適応 */
+    @media screen and (max-width: 850px) {
+        .leftLength{
+            --v-layout-left: 24% !important;
+        }
+    }
+</style>
