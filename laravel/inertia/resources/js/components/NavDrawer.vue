@@ -3,7 +3,7 @@
         <v-navigation-drawer permanent class="homeBar">
             <v-list nav class="justify-end">
                 <!-- SoudJamロゴ -->
-                <v-list-item @click="Home" :ripple="false" :active="false" class="font-weight-black text-center ml-auto" width="150px"><v-img :min-width="70" :width="150" src="assets/色替え2 1.svg"></v-img></v-list-item>
+                <v-list-subheader style="cursor: pointer;" height="82" width="150" @click="Home" class="justify-end py-2 px-0 font-weight-black text-center ml-auto"><div style="height: 66px;"><v-img :min-width="70" :width="134" src="assets/色替え2 1.svg"></v-img></div></v-list-subheader>
                 <!-- ホーム -->
                 <v-list-item class="d-flex justify-end pa-0">
                     <v-btn elevation="0" @click="Home" :ripple="false" :active="false" class=" text-h5 rounded" width="50px" height="50px" icon>
