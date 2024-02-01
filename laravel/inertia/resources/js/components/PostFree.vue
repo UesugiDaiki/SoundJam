@@ -1,17 +1,18 @@
 <template>
     <v-row class="pl-3" justify="center">
         <v-col cols="auto" class="soto">
-            <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0" link
+            <v-card class="mx-auto" max-width="570px" rounded="0" elevation="0" link
                 :ripple="false" :to="{ name: 'post', params: { postId: post.id } }" @click="setPostDetail">
                 <Title :name="post.USER_NAME" :myImg="'../../storage/user/' + post.USER_ID + '/' + post.ICON" :userId="post.USER_ID" :postId="post.id"/>
                 <v-card-title>
                     {{ post.TITLE }}
                 </v-card-title>
+            
                 <div class="aaa">
-                    <v-img max-width="250" min-width="250" max-height="190" min-height="190"
+                    <v-img  class="postImg"
                         :src="'../../storage/post/' + post.id + '/' + post.IMAGES"></v-img>
                     <div class="audio">
-                        <audio controlslist="nodownload" class="audio-position-free" controls
+                        <audio controlslist="nodownload" class=" audio-position-free" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
                     </div>
                 </div>
@@ -30,11 +31,11 @@
                                 <h2>
                                     使用機材
                                 </h2>
-                                <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary">
-                                    <v-list-item-title :padding="0">■{{ item }}</v-list-item-title>
+                                <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary" class="py-0"  >
+                                    <v-list-item class="py-1" width="250px" :padding="0"><div>■{{ item }}</div></v-list-item>
                                 </v-list>
                             </div>
-                            <v-divider vertical class="mx-4 border-opacity-25" inset></v-divider>
+                            <v-divider vertical class="mx-4  border-opacity-25" inset></v-divider>
                             <div class="add2">
                                 <h2>
                                     録音方法
@@ -83,7 +84,14 @@ export default {
     display: flex;
     gap: 6px;
     padding-left: 6px;
+    width: auto;
 }
+    /* 画面が850px以下の場合適応 */
+    @media screen and (max-width: 850px) {
+        .aaa{
+            display: block;
+        }
+    }
 
 .center {
     float: left;
@@ -98,11 +106,46 @@ export default {
 
 .audio {
     width: 300px;
+    margin-top: 70px;
+    margin-bottom: auto;
 }
+    /* 画面が850px以下の場合適応 */
+    @media screen and (max-width: 850px) {
+        .audio{
+            width: 300px;
+            height: 100px;
+            display: block;
+            margin-top: 3px;
+            margin-left: auto;
+            margin-right: auto 
+            
+        }
+    }
 
 .audio-position-free {
-    margin-top: 80px;
+    margin-top: 3px;
+    width: 300px;
 }
+    /* 画面が850px以下の場合適応 */
+    @media screen and (max-width: 850px) {
+        .audio-position-free{
+            width: 100%;
+        }
+    }
+
+.postImg{
+    width: 250px;
+    height: 200px;
+}
+        /* 画面が850px以下の場合適応 */
+        @media screen and (max-width: 850px) {
+            .postImg{
+                /* left: 13%; */
+                display: block;
+    margin-left: auto;
+    margin-right: auto 
+            }
+        }
 
 .add1 {
     width: 250px;
@@ -120,9 +163,12 @@ export default {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 6;
     /* 任意の行数を指定 */
+
 }
 
 .soto {
     padding: 0;
 }
+
+
 </style>

@@ -57,8 +57,7 @@
                                         </v-file-input>
                                         <!-- 画像プレビュー -->
                                         <div class="previewPromotion-box" v-if="urlPromotion">
-                                            <v-img class="image-previewPromotion" v-bind:src="urlPromotion" max-width="300"
-                                                min-width="275" max-height="220" min-height="220"></v-img>
+                                            <v-img class="image-previewPromotion" v-bind:src="urlPromotion" style="max-width: 100%; min-width: 50%;"></v-img>
                                         </div>
                                     </v-col>
                                     <!-- 音声 -->
@@ -74,7 +73,7 @@
                                         <!-- 上げた音声表示１ -->
                                         <div class="playPromotion1-box" v-if="audioUrlPromotion1"
                                             style="margin-bottom: 22px; height: 54px; ">
-                                            <audio controlslist="nodownload" class="audio-playPromotion1  " controls
+                                            <audio style="max-width: 100%; min-width: 50%; " controlslist="nodownload" class="audio-playPromotion1  " controls
                                                 v-bind:src="audioUrlPromotion1"></audio>
                                         </div>
                                         <!-- 音声ファイル2 -->
@@ -87,7 +86,7 @@
                                         <!-- 上げた音声表示2 -->
                                         <div class="playPromotion2-box" v-if="audioUrlPromotion2"
                                             style="margin-bottom: 22px; height: 54px; ">
-                                            <audio controlslist="nodownload" class="audio-playPromotion2  " controls
+                                            <audio style="max-width: 100%; min-width: 50%; " controlslist="nodownload" class="audio-playPromotion2  " controls
                                                 v-bind:src="audioUrlPromotion2"></audio>
                                         </div>
                                     </v-col>
