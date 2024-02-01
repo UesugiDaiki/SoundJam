@@ -26,23 +26,41 @@
                 </v-card-actions>
                 <v-expand-transition>
                     <div v-show="show">
-                        <v-row no-gutters>
-                            <div class="add1">
-                                <h2>
+                        <!-- 画面幅850pxより大きい場合 -->
+                        <v-row  no-gutters v-if="windowWidth > 850">
+                                <div class="add1" >
+                                    <h2>
+                                        使用機材
+                                    </h2>
+                                    <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary" class="py-0"  >
+                                        <v-list-item class="py-1" width="250px" :padding="0"><div>■{{ item }}</div></v-list-item>
+                                    </v-list>
+                                </div>
+                                <v-divider vertical class="mx-4  border-opacity-25" inset></v-divider>
+                                <div class="add2">
+                                    <h2 class="py-1">
+                                        録音方法
+                                    </h2>
+                                    {{ post.RECORDING_METHOD }}
+                                </div>
+                        </v-row>
+                            <!-- 画面幅850px以下の場合 -->
+                        <div v-if="windowWidth <= 850">
+                            <div  style="display: block;" class="mx-auto" @click="notDo($event)">
+                                <h2 >
                                     使用機材
                                 </h2>
                                 <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary" class="py-0"  >
                                     <v-list-item class="py-1" width="250px" :padding="0"><div>■{{ item }}</div></v-list-item>
                                 </v-list>
                             </div>
-                            <v-divider vertical class="mx-4  border-opacity-25" inset></v-divider>
-                            <div class="add2">
+                            <div style="display: block;" class="mx-auto my-3 pb-2" >
                                 <h2>
                                     録音方法
                                 </h2>
-                                {{ post.RECORDING_METHOD }}
+                                <div class="mx-4">{{ post.RECORDING_METHOD }} </div>
                             </div>
-                        </v-row>
+                        </div>
                     </div>
                 </v-expand-transition>
             </v-card>
@@ -57,11 +75,22 @@ import Title from '@/Components/Title.vue'
 
 <script>
 export default {
-    data: () => ({
-        show: false,
-        reveal: false,
-    }),
+    data: () => {
+        return {
+            show: false,
+            reveal: false,
+            windowWidth: '851',
+        }
+    },
+    mounted () {
+        // 画面幅が切り替わる毎に関数呼び出し
+        window.addEventListener('resize', this.resizeWindow)
+    },
     methods: {
+        // 現在の画面幅を変数の中に入れる
+        resizeWindow(){
+            this.windowWidth = window.innerWidth
+        },
         // 使用機材、録音方法を開くとき遷移しない
         accodion: function (event) {
             event.preventDefault()
@@ -71,7 +100,10 @@ export default {
         setPostDetail() {
             //ユーザーの投稿データをstore.jsのstateに保存
             this.$store.commit('addData', this.post);
-        }
+        },
+        notDo:function (event){
+            event.preventDefault()
+        },
     },
     props: {
         post: Object,
