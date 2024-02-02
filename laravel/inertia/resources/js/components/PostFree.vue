@@ -11,7 +11,11 @@
                 <div class="aaa">
                     <v-img  class="postImg"
                         :src="'../../storage/post/' + post.id + '/' + post.IMAGES"></v-img>
-                    <div class="audio">
+                    <div v-if="windowWidth > 850" class="audio">
+                        <audio controlslist="nodownload" class=" audio-position-free" controls
+                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
+                    </div>
+                    <div v-if="windowWidth <= 850" class="audio pt-4">
                         <audio controlslist="nodownload" class=" audio-position-free" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
                     </div>
