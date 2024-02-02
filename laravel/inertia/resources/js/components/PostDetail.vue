@@ -31,16 +31,19 @@
                     </v-img>
                     <div class="audio">
                         <!-- 音声1個ver -->
-                        <div v-if="post.AUDIO2 === null">
-                            <audio controlslist="nodownload" class="audio-position" controls
-                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
-                            
+                        <div v-if="post.AUDIO2 === null" class="pt-6">
+                            <!-- 画面幅850pxより大きい場合 -->
+                            <audio v-if="windowWidth > 850" controlslist="nodownload" class="audio-position" controls
+                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"  style="margin-top: 70px;"></audio>
+                             <!-- 画面幅850px以下の場合 -->
+                            <audio v-if="windowWidth <= 850" controlslist="nodownload" class="audio-position " controls
+                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO1" ></audio>
                             
                         </div>
                         <!-- 音声2個ver -->
                         <div v-else>
                             <!-- 画面幅850pxより大きい場合 -->
-                            <audio  v-if="windowWidth > 850" controlslist="nodownload" class="audio-position-review mt-4" controls
+                            <audio  v-if="windowWidth > 850" controlslist="nodownload" class="audio-position-free mt-4" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
                             <audio  v-if="windowWidth > 850" controlslist="nodownload" class="audio-position-review mt-3" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO2"></audio>
@@ -91,7 +94,7 @@
                                 </h3>
                                 </v-card-title>
                                 <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary" class="py-0"  >
-                                    <v-list-item class="py-1" width="250px" :padding="0"><div>■{{ item }}</div></v-list-item>
+                                    <v-list-item class="py-1" :padding="0"><div>■{{ item }}</div></v-list-item>
                                 </v-list>
                             </div>
                             <v-divider></v-divider>
@@ -175,6 +178,7 @@ export default {
     @media screen and (max-width: 850px) {
         .aaa{
             display: block;
+            margin-bottom: 10px;
         }
     }
 
@@ -222,7 +226,7 @@ export default {
 
 
 .audio-position-free {
-    margin-top: 3px;
+    margin-top: 70px;
     width: 300px;
 }
 /* 画面が850px以下の場合適応 */

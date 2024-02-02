@@ -22,9 +22,9 @@
                     <div class="audio">
                         <!-- 音声1個ver -->
                         <div v-if="post.AUDIO2 === null">
-                            <audio v-if="windowWidth > 850" controlslist="nodownload" class="audio-position-review" controls style="margin-top: 70px;"
+                            <audio v-if="windowWidth > 850" controlslist="nodownload" class="audio-position-review" controls 
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
-                            <audio v-if="windowWidth <= 850" controlslist="nodownload" class="audio-position-review" controls style="margin-top: 3px;"
+                            <audio v-if="windowWidth <= 850" controlslist="nodownload" class="audio-position-review" controls 
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
                         </div>
                         <!-- 音声2個ver -->
