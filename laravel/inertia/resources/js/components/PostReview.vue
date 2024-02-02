@@ -1,7 +1,7 @@
 <template>
-    <v-row  justify="center">
+    <v-row class="pl-3" justify="center">
         <v-col cols="auto" class="soto">
-            <v-card class="mx-auto" width="570px" max-width="570" min-width="200" rounded="0" elevation="0" link
+            <v-card class="mx-auto" max-width="570" rounded="0" elevation="0" link
                 :ripple="false" @click="setPostDetail" :to="{ name: 'post', params: { postId: post.id } }">
                 <Title :name="post.USER_NAME" :myImg="'../../storage/user/' + post.USER_ID + '/' + post.ICON" :userId="post.USER_ID" :postId="post.id"/>
                 <v-card-title>
@@ -17,24 +17,27 @@
                     </div>
                 </v-card-title>
                 <div class="aaa">
-                    <v-img max-width="250" min-width="250" max-height="190" min-height="190"
+                    <v-img  class="postImg"
                         :src="'../../storage/post/' + post.id + '/' + post.IMAGES"></v-img>
                     <div class="audio">
+                        <!-- 音声1個ver -->
                         <div v-if="post.AUDIO2 === null">
-                            <!-- 音声1 -->
-                            <audio controlslist="nodownload" class="audio-position" controls
+                            <audio v-if="windowWidth > 850" controlslist="nodownload" class="audio-position-review" controls style="margin-top: 70px;"
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
-                            
-                            
+                            <audio v-if="windowWidth <= 850" controlslist="nodownload" class="audio-position-review" controls style="margin-top: 3px;"
+                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
                         </div>
+                        <!-- 音声2個ver -->
                         <div v-else>
-                            <!-- 音声1 -->
-                            <audio controlslist="nodownload" class="audio-position" controls
+                            <!-- 画面幅850pxより大きい場合 -->
+                            <audio  v-if="windowWidth > 850" controlslist="nodownload" class="audio-position-review mt-4" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
-                            
-                            <!-- 音声2 -->
-                            
-                            <audio controlslist="nodownload" class="audio-position" controls
+                            <audio  v-if="windowWidth > 850" controlslist="nodownload" class="audio-position-review mt-3" controls
+                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO2"></audio>
+                            <!-- 画面幅850px以下の場合 -->
+                            <audio v-if="windowWidth <= 850" controlslist="nodownload" class="audio-position-review" controls
+                            :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
+                            <audio v-if="windowWidth <= 850" controlslist="nodownload" class="audio-position-review" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO2"></audio>
                         </div>
                     </div>
@@ -43,30 +46,47 @@
                     <v-spacer></v-spacer>
                     <v-btn icon @click="accodion($event)">
                         <v-icon :icon="show ? '$chevronUp' : '$chevronDown'"></v-icon>
-                        <!-- これのが短いけどずれる <v-tooltip activator="parent" location="bottom" :text="show ? '閉じる' : '収録環境を表示'" close-on-content-click="true" ></v-tooltip> -->
                         <v-tooltip activator="parent" location="bottom" v-if="show" text="閉じる"  ></v-tooltip>
                         <v-tooltip activator="parent" location="bottom" v-if="!show" text="収録環境を表示"></v-tooltip>
                     </v-btn>
                 </v-card-actions>
                 <v-expand-transition>
                     <div v-show="show">
-                        <v-row no-gutters>
-                            <div class="add1">
-                                <h2>
+                        <!-- 画面幅850pxより大きい場合 -->
+                        <v-row  no-gutters v-if="windowWidth > 850">
+                                <div class="add1" >
+                                    <h2>
+                                        使用機材
+                                    </h2>
+                                    <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary" class="py-0"  >
+                                        <v-list-item class="py-1" width="250px" :padding="0"><div>■{{ item }}</div></v-list-item>
+                                    </v-list>
+                                </div>
+                                <v-divider vertical class="mx-4  border-opacity-25" inset></v-divider>
+                                <div class="add2">
+                                    <h2 class="py-1">
+                                        録音方法
+                                    </h2>
+                                    {{ post.RECORDING_METHOD }}
+                                </div>
+                        </v-row>
+                            <!-- 画面幅850px以下の場合 -->
+                        <div v-if="windowWidth <= 850">
+                            <div  style="display: block;" class="mx-auto" @click="notDo($event)">
+                                <h2 >
                                     使用機材
                                 </h2>
-                                <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary">
-                                    <v-list-item-title :padding="0">■{{ item }}</v-list-item-title>
+                                <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary" class="py-0"  >
+                                    <v-list-item class="py-1" width="250px" :padding="0"><div>■{{ item }}</div></v-list-item>
                                 </v-list>
                             </div>
-                            <v-divider vertical class="mx-4 border-opacity-25" inset></v-divider>
-                            <div class="add2">
+                            <div style="display: block;" class="mx-auto my-3 pb-2 " >
                                 <h2>
                                     録音方法
                                 </h2>
-                                {{ post.RECORDING_METHOD }}
+                                <div class="mx-4">{{ post.RECORDING_METHOD }} </div>
                             </div>
-                        </v-row>
+                        </div>
                     </div>
                 </v-expand-transition>
             </v-card>
@@ -81,14 +101,23 @@ import Title from '@/Components/Title.vue'
 
 <script>
 export default {
-    // created() {
-    //     console.log(this.post.AUDIO2);
-    // },
-    data: () => ({
-        show: false,
-        reveal: false,
-    }),
+    data: () => {
+        return {
+            show: false,
+            reveal: false,
+            windowWidth: window.innerWidth,
+        }
+    },
+    mounted () {
+        // 画面幅が切り替わる毎に関数呼び出し
+        window.addEventListener('resize', this.resizeWindow)
+    },
     methods: {
+        // 現在の画面幅を変数の中に入れる
+        resizeWindow(){
+            this.windowWidth = window.innerWidth
+        },
+        // 使用機材、録音方法を開くとき遷移しない
         accodion: function (event) {
             event.preventDefault()
             this.show = !this.show
@@ -97,7 +126,10 @@ export default {
         setPostDetail() {
             //ユーザーの投稿データをstore.jsのstateに保存
             this.$store.commit('addData', this.post);
-        }
+        },
+        notDo:function (event){
+            event.preventDefault()
+        },
     },
     props: {
         post: Object,
@@ -110,7 +142,14 @@ export default {
     display: flex;
     gap: 6px;
     padding-left: 6px;
+    width: auto;
 }
+    /* 画面が850px以下の場合適応 */
+    @media screen and (max-width: 850px) {
+        .aaa{
+            display: block;
+        }
+    }
 
 .center {
     float: left;
@@ -123,13 +162,47 @@ export default {
     width: 100%;
 }
 
+.postImg{
+    width: 250px;
+    height: 200px;
+}
+        /* 画面が850px以下の場合適応 */
+        @media screen and (max-width: 850px) {
+            .postImg{
+                /* left: 13%; */
+                display: block;
+    margin-left: auto;
+    margin-right: auto 
+            }
+        }
+
 .audio {
     width: 300px;
+    margin-bottom: auto;
 }
+    /* 画面が850px以下の場合適応 */
+    @media screen and (max-width: 850px) {
+        .audio{
+            width: 300px;
+            height: 100px;
+            display: block;
+            margin-top: 3px;
+            margin-left: auto;
+            margin-right: auto 
+            
+        }
+    }
 
-.audio-position {
-    margin-top: 20px;
+.audio-position-review {
+    margin-top: 3px;
+    width: 300px;
 }
+    /* 画面が850px以下の場合適応 */
+    @media screen and (max-width: 850px) {
+        .audio-position-review{
+            width: 100%;
+        }
+    }
 
 .add1 {
     width: 250px;
