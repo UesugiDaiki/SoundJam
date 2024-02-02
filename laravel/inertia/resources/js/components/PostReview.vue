@@ -73,17 +73,21 @@
                             <!-- 画面幅850px以下の場合 -->
                         <div v-if="windowWidth <= 850">
                             <div  style="display: block;" class="mx-auto" @click="notDo($event)">
-                                <h2 >
+                                <v-card-title>
+                                <h3 >
                                     使用機材
-                                </h2>
+                                </h3>
+                                </v-card-title>
                                 <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary" class="py-0"  >
                                     <v-list-item class="py-1" width="250px" :padding="0"><div>■{{ item }}</div></v-list-item>
                                 </v-list>
                             </div>
                             <div style="display: block;" class="mx-auto my-3 pb-2 " >
-                                <h2>
+                                <v-card-title>
+                                <h3 >
                                     録音方法
-                                </h2>
+                                </h3>
+                                </v-card-title>
                                 <div class="mx-4">{{ post.RECORDING_METHOD }} </div>
                             </div>
                         </div>
@@ -171,8 +175,8 @@ export default {
             .postImg{
                 /* left: 13%; */
                 display: block;
-    margin-left: auto;
-    margin-right: auto 
+                margin-left: auto;
+                margin-right: auto 
             }
         }
 
