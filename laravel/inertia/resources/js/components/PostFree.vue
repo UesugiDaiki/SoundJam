@@ -159,7 +159,6 @@ export default {
     }
 
 .audio-position-free {
-    margin-top: 3px;
     width: 300px;
 }
     /* 画面が850px以下の場合適応 */
