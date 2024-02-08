@@ -1,5 +1,5 @@
 <template >
-    <v-app-bar class="barLeftLength" color="white" elevation="0">
+    <v-app-bar class="barLeftLength" color="white" elevation="0" width="100%">
         <v-btn class="ma-1" variant="text" icon="$arrowLeft" onclick="window.history.back();"></v-btn>
         <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-app-bar>

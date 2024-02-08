@@ -83,7 +83,7 @@ export default {
         return {
             show: false,
             reveal: false,
-            windowWidth: '851',
+            windowWidth: window.innerWidth,
         }
     },
     mounted () {

@@ -73,8 +73,8 @@
                                         <!-- 上げた音声表示１ -->
                                         <div class="playPromotion1-box" v-if="audioUrlPromotion1"
                                             style="margin-bottom: 22px; height: 54px; ">
-                                            <audio style="max-width: 100%; min-width: 50%; " controlslist="nodownload" class="audio-playPromotion1  " controls
-                                                v-bind:src="audioUrlPromotion1"></audio>
+                                            <audio style="max-width: 100%; min-width: 50%; " controlslist="nodownload" class="audio-playPromotion1" controls
+                                                v-bind:src="audioUrlPromotion1" ></audio>
                                         </div>
                                         <!-- 音声ファイル2 -->
                                         <v-file-input prepend-icon="" prepend-inner-icon="$musicNoteEighth" accept="audio/*"
@@ -156,8 +156,10 @@ export default {
             audioUrlPromotion1: "", //プロモーション投稿内の１つ目
             audioUrlPromotion2: "", //プロモーション投稿内の２つ目
             urlPromotion: "",        //プロモーション投稿
-            imgRulePromotion: false,     //プロモーション投稿
-            audioRulePromotion: false,     //プロモーション投稿
+            // 入力制限用
+            imgRulePromotion: false,     
+            audioRulePromotion1: false,
+            audioRulePromotion2: false,
             // 入力ルール
             rules: {
                 required: value => !!value || '必須項目です',
@@ -228,10 +230,10 @@ export default {
         isEnterPromotion() {
             if (
                 this.promotion.title?.trim()
-                && this.promotion.imageName.length
-                && this.promotion.audio1Name.length
                 && this.promotion.overview?.trim()
+                && this.promotion.imageName.length
                 && this.promotion.recordingMethod?.trim()
+                && this.promotion.audio1Name.length
                 // && existEquip
             ) {
                 return false
@@ -247,7 +249,8 @@ export default {
                 && this.promotion.overview.length <= 160
                 && this.promotion.recordingMethod.length <= 160
                 && this.imgRulePromotion == false
-                && this.audioRulePromotion1 ==false
+                && this.audioRulePromotion1 == false
+                && this.audioRulePromotion2 == false
             ) {return false}
             else{return true
             }
@@ -269,12 +272,8 @@ export default {
         },
         //音声ファイル1選択時の処理
         fileSelectAudio1: function (e) {
-            console.log(this.promotion)
-
             //選択したファイルの情報を取得しプロパティにいれる
             this.promotion.audio1 = e.target.files[0];
-            console.log(this.promotion)
-
         },
         //音声ファイル2選択時の処理
         fileSelectAudio2: function (e) {

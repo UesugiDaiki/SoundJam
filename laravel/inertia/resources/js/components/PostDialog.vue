@@ -344,6 +344,7 @@ export default {
                 && this.review.recordingMethod.length <= 160
                 && this.imgRuleReview == false
                 && this.audioRuleReview1 == false
+                && this.audioRuleReview2 == false
             ) {return false}
             else{return true}
         },
