@@ -15,7 +15,7 @@
                         <audio controlslist="nodownload" class=" audio-position-free" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
                     </div>
-                    <div v-if="windowWidth <= 850" class="audio pt-4">
+                    <div v-if="windowWidth <= 850" class="audio pt-1">
                         <audio controlslist="nodownload" class=" audio-position-free" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"></audio>
                     </div>
@@ -55,7 +55,7 @@
                                     使用機材
                                 </h2>
                                 <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary" class="py-0"  >
-                                    <v-list-item class="py-1" width="250px" :padding="0"><div>■{{ item }}</div></v-list-item>
+                                    <v-list-item class="py-1" width="570px" :padding="0"><div>■{{ item }}</div></v-list-item>
                                 </v-list>
                             </div>
                             <div style="display: block;" class="mx-auto my-3 pb-2" >

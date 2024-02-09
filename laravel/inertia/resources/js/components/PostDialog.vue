@@ -69,7 +69,7 @@
                                     </v-col>
                                     <!-- 機材 -->
                                     <v-col cols="6" class="pt-0">
-                                        <v-text-field :rules="[equipsRules.max]" counter="30" v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
+                                        <v-text-field :rules="[equipsRules.max]" counter="50" v-for="equip in free.equips" v-model="free.equips[equip.index].equip"
                                             :hint=" String(equip.index + 1) + 'つ目の機材名'"
                                             :label="'機材' + String(equip.index + 1)"></v-text-field>
                                         <v-btn variant="flat" icon="$plus" @click="addEquip(tab)">
@@ -172,7 +172,7 @@
                                         <v-text-field v-for="equip in review.equips"
                                             v-model="review.equips[equip.index].equip"
                                             :hint="String(equip.index + 1) + 'つ目の機材名'"
-                                            :rules="[rules.required,equipsRules.max]" counter="30">
+                                            :rules="[rules.required,equipsRules.max]" counter="50">
                                             <template v-slot:label>機材{{ equip.index + 1 }}<span style="color: red"> *
                                                 </span>
                                             </template>
@@ -243,7 +243,7 @@ export default {
             },
             // 機材
             equipsRules:{
-                max: v => v.length <= 30 || '最大文字数は30文字です',
+                max: v => v.length <= 50 || '最大文字数は50文字です',
             },
 
             snackbar: false,

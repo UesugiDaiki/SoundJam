@@ -79,7 +79,7 @@
                                 </h3>
                                 </v-card-title>
                                 <v-list v-for="item in post.ITEMS" :key="item" :value="item" color="primary" class="py-0"  >
-                                    <v-list-item class="py-1" width="250px" :padding="0"><div>■{{ item }}</div></v-list-item>
+                                    <v-list-item class="py-1" width="570px" :padding="0"><div>■{{ item }}</div></v-list-item>
                                 </v-list>
                             </div>
                             <div style="display: block;" class="mx-auto my-3 pb-2 " >

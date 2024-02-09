@@ -111,7 +111,7 @@
                                         <v-text-field v-for="equip in promotion.equips"
                                             v-model="promotion.equips[equip.index].equip"
                                             :hint="String(equip.index + 1) + 'つ目の機材名'"
-                                            :rules="[rules.required,equipsRules.max]" counter="30">
+                                            :rules="[rules.required,equipsRules.max]" counter="50">
                                             <template v-slot:label>機材{{ equip.index + 1 }}<span style="color: red"> *
                                                 </span>
                                             </template>
@@ -182,7 +182,7 @@ export default {
             },
             // 機材
             equipsRules:{
-                max: v => v.length <= 30 || '最大文字数は30文字です',
+                max: v => v.length <= 50 || '最大文字数は50文字です',
             },
             // 投稿データ
             promotion: {
