@@ -41,9 +41,9 @@
                     <v-container class="pb-0">
                         <!-- 新規登録情報入力テキストボックス -->
                         <v-text-field v-model="registName" label="ユーザー名" :rules="[rules.required,userNameRules.max]"></v-text-field>
-                        <v-text-field v-model="registMail" label="メールアドレス" type="email" :rules="[rules.required]"></v-text-field>
+                        <v-text-field v-model="registMail" label="メールアドレス" type="email"  :rules="[rules.required, rules.mailCheck]"></v-text-field>
                         <v-text-field v-model="registPass" label="パスワード" :type="show1 ? 'text' : 'password'"
-                            hint="半角英数字8~16文字" :rules="[rules.required, rules.min, rules.max,rules.urlCheck]"
+                            hint="半角英数字8~16文字" :rules="[rules.required, rules.min, rules.max,rules.passCheck]"
                             :append-inner-icon="show1 ? '$eye' : '$eyeOff'" @click:append-inner="show1 = !show1" counter>
                         </v-text-field>
 
@@ -82,14 +82,16 @@ export default {
             registMail: '',
             registPass: '',
             registCheckPass: '',
-            passWordRule: /^([0-9a-zA-Z])+$/,
             // 入力ルール
             userNameRules: {
                 max: v => v.length <= 14 || '最大文字数は14文字です',
             },
             rules: {
                 required: value => !!value || '必須項目です',
-                urlCheck:value => {
+                mailCheck:value => {
+                    return this.inputMailCheck(this.registMail) || "正しいメールアドレスを入力してください"
+                },
+                passCheck:value => {
                     return this.inputPassCheck(this.registPass) || "半角英数字のみ入力可能です"
                 },
                 min: v => v.length >= 8 || '最低8文字入力してください',
@@ -123,6 +125,7 @@ export default {
                 && this.registName.length <= 14
                 && this.registPass.length >= 8
                 && this.registPass.length <= 16
+                && this.inputMailCheck(this.registMail)
                 && this.inputPassCheck(this.registPass)
 
 
@@ -130,6 +133,12 @@ export default {
         },
     },
     methods: {
+        // メールアドレスが正しいか判定
+        inputMailCheck(str){
+            //正規表現
+            const mailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+            return mailPattern.test(str);
+        },
         // パスワードが正しいか判定
         inputPassCheck(str){
             //正規表現
