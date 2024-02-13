@@ -212,26 +212,26 @@ export default {
     data() {
         return {
             // 音声プレビュー用
-            audioUrlFree: "",    //自由投稿
-            audioUrlReview1: "", //レビュー投稿内の１つ目
-            audioUrlReview2: "", //レビュー投稿内の２つ目
+            audioUrlFree: "",    
+            audioUrlReview1: "", 
+            audioUrlReview2: "", 
             // 画像プレビュー用
-            urlFree: "",          //自由投稿
-            urlReview: "",        //レビュー投稿
+            urlFree: "",        
+            urlReview: "",        
             // 画像サイズ制限用
-            imgRuleFree: false,     //自由投稿
-            imgRuleReview: false,   //レビュー投稿
+            imgRuleFree: false,    
+            imgRuleReview: false, 
             // 音声サイズ制限用
-            audioRuleFree: false,     //自由投稿
-            audioRuleReview1: false,   //レビュー投稿の１つ目
-            audioRuleReview2: false,   //レビュー投稿の２つ目
+            audioRuleFree: false,    
+            audioRuleReview1: false, 
+            audioRuleReview2: false, 
 
             // 入力ルール //
             rules: {
                 required: value => !!value || '必須項目です',
             },
             titleRules:{
-                max: v => v.length <= 25 || '最大文字数は25文字です',
+                max: v => v.length <= 40 || '最大文字数は40文字です',
             },
             // 概要
             overviewRules:{
@@ -305,7 +305,7 @@ export default {
         // 自由投稿の入力内容に不具合が無いか確認
         inputErrorFree() {
             if (
-                this.free.title.length <= 25
+                this.free.title.length <= 40
                 && this.free.overview.length <= 160
                 && this.free.recordingMethod.length <= 160
                 && this.imgRuleFree == false
@@ -339,7 +339,7 @@ export default {
         // レビュー投稿の入力内容に不具合が無いか確認
         inputErrorReview() {
             if (
-                this.review.product.length <= 25
+                this.review.product.length <= 40
                 && this.review.overview.length <= 160
                 && this.review.recordingMethod.length <= 160
                 && this.imgRuleReview == false

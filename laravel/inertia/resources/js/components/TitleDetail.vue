@@ -4,7 +4,7 @@
             <v-img :width="47" :height="47" margin="auto" cover :src="'../../storage/user/' + post.USER_ID + '/' + post.ICON" class="title rounded-circle"></v-img>
         </router-link>
 
-        <v-card-title class="title name">
+        <v-card-title class="title name" style="flex: auto;" >
             {{ post.USER_NAME }}
         </v-card-title>
         <v-spacer></v-spacer>

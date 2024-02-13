@@ -6,9 +6,11 @@
                 <v-card-subtitle class="day">
                     {{ post.DATES }}
                 </v-card-subtitle>
-
+                
+                <v-card-item   style="padding: 0,0,0,0; font-size: 20px; font-weight: 500;" >
+                <div class="mx-6">{{ post.TITLE }}</div>
+                </v-card-item>
                 <v-card-title>
-                    {{ post.TITLE }}
 
                     <div v-if="post.IS_PROMOTION === 2">
                         <div v-if="windowWidth > 850" class="Promo">
@@ -35,7 +37,7 @@
                             <!-- 画面幅850pxより大きい場合 -->
                             <audio v-if="windowWidth > 850" controlslist="nodownload" class="audio-position" controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1"  style="margin-top: 70px;"></audio>
-                             <!-- 画面幅850px以下の場合 -->
+                            <!-- 画面幅850px以下の場合 -->
                             <audio v-if="windowWidth <= 850" controlslist="nodownload" class="audio-position " controls
                             :src="'../../storage/post/' + post.id + '/' + post.AUDIO1" ></audio>
                             
